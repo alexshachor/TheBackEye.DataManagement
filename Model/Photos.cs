@@ -5,9 +5,9 @@ namespace Model
 {
     public class Photos
     {
-        public int Id { get; set }
-        public Students Student { get; set }
-        public int StudentId { get; set }
-        public List<byte[]> Data { get; set }
+        public int Id { get; set; }
+        public Students Student { get; set; }
+        public int StudentId { get; set; }
+        public List<byte[]> Data { get; set; }
     }
 }
