@@ -16,5 +16,7 @@ namespace Model
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int MaxLate { get; set; }
+        public Classes Class { get; set; }
+        public int ClassId { get; set; }
     }
 }
