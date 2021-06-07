@@ -2,12 +2,12 @@
 
 namespace Model
 {
-    public class Students
+    public class Student
     {
         public int Id { get; set; }
         public int IdNumber { get; set; }
         public DateTime DateBirth { get; set; }
-        public Persons Person { get; set; }
+        public Person Person { get; set; }
         public int PersonId { get; set; }
     }
 }

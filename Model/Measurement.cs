@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    public class Measurements
+    public class Measurement
     {
         public int Id { get; set; }
         public DateTime DateTime { get; set; }
@@ -13,9 +13,9 @@ namespace Model
         public bool FaceDetector { get; set; }
         public bool ObjectDetection { get; set; }
         public bool SoundCheck { get; set; }
-        public Lessons Lesson { get; set; }
+        public Lesson Lesson { get; set; }
         public int LessonId { get; set; }
-        public Students Student { get; set; }
+        public Student Student { get; set; }
         public int StudentId { get; set; }
     }
 }

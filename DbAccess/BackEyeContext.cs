@@ -11,19 +11,23 @@ namespace DbAccess
         {
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
-        public DbSet<Persons> Persons { get; set; }
-        public DbSet<Students> Students { get; set; }
-        public DbSet<Teachers> Teachers { get; set; }
-        public DbSet<Photos> Photos { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<School> Schools { get; set; }
+        public DbSet<StudentClass> StudentClasses { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Persons>().Property(x => x.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<Person>().Property(x => x.Id).ValueGeneratedOnAdd();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL(
-                "server=localhost;user=root;database=BackEyeDb;password=123456;");
         }
     }
 }

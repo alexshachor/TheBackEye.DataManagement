@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    public class Persons
+    public class Person
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
