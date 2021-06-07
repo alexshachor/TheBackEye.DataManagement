@@ -5,33 +5,31 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Api", "DataCollector\DataCollector.Api.csproj", "{FC5640A0-9103-417E-863D-76DF6FC3ADA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollector.Api.Tests", "DataCollector.Api.Tests\DataCollector.Api.Tests.csproj", "{616D82D9-4967-4F53-B8AE-D2C963527BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Api.Tests", "DataCollector.Api.Tests\DataCollector.Api.Tests.csproj", "{616D82D9-4967-4F53-B8AE-D2C963527BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{D5301E6E-70FA-495E-84C2-BE99855A3384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{D5301E6E-70FA-495E-84C2-BE99855A3384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Model", "Model\DataAccess.Model.csproj", "{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Model", "Model\DataAccess.Model.csproj", "{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dto", "Dto\Dto.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dto", "Dto\Dto.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Api", "DataAccess.Api\DataAccess.Api.csproj", "{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Api", "DataAccess.Api\DataAccess.Api.csproj", "{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbCreator", "DbCreator\DbCreator.csproj", "{4A9B3A1D-FBBE-47A9-8A00-02A24A21FAC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess", "DbAccess\DbAccess.csproj", "{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbAccess", "DbAccess\DbAccess.csproj", "{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess.Tests", "DbAccess.Tests\DbAccess.Tests.csproj", "{03D6009D-496D-44D4-A8DE-D134EE10AD54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbAccess.Tests", "DbAccess.Tests\DbAccess.Tests.csproj", "{03D6009D-496D-44D4-A8DE-D134EE10AD54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Api.Tests", "DataAccess.Api.Tests\DataAccess.Api.Tests.csproj", "{8A6EFAAC-C392-4898-840C-F3E229420166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Api.Tests", "DataAccess.Api.Tests\DataAccess.Api.Tests.csproj", "{8A6EFAAC-C392-4898-840C-F3E229420166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeacherConfiguration.Api", "TeacherConfiguration.Api\TeacherConfiguration.Api.csproj", "{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherConfiguration.Api", "TeacherConfiguration.Api\TeacherConfiguration.Api.csproj", "{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeacherConfiguration.Api.Tests", "TeacherConfiguration.Api.Tests\TeacherConfiguration.Api.Tests.csproj", "{493D89F4-93A2-4B6C-9DF7-3D13BD606457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherConfiguration.Api.Tests", "TeacherConfiguration.Api.Tests\TeacherConfiguration.Api.Tests.csproj", "{493D89F4-93A2-4B6C-9DF7-3D13BD606457}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api", "StudentConfiguration.Api\StudentConfiguration.Api.csproj", "{97148486-D304-4F95-B7BE-8AB6251ECCE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentConfiguration.Api", "StudentConfiguration.Api\StudentConfiguration.Api.csproj", "{97148486-D304-4F95-B7BE-8AB6251ECCE3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentConfiguration.Api.Tests", "StudentConfiguration.Api.Tests\StudentConfiguration.Api.Tests.csproj", "{A992A577-548F-481A-AC7C-96FC694D1442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api.Tests", "StudentConfiguration.Api.Tests\StudentConfiguration.Api.Tests.csproj", "{A992A577-548F-481A-AC7C-96FC694D1442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +65,6 @@ Global
 		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A9B3A1D-FBBE-47A9-8A00-02A24A21FAC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A9B3A1D-FBBE-47A9-8A00-02A24A21FAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A9B3A1D-FBBE-47A9-8A00-02A24A21FAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A9B3A1D-FBBE-47A9-8A00-02A24A21FAC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
