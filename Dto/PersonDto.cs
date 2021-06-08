@@ -27,4 +27,17 @@ namespace Dtos
             };
         }
     }
+    public static class PersonExtension
+    {
+        public static PersonDto ToDto(this Person model)
+        {
+            return new PersonDto
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email
+            };
+        }
+    }
 }

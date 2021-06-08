@@ -27,4 +27,19 @@ namespace Dtos
             };
         }
     }
+
+    public static class PhotoExtension
+    {
+        public static PhotoDto ToDto(this Photo model)
+        {
+            return new PhotoDto
+            {
+                Id = model.Id,
+                Data = model.Data,
+                StudentId = model.StudentId,
+                //TODO: create ToDto function in StudentDto.cs file
+               // Student = model.Student.ToDto(),
+            };
+        }
+    }
 }
