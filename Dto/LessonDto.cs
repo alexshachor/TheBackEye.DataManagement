@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Model
+namespace Dto
 {
-    public class Lesson
+    public class LessonDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,7 +20,7 @@ namespace Model
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int MaxLate { get; set; }
-        public Grade Grade { get; set; }
+        public GradeDto Grade { get; set; }
         public int ClassId { get; set; }
     }
 }
