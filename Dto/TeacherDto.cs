@@ -22,7 +22,12 @@ namespace Dto
         {
             return new Teacher
             {
-
+                Id = dto.Id,
+                PersonId = dto.PersonId,
+                Person = dto.Person.ToModel(),
+                Password = dto.Password,
+                SchoolId = dto.SchoolId,
+                School = dto.School.ToModel()
             };
         }
     }

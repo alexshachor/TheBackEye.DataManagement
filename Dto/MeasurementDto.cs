@@ -30,7 +30,19 @@ namespace Dto
         {
             return new Measurement
             {
-
+                Id = dto.Id,
+                StudentId = dto.StudentId,
+                Student = dto.Student.ToModel(),
+                DateTime = dto.DateTime,
+                LessonId = dto.LessonId,
+                Lesson = dto.Lesson.ToModel(),
+                FaceDetector = dto.FaceDetector,
+                FaceRecognition = dto.FaceRecognition,
+                HeadPose = dto.HeadPose,
+                ObjectDetection = dto.ObjectDetection,
+                OnTop = dto.OnTop,
+                SleepDetector = dto.SleepDetector,
+                SoundCheck = dto.SoundCheck
             };
         }
     }

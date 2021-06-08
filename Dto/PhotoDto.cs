@@ -20,7 +20,10 @@ namespace Dto
         {
             return new Photo
             {
-
+                Id = dto.Id,
+                StudentId = dto.StudentId,
+                Student = dto.Student.ToModel(),
+                Data = dto.Data
             };
         }
     }

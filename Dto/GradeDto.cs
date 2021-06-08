@@ -20,7 +20,10 @@ namespace Dto
         {
             return new Grade
             {
-
+                Id = dto.Id,
+                Name = dto.Name,
+                Teacher = dto.Teacher.ToModel(),
+                TeacherId = dto.TeacherId
             };
         }
     }

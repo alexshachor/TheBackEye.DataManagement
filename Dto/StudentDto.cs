@@ -21,7 +21,11 @@ namespace Dto
         {
             return new Student
             {
-
+                Id = dto.Id,
+                IdNumber = dto.IdNumber,
+                DateBirth = dto.DateBirth,
+                PersonId = dto.PersonId,
+                Person = dto.Person.ToModel()
             };
         }
     }

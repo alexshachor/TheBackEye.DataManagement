@@ -20,7 +20,9 @@ namespace Dto
         {
             return new School
             {
-
+                Id = dto.Id,
+                Name = dto.Name,
+                Email = dto.Email
             };
         }
     }

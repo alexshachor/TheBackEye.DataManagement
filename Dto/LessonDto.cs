@@ -31,7 +31,20 @@ namespace Dto
         {
             return new Lesson
             {
-
+                Id = dto.Id,
+                Name = dto.Name,
+                ClassId = dto.ClassId,
+                BreakStart = dto.BreakStart,
+                BreakEnd = dto.BreakEnd,
+                DayOfWeek = dto.DayOfWeek,
+                Description = dto.Description,
+                StartTime = dto.StartTime,
+                EndTime = dto.EndTime,
+                Grade = dto.Grade.ToModel(),
+                IsActive = dto.IsActive,
+                Link = dto.Link,
+                MaxLate = dto.MaxLate,
+                Platform = dto.Platform
             };
         }
     }

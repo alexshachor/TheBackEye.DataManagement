@@ -20,7 +20,10 @@ namespace Dto
         {
             return new Person
             {
-
+                Id = dto.Id,
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName
             };
         }
     }
