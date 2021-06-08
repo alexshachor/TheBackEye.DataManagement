@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Tests", "Busi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Model", "Model\DataAccess.Model.csproj", "{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dto", "Dto\Dto.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos", "Dto\Dtos.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Api", "DataAccess.Api\DataAccess.Api.csproj", "{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api.Tests", "StudentConfiguration.Api.Tests\StudentConfiguration.Api.Tests.csproj", "{A992A577-548F-481A-AC7C-96FC694D1442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseCreator", "DataBaseCreator\DataBaseCreator.csproj", "{5F8A0901-D7F6-481B-B1E0-0633E30CB854}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseCreator", "DataBaseCreator\DataBaseCreator.csproj", "{5F8A0901-D7F6-481B-B1E0-0633E30CB854}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,7 +16,7 @@ namespace Model
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int MaxLate { get; set; }
-        public Grade Class { get; set; }
+        public Grade Grade { get; set; }
         public int ClassId { get; set; }
     }
 }
