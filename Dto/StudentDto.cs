@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,15 @@ namespace Dto
         public DateTime DateBirth { get; set; }
         public PersonDto Person { get; set; }
         public int PersonId { get; set; }
+    }
+    public static class StudentDtoExtension
+    {
+        public static Student ToModel(this StudentDto dto)
+        {
+            return new Student
+            {
+
+            };
+        }
     }
 }

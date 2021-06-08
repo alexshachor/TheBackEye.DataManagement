@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,19 @@ namespace Dto
         public string Data { get; set; }
         public PersonDto Person { get; set; }
         public int PersonId { get; set; }
+    }
+    public static class LogDtoExtension
+    {
+        public static Log ToModel(this LogDto dto)
+        {
+            return new Log
+            {
+                Id = dto.Id,
+                CreationDate = dto.CreationDate,
+                Data = dto.Data,
+                Person = dto.Person.ToModel(),
+                PersonId = dto.PersonId
+            };
+        }
     }
 }

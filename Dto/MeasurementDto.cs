@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,16 @@ namespace Dto
         public int LessonId { get; set; }
         public StudentDto Student { get; set; }
         public int StudentId { get; set; }
+    }
+
+    public static class MeasurementDtoExtension
+    {
+        public static Measurement ToModel(this MeasurementDto dto)
+        {
+            return new Measurement
+            {
+
+            };
+        }
     }
 }

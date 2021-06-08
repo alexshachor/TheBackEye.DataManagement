@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,15 @@ namespace Dto
         public int PersonId { get; set; }
         public SchoolDto School { get; set; }
         public int SchoolId { get; set; }
+    }
+    public static class TeacherDtoExtension
+    {
+        public static Teacher ToModel(this TeacherDto dto)
+        {
+            return new Teacher
+            {
+
+            };
+        }
     }
 }
