@@ -49,7 +49,7 @@ namespace Dtos
 
     public static class MeasurementExtension
     {
-        public static MeasurementDto ToModel(this Measurement model)
+        public static MeasurementDto ToDto(this Measurement model)
         {
             return new MeasurementDto
             {
