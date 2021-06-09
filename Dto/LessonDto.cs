@@ -48,4 +48,28 @@ namespace Dtos
             };
         }
     }
+
+    public static class LessonExtension
+    {
+        public static LessonDto ToModel(this Lesson model)
+        {
+            return new LessonDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                ClassId = model.ClassId,
+                BreakStart = model.BreakStart,
+                BreakEnd = model.BreakEnd,
+                DayOfWeek = model.DayOfWeek,
+                Description = model.Description,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                Grade = model.Grade.ToDto(),
+                IsActive = model.IsActive,
+                Link = model.Link,
+                MaxLate = model.MaxLate,
+                Platform = model.Platform
+            };
+        }
+    }
 }
