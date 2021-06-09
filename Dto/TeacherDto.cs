@@ -31,4 +31,20 @@ namespace Dtos
             };
         }
     }
+
+    public static class TeacherExtension
+    {
+        public static TeacherDto ToDto(this Teacher model)
+        {
+            return new TeacherDto
+            {
+                Id = model.Id,
+                PersonId = model.PersonId,
+                Person = model.Person.ToDto(),
+                Password = model.Password,
+                SchoolId = model.SchoolId,
+                School = model.School.ToDto()
+            };
+        }
+    }
 }
