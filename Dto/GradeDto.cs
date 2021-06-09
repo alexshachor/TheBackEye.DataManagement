@@ -27,4 +27,18 @@ namespace Dtos
             };
         }
     }
+
+    public static class GradeExtension
+    {
+        public static GradeDto ToDto(this Grade model)
+        {
+            return new GradeDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Teacher = model.Teacher.ToDto(),
+                TeacherId = model.TeacherId
+            };
+        }
+    }
 }
