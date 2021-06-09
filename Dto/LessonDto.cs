@@ -51,7 +51,7 @@ namespace Dtos
 
     public static class LessonExtension
     {
-        public static LessonDto ToModel(this Lesson model)
+        public static LessonDto ToDto(this Lesson model)
         {
             return new LessonDto
             {

@@ -29,4 +29,19 @@ namespace Dtos
             };
         }
     }
+
+    public static class LogExtension
+    {
+        public static LogDto ToDto(this Log model)
+        {
+            return new LogDto
+            {
+                Id = model.Id,
+                CreationDate = model.CreationDate,
+                Data = model.Data,
+                Person = model.Person.ToDto(),
+                PersonId = model.PersonId
+            };
+        }
+    }
 }
