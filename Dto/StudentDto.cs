@@ -29,4 +29,19 @@ namespace Dtos
             };
         }
     }
+
+    public static class StudentExtension
+    {
+        public static StudentDto ToDto(this Student model)
+        {
+            return new StudentDto
+            {
+                Id = model.Id,
+                IdNumber = model.IdNumber,
+                DateBirth = model.DateBirth,
+                PersonId = model.PersonId,
+                Person = model.Person.ToDto()
+            };
+        }
+    }
 }
