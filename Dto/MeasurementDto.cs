@@ -46,4 +46,27 @@ namespace Dtos
             };
         }
     }
+
+    public static class MeasurementExtension
+    {
+        public static MeasurementDto ToModel(this Measurement model)
+        {
+            return new MeasurementDto
+            {
+                Id = model.Id,
+                StudentId = model.StudentId,
+                Student = model.Student.ToDto(),
+                DateTime = model.DateTime,
+                LessonId = model.LessonId,
+                Lesson = model.Lesson.ToDto(),
+                FaceDetector = model.FaceDetector,
+                FaceRecognition = model.FaceRecognition,
+                HeadPose = model.HeadPose,
+                ObjectDetection = model.ObjectDetection,
+                OnTop = model.OnTop,
+                SleepDetector = model.SleepDetector,
+                SoundCheck = model.SoundCheck
+            };
+        }
+    }
 }
