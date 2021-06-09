@@ -26,4 +26,17 @@ namespace Dtos
             };
         }
     }
+
+    public static class SchoolExtension
+    {
+        public static SchoolDto ToDto(this School model)
+        {
+            return new SchoolDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Email = model.Email
+            };
+        }
+    }
 }

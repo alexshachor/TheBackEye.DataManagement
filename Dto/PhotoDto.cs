@@ -37,8 +37,7 @@ namespace Dtos
                 Id = model.Id,
                 Data = model.Data,
                 StudentId = model.StudentId,
-                //TODO: create ToDto function in StudentDto.cs file
-               // Student = model.Student.ToDto(),
+                Student = model.Student.ToDto(),
             };
         }
     }
