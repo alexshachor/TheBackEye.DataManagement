@@ -1,4 +1,6 @@
 using DbAccess;
+using DbAccess.Repositories;
+using DbAccess.RepositoryInterfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +32,9 @@ namespace StudentConfiguration.Api
         {
 
             services.AddControllers();
-          
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString));
+            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentConfiguration.Api", Version = "v1" });

@@ -108,5 +108,18 @@ namespace DbAccess.Repositories
                 return null;
             }
         }
+
+        public async Task<Student> GetStudentByBirthId(int studentBirthId)
+        {
+            try
+            {
+                return await _context.Students.Where(x => x.IdNumber == studentBirthId).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get student from DB. student id: {studentBirthId}. due to: {e}");
+                return null;
+            }
+        }
     }
 }
