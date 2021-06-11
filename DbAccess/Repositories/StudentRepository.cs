@@ -40,7 +40,7 @@ namespace DbAccess.Repositories
         {
             try
             {
-                return await _context.Students.Where(x => x.Id == studentId).FirstOrDefaultAsync();
+                return await _context.Students.Where(x => x.Id == studentId).Include(x => x.Person).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ namespace DbAccess.Repositories
         {
             try
             {
-                return await _context.Students.Where(x => x.IdNumber == studentBirthId).FirstOrDefaultAsync();
+                return await _context.Students.Where(x => x.IdNumber == studentBirthId).Include(x => x.Person).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
