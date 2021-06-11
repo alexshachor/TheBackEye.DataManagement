@@ -38,7 +38,7 @@ namespace StudentConfiguration.Api.Controllers
         }
 
         /// <summary>
-        /// Get the StudentDto object by the student id nmumber
+        /// Get StudentDto object by the student id number
         /// </summary>
         /// <param name="birthId">The identity number (from birth) of the student</param>
         /// <response code="200">StudentDto object contains all of the student's personal details</response>
