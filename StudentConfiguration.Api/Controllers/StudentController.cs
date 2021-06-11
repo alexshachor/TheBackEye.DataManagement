@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace StudentConfiguration.Api.Controllers
 {
+    /// <summary>
+    /// StudentController is responsible for all the student's CRUD operations using API calls 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
@@ -34,12 +37,18 @@ namespace StudentConfiguration.Api.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<StudentController>/5
         /// <summary>
         /// Get the StudentDto object by the student id nmumber
         /// </summary>
         /// <param name="birthId">The identity number (from birth) of the student</param>
-        /// <returns>StudentDto object contains all of the student's personal details</returns>
+        /// <response code="200">StudentDto object contains all of the student's personal details</response>
+        /// <response code="400">BadRequest - invalid values (lower than 1)</response>
+        /// <response code="404">NotFound - cannot find the student in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(StudentDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
         [HttpGet("{birthId}")]
         public async Task<ActionResult<StudentDto>> Get(int birthId)
         {
