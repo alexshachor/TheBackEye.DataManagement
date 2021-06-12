@@ -1,4 +1,6 @@
 using DbAccess;
+using DbAccess.Repositories;
+using DbAccess.RepositoryInterfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace StudentConfiguration.Api
@@ -30,10 +34,15 @@ namespace StudentConfiguration.Api
         {
 
             services.AddControllers();
-          
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString).EnableSensitiveDataLogging());
+            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentConfiguration.Api", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
         }
 

@@ -10,7 +10,7 @@ namespace Dtos
     public class StudentDto
     {
         public int Id { get; set; }
-        public int IdNumber { get; set; }
+        public string BirthId { get; set; }
         public DateTime DateBirth { get; set; }
         public PersonDto Person { get; set; }
         public int PersonId { get; set; }
@@ -22,7 +22,7 @@ namespace Dtos
             return new Student
             {
                 Id = dto.Id,
-                IdNumber = dto.IdNumber,
+                BirthId = dto.BirthId,
                 DateBirth = dto.DateBirth,
                 PersonId = dto.PersonId,
                 Person = dto.Person.ToModel()
@@ -37,7 +37,7 @@ namespace Dtos
             return new StudentDto
             {
                 Id = model.Id,
-                IdNumber = model.IdNumber,
+                BirthId = model.BirthId,
                 DateBirth = model.DateBirth,
                 PersonId = model.PersonId,
                 Person = model.Person.ToDto()
