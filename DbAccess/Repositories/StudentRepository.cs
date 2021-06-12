@@ -25,9 +25,15 @@ namespace DbAccess.Repositories
         {
             try
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return student;
+                var studentFromDb = await GetStudentByBirthId(student.BirthId);
+                if (studentFromDb == null)
+                {
+                    _context.Add(student);
+                    await _context.SaveChangesAsync();
+                    return student;
+                }
+                _logger.LogInformation($"Student with birth id: {studentFromDb.BirthId} already exist");
+                return studentFromDb;
             }
             catch (Exception e)
             {
@@ -109,17 +115,22 @@ namespace DbAccess.Repositories
             }
         }
 
-        public async Task<Student> GetStudentByBirthId(int studentBirthId)
+        public async Task<Student> GetStudentByBirthId(string studentBirthId)
         {
             try
             {
-                return await _context.Students.Where(x => x.IdNumber == studentBirthId).Include(x => x.Person).FirstOrDefaultAsync();
+                return await _context.Students.Where(x => x.BirthId == studentBirthId).Include(x => x.Person).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
                 _logger.LogError($"Cannot get student from DB. student id: {studentBirthId}. due to: {e}");
                 return null;
             }
+        }
+
+        public async Task<bool> IsStudentExistByBirthId(string birthId)
+        {
+            return await _context.Students.AnyAsync(s => s.BirthId == birthId);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace StudentConfiguration.Api
 
             services.AddControllers();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString));
+            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString).EnableSensitiveDataLogging());
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddSwaggerGen(c =>
             {

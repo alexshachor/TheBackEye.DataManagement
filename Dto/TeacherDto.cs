@@ -10,7 +10,7 @@ namespace Dtos
     public class TeacherDto
     {
         public int Id { get; set; }
-        public int Password { get; set; }
+        public string Password { get; set; }
         public PersonDto Person { get; set; }
         public int PersonId { get; set; }
         public SchoolDto School { get; set; }
@@ -41,7 +41,6 @@ namespace Dtos
                 Id = model.Id,
                 PersonId = model.PersonId,
                 Person = model.Person.ToDto(),
-                Password = model.Password,
                 SchoolId = model.SchoolId,
                 School = model.School.ToDto()
             };

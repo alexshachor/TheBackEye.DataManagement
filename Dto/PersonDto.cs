@@ -13,6 +13,7 @@ namespace Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Token { get; set; }
     }
     public static class PersonDtoExtension
     {
@@ -23,7 +24,8 @@ namespace Dtos
                 Id = dto.Id,
                 Email = dto.Email,
                 FirstName = dto.FirstName,
-                LastName = dto.LastName
+                LastName = dto.LastName,
+                Token = dto.Token
             };
         }
     }
@@ -36,7 +38,8 @@ namespace Dtos
                 Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.Email
+                Email = model.Email,
+                Token = model.Token
             };
         }
     }
