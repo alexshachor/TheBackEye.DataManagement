@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DbAccess
 {
+    /// <summary>
+    /// this class manages all log's CRUD operations against the DB
+    /// </summary>
     public class LogsRepository : ILogRepository
     {
         private readonly BackEyeContext _context;
@@ -20,6 +23,11 @@ namespace DbAccess
             _logger = logger;
         }
 
+        /// <summary>
+        /// get log by its id
+        /// </summary>
+        /// <param name="logId">the log id</param>
+        /// <returns>Log object if success and null otherwise</returns>
         public async Task<Log> GetLogById(int logId)
         {
             try
@@ -33,6 +41,11 @@ namespace DbAccess
             }
         }
 
+        /// <summary>
+        /// add a given new log to DB
+        /// </summary>
+        /// <param name="log">log to add</param>
+        /// <returns>Log object if success and null otherwise</returns>
         public async Task<Log> AddLog(Log log)
         {
             try
@@ -48,6 +61,11 @@ namespace DbAccess
             }
         }
 
+        /// <summary>
+        /// get all the logs of a given person id
+        /// </summary>
+        /// <param name="personId">id of person</param>
+        /// <returns>List of Log object if success and null otherwise</returns>
         public async Task<List<Log>> GetLosgByPersonId(int personId)
         {
             try
@@ -61,6 +79,11 @@ namespace DbAccess
             }
         }
 
+        /// <summary>
+        /// remove log by the given id
+        /// </summary>
+        /// <param name="logId">id pf log to remove</param>
+        /// <returns>true of success and false otherwise</returns>
         public async Task<bool> RemoveLogById(int logId)
         {
             try

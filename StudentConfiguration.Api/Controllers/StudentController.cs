@@ -30,13 +30,6 @@ namespace StudentConfiguration.Api.Controllers
             _studentRepository = studentRepository;
         }
 
-        // GET: api/<StudentController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         /// <summary>
         /// Get StudentDto object by the student id number
         /// </summary>
@@ -127,64 +120,91 @@ namespace StudentConfiguration.Api.Controllers
             }
         }
 
+
         /// <summary>
-        /// Add a list of new students to DB
+        /// Update student details in DB
         /// </summary>
-        /// <param name="studentsDto">List of StudentDto object each one contains all of the student's personal details which will be added to DB</param>
-        /// <response code="200">List of StudentDto object each one contains all of the student's personal details from DB</response>
-        /// <response code="400">BadRequest - invalid values (students list is null or empty)</response>
+        /// <param name="studentDto">StudentDto object contains all of the student's personal details which will be updated in DB</param>
+        /// <response code="200">StudentDto object contains the updated student's personal details from DB</response>
+        /// <response code="400">BadRequest - invalid values (Student or Person is null)</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPost]
-        [ProducesResponseType(typeof(List<StudentDto>), 200)]
-        [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult<List<StudentDto>>> PostStudents([FromBody] List<StudentDto> studentsDto)
+        [HttpPut]
+        public async Task<ActionResult<StudentDto>> Put([FromBody] StudentDto studentDto)
         {
-            //TODO: add validation for each filed
-            //validate request
-            if (studentsDto == null || studentsDto.Count == 0)
+            if (studentDto == null || studentDto.Person == null)
             {
-                string msg = $"studentsDto list is null or empty";
+                string msg = $"studentDto or personDto is null";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
-                List<StudentDto> newStudents = new List<StudentDto>();
-                //add each student to DB
-                foreach (StudentDto studentDto in studentsDto)
+                //update student in DB
+                var student = await _studentRepository.UpdateStudent(studentDto.ToModel());
+                if (student == null)
                 {
-                    var student = await _studentRepository.AddStudent(studentDto.ToModel());
-                    if (student == null)
-                    {
-                        string msg = $"cannot add student with birth id: {studentDto.BirthId} to DB";
-                        _logger.LogError(msg);
-                    }
-                    else
-                    {
-                        newStudents.Add(student.ToDto());
-                    }
+                    string msg = $"cannot update student with id: {studentDto.Id} in DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
-                return Ok(newStudents);
+                else
+                {
+                    return Ok(student.ToDto());
+                }
             }
             catch (Exception e)
             {
-                string msg = $"cannot add students to DB. due to: {e}";
+                string msg = $"cannot update student with id: {studentDto.Id} in DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
 
-        // PUT api/<StudentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<StudentController>/5
+        /// <summary>
+        /// Delete student from DB by its id
+        /// </summary>
+        /// <param name="id">id of the student to delete</param>
+        /// <response code="200">Ok - student deletion was success</response>
+        /// <response code="400">BadRequest - invalid values (id is not in valid range)</response>
+        /// <response code="404">NotFound - cannot find the student in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            if (id < 0)
+            {
+                string msg = $"id: {id} is not valid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //delete student from DB
+                var isExist = await _studentRepository.IsStudentExist(id);
+                if (!isExist)
+                {
+                    string msg = $"cannot delete student with id: {id} from DB. student was not found.";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                bool isDeleted = await _studentRepository.DeleteStudentById(id);
+                if (!isDeleted)
+                {
+                    string msg = $"cannot delete student with id: {id} from DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot delete student with id: {id} from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
     }
 }
