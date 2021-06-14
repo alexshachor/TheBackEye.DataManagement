@@ -129,15 +129,69 @@ namespace StudentConfiguration.Api.Controllers
 
 
         // PUT api/<StudentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult<StudentDto>> Put([FromBody] StudentDto studentDto)
         {
+            if (studentDto == null || studentDto.Person == null)
+            {
+                string msg = $"studentDto or personDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //update student in DB
+                var student = await _studentRepository.UpdateStudent(studentDto.ToModel());
+                if (student == null)
+                {
+                    string msg = $"cannot update student with birth id: {studentDto.BirthId} in DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(student.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot update student with birth id: {studentDto.BirthId} in DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
 
         // DELETE api/<StudentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            if (id < 0)
+            {
+                string msg = $"id: {id} is not valid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //delete student from DB
+                var student = await _studentRepository.DeleteStudentById(id);
+                if (student != null)
+                {
+                    string msg = $"cannot delete student with id: {id} in DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot delete student with id: {id} from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
     }
 }

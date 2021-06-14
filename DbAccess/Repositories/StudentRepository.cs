@@ -23,6 +23,11 @@ namespace DbAccess.Repositories
 
         public async Task<Student> AddStudent(Student student)
         {
+            if (student == null)
+            {
+                _logger.LogError($"Cannot add student to DB - student is null");
+                return null;
+            }
             try
             {
                 var studentFromDb = await GetStudentByBirthId(student.BirthId);
@@ -101,6 +106,11 @@ namespace DbAccess.Repositories
 
         public async Task<Student> UpdateStudent(Student student)
         {
+            if (student == null)
+            {
+                _logger.LogError($"Cannot update student in DB - student is null");
+                return null;
+            }
             _context.Entry(student).State = EntityState.Modified;
 
             try
