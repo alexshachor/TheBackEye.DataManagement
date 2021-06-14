@@ -127,53 +127,6 @@ namespace StudentConfiguration.Api.Controllers
             }
         }
 
-        /// <summary>
-        /// Add a list of new students to DB
-        /// </summary>
-        /// <param name="studentsDto">List of StudentDto object each one contains all of the student's personal details which will be added to DB</param>
-        /// <response code="200">List of StudentDto object each one contains all of the student's personal details from DB</response>
-        /// <response code="400">BadRequest - invalid values (students list is null or empty)</response>
-        /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPost]
-        [ProducesResponseType(typeof(List<StudentDto>), 200)]
-        [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult<List<StudentDto>>> PostStudents([FromBody] List<StudentDto> studentsDto)
-        {
-            //TODO: add validation for each filed
-            //validate request
-            if (studentsDto == null || studentsDto.Count == 0)
-            {
-                string msg = $"studentsDto list is null or empty";
-                _logger.LogError(msg);
-                return BadRequest(msg);
-            }
-            try
-            {
-                List<StudentDto> newStudents = new List<StudentDto>();
-                //add each student to DB
-                foreach (StudentDto studentDto in studentsDto)
-                {
-                    var student = await _studentRepository.AddStudent(studentDto.ToModel());
-                    if (student == null)
-                    {
-                        string msg = $"cannot add student with birth id: {studentDto.BirthId} to DB";
-                        _logger.LogError(msg);
-                    }
-                    else
-                    {
-                        newStudents.Add(student.ToDto());
-                    }
-                }
-                return Ok(newStudents);
-            }
-            catch (Exception e)
-            {
-                string msg = $"cannot add students to DB. due to: {e}";
-                _logger.LogError(msg);
-                return StatusCode(StatusCodes.Status500InternalServerError, msg);
-            }
-        }
 
         // PUT api/<StudentController>/5
         [HttpPut("{id}")]
