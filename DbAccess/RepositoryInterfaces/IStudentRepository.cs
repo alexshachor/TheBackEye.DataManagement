@@ -14,7 +14,7 @@ namespace DbAccess.RepositoryInterfaces
         public Task<Student> AddStudent(Student student);
         public Task<Student> UpdateStudent(Student student);
 
-        public Task<Student> DeleteStudentById(int studentId);
+        public Task<bool> DeleteStudentById(int studentId);
         public Task<Student> GetStudentById(int studentId);
         public Task<Student> GetStudentByBirthId(string studentBirthId);
         public Task<List<Student>> GetStudentsByClassId(int classId);

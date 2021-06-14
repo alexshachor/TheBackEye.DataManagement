@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DbAccess.Repositories
 {
+    /// <summary>
+    /// this class manages all student's CRUD operations against the DB
+    /// </summary>
     public class StudentRepository : IStudentRepository
     {
         private readonly BackEyeContext _context;
@@ -20,7 +23,11 @@ namespace DbAccess.Repositories
             _logger = logger;
         }
 
-
+        /// <summary>
+        /// add new student to DB
+        /// </summary>
+        /// <param name="student">student to add</param>
+        /// <returns>Student object if success and null otherwise</returns>
         public async Task<Student> AddStudent(Student student)
         {
             if (student == null)
@@ -47,6 +54,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get a student from DB by the given id
+        /// </summary>
+        /// <param name="studentId">the id of the student</param>
+        /// <returns>Student object if success and null otherwise</returns>
         public async Task<Student> GetStudentById(int studentId)
         {
             try
@@ -60,6 +72,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get a list of students by the given class id
+        /// </summary>
+        /// <param name="classId">the id of the class</param>
+        /// <returns>List of Student object if success and null otherwise</returns>
         public async Task<List<Student>> GetStudentsByClassId(int classId)
         {
             try
@@ -80,30 +97,46 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// check if a given student is exist in DB
+        /// </summary>
+        /// <param name="studentId">the student id</param>
+        /// <returns>true if exist and false otherwise</returns>
         public async Task<bool> IsStudentExist(int studentId)
         {
             return await _context.Students.AnyAsync(s => s.Id == studentId);
         }
 
-        public async Task<Student> DeleteStudentById(int studentId)
+        /// <summary>
+        /// delete student by the given id
+        /// </summary>
+        /// <param name="studentId">the id of the student to delete</param>
+        /// <returns>true if success and false otherwise</returns>
+        public async Task<bool> DeleteStudentById(int studentId)
         {
             var student = await GetStudentById(studentId);
             if (student == null)
             {
-                return null;
+                return false;
             }
             try
             {
                 _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
+                return true;
             }
             catch (Exception e)
             {
                 _logger.LogError($"Cannot delete student from DB. student id: {studentId}. due to: {e}");
             }
-            return student;
+            return false;
         }
 
+        /// <summary>
+        /// update the student entity eith the given student
+        /// </summary>
+        /// <param name="student">Student object with updated data</param>
+        /// <returns>Student object if success and null otherwise</returns>
         public async Task<Student> UpdateStudent(Student student)
         {
             if (student == null)
@@ -111,7 +144,7 @@ namespace DbAccess.Repositories
                 _logger.LogError($"Cannot update student in DB - student is null");
                 return null;
             }
-            _context.Entry(student).State = EntityState.Modified;
+            _context.Entry(student.Person).State = EntityState.Modified;
 
             try
             {
@@ -125,6 +158,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get a student from DB by the given birth id
+        /// </summary>
+        /// <param name="studentBirthId">the birth id of the student</param>
+        /// <returns>Student object if success and null otherwise</returns>
         public async Task<Student> GetStudentByBirthId(string studentBirthId)
         {
             try
@@ -138,6 +176,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// check if a given student is exist in DB
+        /// </summary>
+        /// <param name="birthId">the birth id of the student</param>
+        /// <returns>true if exist and false otherwise</returns>
         public async Task<bool> IsStudentExistByBirthId(string birthId)
         {
             return await _context.Students.AnyAsync(s => s.BirthId == birthId);

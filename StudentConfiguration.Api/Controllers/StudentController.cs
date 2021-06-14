@@ -30,13 +30,6 @@ namespace StudentConfiguration.Api.Controllers
             _studentRepository = studentRepository;
         }
 
-        // GET: api/<StudentController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         /// <summary>
         /// Get StudentDto object by the student id number
         /// </summary>
@@ -128,7 +121,13 @@ namespace StudentConfiguration.Api.Controllers
         }
 
 
-        // PUT api/<StudentController>/5
+        /// <summary>
+        /// Update student details in DB
+        /// </summary>
+        /// <param name="studentDto">StudentDto object contains all of the student's personal details which will be updated in DB</param>
+        /// <response code="200">StudentDto object contains the updated student's personal details from DB</response>
+        /// <response code="400">BadRequest - invalid values (Student or Person is null)</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpPut]
         public async Task<ActionResult<StudentDto>> Put([FromBody] StudentDto studentDto)
         {
@@ -144,7 +143,7 @@ namespace StudentConfiguration.Api.Controllers
                 var student = await _studentRepository.UpdateStudent(studentDto.ToModel());
                 if (student == null)
                 {
-                    string msg = $"cannot update student with birth id: {studentDto.BirthId} in DB";
+                    string msg = $"cannot update student with id: {studentDto.Id} in DB";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
@@ -155,13 +154,20 @@ namespace StudentConfiguration.Api.Controllers
             }
             catch (Exception e)
             {
-                string msg = $"cannot update student with birth id: {studentDto.BirthId} in DB. due to: {e}";
+                string msg = $"cannot update student with id: {studentDto.Id} in DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
 
-        // DELETE api/<StudentController>/5
+        /// <summary>
+        /// Delete student from DB by its id
+        /// </summary>
+        /// <param name="id">id of the student to delete</param>
+        /// <response code="200">Ok - student deletion was success</response>
+        /// <response code="400">BadRequest - invalid values (id is not in valid range)</response>
+        /// <response code="404">NotFound - cannot find the student in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -174,10 +180,17 @@ namespace StudentConfiguration.Api.Controllers
             try
             {
                 //delete student from DB
-                var student = await _studentRepository.DeleteStudentById(id);
-                if (student != null)
+                var isExist = await _studentRepository.IsStudentExist(id);
+                if (!isExist)
                 {
-                    string msg = $"cannot delete student with id: {id} in DB";
+                    string msg = $"cannot delete student with id: {id} from DB. student was not found.";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                bool isDeleted = await _studentRepository.DeleteStudentById(id);
+                if (!isDeleted)
+                {
+                    string msg = $"cannot delete student with id: {id} from DB";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
