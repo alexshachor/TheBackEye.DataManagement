@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Dell\source\repos\DataManagement\DataCollector\DataCollector.Api.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\User\source\repos\TheBackEye.DataManagement\DataCollector\DataCollector.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

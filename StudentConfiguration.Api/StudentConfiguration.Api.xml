@@ -28,14 +28,5 @@
             <response code="400">BadRequest - invalid values (Student or Person is null)</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:StudentConfiguration.Api.Controllers.StudentController.PostStudents(System.Collections.Generic.List{Dtos.StudentDto})">
-            <summary>
-            Add a list of new students to DB
-            </summary>
-            <param name="studentsDto">List of StudentDto object each one contains all of the student's personal details which will be added to DB</param>
-            <response code="200">List of StudentDto object each one contains all of the student's personal details from DB</response>
-            <response code="400">BadRequest - invalid values (students list is null or empty)</response>
-            <response code="500">InternalServerError - for any error occurred in server</response>
-        </member>
     </members>
 </doc>
