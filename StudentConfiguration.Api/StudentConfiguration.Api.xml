@@ -11,21 +11,12 @@
         </member>
         <member name="M:StudentConfiguration.Api.Controllers.LessonController.Get(System.String)">
             <summary>
-            Get StudentDto object by the student id number
+            Get LessonDto object by class code string
             </summary>
-            <param name="birthId">The identity number (from birth) of the student</param>
-            <response code="200">StudentDto object contains all of the student's personal details</response>
+            <param name="classCode">The class code string</param>
+            <response code="200">LessonDto object contains all of the lesson details</response>
             <response code="400">BadRequest - invalid values (lower than 1)</response>
             <response code="404">NotFound - cannot find the student in DB</response>
-            <response code="500">InternalServerError - for any error occurred in server</response>
-        </member>
-        <member name="M:StudentConfiguration.Api.Controllers.LessonController.Post(Dtos.StudentDto)">
-            <summary>
-            Add a new student to DB
-            </summary>
-            <param name="studentDto">StudentDto object contains all of the student's personal details which will be added to DB</param>
-            <response code="200">StudentDto object contains all of the student's personal details from DB</response>
-            <response code="400">BadRequest - invalid values (Student or Person is null)</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="T:StudentConfiguration.Api.Controllers.StudentController">
