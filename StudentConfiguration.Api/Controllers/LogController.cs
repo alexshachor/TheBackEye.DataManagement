@@ -23,7 +23,6 @@ namespace StudentConfiguration.Api.Controllers
         private readonly ILogger _logger;
         private readonly ILogRepository _logRepository;
 
-
         public LogController(ILogger<LogController> logger, ILogRepository logRepository)
         {
             _logger = logger;
@@ -33,12 +32,12 @@ namespace StudentConfiguration.Api.Controllers
         /// <summary>
         /// Get LogDto object by the log id number
         /// </summary>
-        /// <param name="birthId">The identity number (from birth) of the student</param>
-        /// <response code="200">StudentDto object contains all of the student's personal details</response>
+        /// <param name="logId">The identity number of the log</param>
+        /// <response code="200">LogDto object contains all of the log's details</response>
         /// <response code="400">BadRequest - invalid values (lower than 1)</response>
         /// <response code="404">NotFound - cannot find the student in DB</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [ProducesResponseType(typeof(StudentDto), 200)]
+        [ProducesResponseType(typeof(LogDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
@@ -46,30 +45,30 @@ namespace StudentConfiguration.Api.Controllers
         public async Task<ActionResult<LogDto>> Get(int logId)
         {
             //validate request
-            if (String.IsNullOrWhiteSpace(birthId))
+            if (String.IsNullOrWhiteSpace(logId.ToString()))
             {
-                string msg = $"birthId: {birthId} must not be null or empty";
+                string msg = $"logId: {logId} must not be null or empty";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
                 //get student from DB
-                var student = await _studentRepository.GetStudentByBirthId(birthId);
-                if (student == null)
+                var log = await _logRepository.GetLogById(logId);
+                if (log == null)
                 {
-                    string msg = $"student with birth id: {birthId} not found in DB";
+                    string msg = $"log with log id: {logId} not found in DB";
                     _logger.LogError(msg);
                     return NotFound(msg);
                 }
                 else
                 {
-                    return Ok(student.ToDto());
+                    return Ok(log.ToDto());
                 }
             }
             catch (Exception e)
             {
-                string msg = $"cannot get student with birth id: {birthId}. due to: {e}";
+                string msg = $"cannot get log with log id: {logId}. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
