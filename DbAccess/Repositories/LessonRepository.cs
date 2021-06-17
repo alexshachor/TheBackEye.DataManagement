@@ -77,7 +77,7 @@ namespace DbAccess.Repositories
             }
         }
 
-        public async Task<Lesson> GetLesson(int classId)
+        public async Task<Lesson> GetLesson(int classCode)
         {
             try
             {

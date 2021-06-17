@@ -23,6 +23,7 @@ namespace Dtos
         public int MaxLate { get; set; }
         public GradeDto Grade { get; set; }
         public int ClassId { get; set; }
+        public string ClassCode { get; set; }
     }
 
     public static class LessonDtoExtension
@@ -34,6 +35,7 @@ namespace Dtos
                 Id = dto.Id,
                 Name = dto.Name,
                 ClassId = dto.ClassId,
+                ClassCode = dto.ClassCode,
                 BreakStart = dto.BreakStart,
                 BreakEnd = dto.BreakEnd,
                 DayOfWeek = dto.DayOfWeek,
@@ -58,6 +60,7 @@ namespace Dtos
                 Id = model.Id,
                 Name = model.Name,
                 ClassId = model.ClassId,
+                ClassCode = model.ClassCode,
                 BreakStart = model.BreakStart,
                 BreakEnd = model.BreakEnd,
                 DayOfWeek = model.DayOfWeek,

@@ -18,5 +18,6 @@ namespace Model
         public int MaxLate { get; set; }
         public Grade Grade { get; set; }
         public int ClassId { get; set; }
+        public string ClassCode { get; set; }
     }
 }
