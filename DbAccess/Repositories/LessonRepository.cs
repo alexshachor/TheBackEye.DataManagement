@@ -32,5 +32,26 @@ namespace DbAccess.Repositories
                 return null;
             }
         }
+
+        public async Task<Lesson> AddLesson(Lesson lesson)
+        {
+            try
+            {
+                var lessonFromDb = await GetLesson(lesson.ClassCode);
+                if (lessonFromDb == null)
+                {
+                    _context.Add(lesson);
+                    await _context.SaveChangesAsync();
+                    return lesson;
+                }
+                _logger.LogInformation($"Student with class code: {lessonFromDb.ClassCode} already exist");
+                return lessonFromDb;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot add lesson to DB. due to: {e}");
+                return null;
+            }
+        }
     }
 }

@@ -98,7 +98,7 @@ namespace StudentConfiguration.Api.Controllers
             try
             {
                 //add student to DB
-                var lesson = await _lessonRepository.AddStudent(studentDto.ToModel());
+                var lesson = await _lessonRepository.AddLesson(lessonDto.ToModel());
                 if (lesson == null)
                 {
                     string msg = $"cannot add lesson with lesson id: {lessonDto.Id} to DB";
