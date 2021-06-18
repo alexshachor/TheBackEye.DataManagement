@@ -32,6 +32,27 @@ namespace DbAccess
                 return null;
             }
         }
+
+        public async Task<Teacher> AddTeacher(Teacher teacher)
+        {
+            try
+            {
+                var teacherFromDb = await GetTeacherByPassword(teacher.Password);
+                if (teacherFromDb == null)
+                {
+                    _context.Add(teacher);
+                    await _context.SaveChangesAsync();
+                    return teacher;
+                }
+                _logger.LogInformation($"Teacher with password: {teacherFromDb.Password} already exist");
+                return teacherFromDb;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot add teacher to DB. due to: {e}");
+                return null;
+            }
+        }
         public async Task<Log> GetLogById(int logId)
         {
             try
