@@ -12,7 +12,5 @@ namespace DbAccess.RepositoryInterfaces
         public Task<Teacher> AddTeacher(Teacher teacher);
         public Task<Teacher> RemoveTeacherByPassword(string password);
         public Task<Teacher> GetTeacherByPassword(string password);
-        public Task<List<Log>> GetLosgByPersonId(int personId);
-
     }
 }
