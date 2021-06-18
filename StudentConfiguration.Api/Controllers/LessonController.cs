@@ -117,5 +117,49 @@ namespace StudentConfiguration.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+
+        /// <summary>
+        /// Delete lessonDto object by the class code
+        /// </summary>
+        /// <param name="classCode">The class code of the lesson</param>
+        /// <response code="200">bool true</response>
+        /// <response code="400">BadRequest - invalid values (lower than 1)</response>
+        /// <response code="404">NotFound - cannot find the lesson in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        [HttpDelete("{classCode}")]
+        public async Task<ActionResult<bool>> Delete(string classCode)
+        {
+            if (String.IsNullOrWhiteSpace(classCode))
+            {
+                string msg = $"classCode is null or empty";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //remove lesson from DB
+                var lesson = await _lessonRepository.DeleteLessonByClassCode(classCode);
+                if (lesson == null)
+                {
+                    string msg = $"cannot remove the lesson with the class code: {classCode} from DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(lesson);
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot remove the lesson with the class code: {classCode} from DB";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
     }
 }

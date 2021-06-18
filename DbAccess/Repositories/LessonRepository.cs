@@ -53,5 +53,24 @@ namespace DbAccess.Repositories
                 return null;
             }
         }
+
+        public async Task<Lesson> DeleteLessonByClassCode(string classCode)
+        {
+            var lesson = await GetLesson(classCode);
+            if (lesson == null)
+            {
+                return null;
+            }
+            try
+            {
+                _context.Lessons.Remove(lesson);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete lesson from DB. class code: {classCode}. due to: {e}");
+            }
+            return lesson;
+        }
     }
 }
