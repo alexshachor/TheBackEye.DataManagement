@@ -10,5 +10,6 @@ namespace DbAccess.RepositoryInterfaces
     public interface ILessonRepository
     {
         public Task<Lesson> GetLesson(string classCode);
+        public Task<Lesson> AddLesson(Lesson lesson);
     }
 }

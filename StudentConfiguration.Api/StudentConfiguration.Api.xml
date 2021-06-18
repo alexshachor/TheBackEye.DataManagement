@@ -19,6 +19,40 @@
             <response code="404">NotFound - cannot find the student in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="T:StudentConfiguration.Api.Controllers.LogController">
+            <summary>
+            LogController is responsible for all the log's CRUD operations using API calls 
+            </summary>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Get(System.Int32)">
+            <summary>
+            Get LogDto object by the log id number
+            </summary>
+            <param name="logId">The identity number of the log</param>
+            <response code="200">LogDto object contains all of the log's details</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Post(Dtos.LogDto)">
+            <summary>
+            Add a new log to DB
+            </summary>
+            <param name="logDto">LogDto object contains all of the log's details which will be added to DB</param>
+            <response code="200">LogDto object contains all of the log's details from DB</response>
+            <response code="400">BadRequest - invalid values (Student or Person is null)</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Delete(System.Int32)">
+            <summary>
+            Delete LogDto object by the log id number
+            </summary>
+            <param name="logId">The identity number of the log</param>
+            <response code="200">bool true</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="T:StudentConfiguration.Api.Controllers.StudentController">
             <summary>
             StudentController is responsible for all the student's CRUD operations using API calls 

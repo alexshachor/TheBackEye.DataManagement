@@ -72,7 +72,50 @@ namespace StudentConfiguration.Api.Controllers
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
+        }
 
+        /// <summary>
+        /// Add a new lesson to DB
+        /// </summary>
+        /// <param name="lessonDto">LessonDto object contains all of the lesson's details which will be added to DB</param>
+        /// <response code="200">LessonDto object contains all of the details from DB</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpPost]
+        [ProducesResponseType(typeof(LessonDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<LessonDto>> Post([FromBody] LessonDto lessonDto)
+        {
+            //TODO: add validation for each filed
+            //validate request
+            if (lessonDto == null)
+            {
+                string msg = $"lessonDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //add student to DB
+                var lesson = await _lessonRepository.AddStudent(studentDto.ToModel());
+                if (lesson == null)
+                {
+                    string msg = $"cannot add lesson with lesson id: {lessonDto.Id} to DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(lesson.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot add lesson with lesson id: {lessonDto.Id} to DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
     }
 }
