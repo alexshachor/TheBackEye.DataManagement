@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace StudentConfiguration.Api.Controllers
 {
     /// <summary>
-    /// StudentController is responsible for all the student's CRUD operations using API calls 
+    /// LessonController is responsible for all the leasson's CRUD operations using API calls 
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
