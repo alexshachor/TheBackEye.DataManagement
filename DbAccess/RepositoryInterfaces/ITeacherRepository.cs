@@ -10,7 +10,7 @@ namespace DbAccess.RepositoryInterfaces
     public interface ITeacherRepository
     {
         public Task<Teacher> AddTeacher(Teacher teacher);
-        public Task<bool> RemoveLogById(int logId);
+        public Task<Teacher> RemoveTeacherByPassword(string password);
         public Task<Teacher> GetTeacherByPassword(string password);
         public Task<List<Log>> GetLosgByPersonId(int personId);
 

@@ -53,6 +53,26 @@ namespace DbAccess
                 return null;
             }
         }
+
+        public async Task<Teacher> RemoveTeacherByPassword(string password)
+        {
+            var teacher = await GetTeacherByPassword(password);
+            if (teacher == null)
+            {
+                return null;
+            }
+            try
+            {
+                _context.Teachers.Remove(teacher);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete teacher from DB. password: {password}. due to: {e}");
+            }
+            return teacher;
+        }
+
         public async Task<Log> GetLogById(int logId)
         {
             try
