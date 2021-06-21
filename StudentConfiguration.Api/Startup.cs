@@ -36,7 +36,13 @@ namespace StudentConfiguration.Api
             services.AddControllers();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString).EnableSensitiveDataLogging());
-            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<ILogRepository, LogsRepository>();
+            services.AddScoped<IMeasurementRepository, MeasurementRepository>();
+            services.AddScoped<IStudentLessonRepository, StudentLessonRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentConfiguration.Api", Version = "v1" });

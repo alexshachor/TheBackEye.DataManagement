@@ -12,14 +12,10 @@ namespace DbAccess
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<Grade> Grades { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
-        public DbSet<School> Schools { get; set; }
-        public DbSet<StudentLesson> StudentClasses { get; set; }
+        public DbSet<StudentLesson> StudentLessons { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
