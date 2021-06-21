@@ -15,7 +15,7 @@ namespace Model
         public bool SoundCheck { get; set; }
         public Lesson Lesson { get; set; }
         public int LessonId { get; set; }
-        public Student Student { get; set; }
-        public int StudentId { get; set; }
+        public Person Person { get; set; }
+        public int PersonId { get; set; }
     }
 }

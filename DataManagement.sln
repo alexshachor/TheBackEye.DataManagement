@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Api", "DataCollector\DataCollector.Api.csproj", "{FC5640A0-9103-417E-863D-76DF6FC3ADA4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Api.Tests", "DataCollector.Api.Tests\DataCollector.Api.Tests.csproj", "{616D82D9-4967-4F53-B8AE-D2C963527BD2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{D5301E6E-70FA-495E-84C2-BE99855A3384}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}"
@@ -15,17 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Model", "Model\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos", "Dto\Dtos.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Api", "DataAccess.Api\DataAccess.Api.csproj", "{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess", "DbAccess\DbAccess.csproj", "{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess.Tests", "DbAccess.Tests\DbAccess.Tests.csproj", "{03D6009D-496D-44D4-A8DE-D134EE10AD54}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Api.Tests", "DataAccess.Api.Tests\DataAccess.Api.Tests.csproj", "{8A6EFAAC-C392-4898-840C-F3E229420166}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeacherConfiguration.Api", "TeacherConfiguration.Api\TeacherConfiguration.Api.csproj", "{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeacherConfiguration.Api.Tests", "TeacherConfiguration.Api.Tests\TeacherConfiguration.Api.Tests.csproj", "{493D89F4-93A2-4B6C-9DF7-3D13BD606457}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api", "StudentConfiguration.Api\StudentConfiguration.Api.csproj", "{97148486-D304-4F95-B7BE-8AB6251ECCE3}"
 EndProject
@@ -39,14 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FC5640A0-9103-417E-863D-76DF6FC3ADA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC5640A0-9103-417E-863D-76DF6FC3ADA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC5640A0-9103-417E-863D-76DF6FC3ADA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC5640A0-9103-417E-863D-76DF6FC3ADA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{616D82D9-4967-4F53-B8AE-D2C963527BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{616D82D9-4967-4F53-B8AE-D2C963527BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{616D82D9-4967-4F53-B8AE-D2C963527BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{616D82D9-4967-4F53-B8AE-D2C963527BD2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,10 +43,6 @@ Global
 		{41C641F3-B7F2-49D7-83F1-45A5115BF329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41C641F3-B7F2-49D7-83F1-45A5115BF329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41C641F3-B7F2-49D7-83F1-45A5115BF329}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3BA4522-7BBE-48F1-840B-E96C5BCA6B1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,18 +51,6 @@ Global
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A6EFAAC-C392-4898-840C-F3E229420166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A6EFAAC-C392-4898-840C-F3E229420166}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A6EFAAC-C392-4898-840C-F3E229420166}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A6EFAAC-C392-4898-840C-F3E229420166}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4AAE2FA-9419-4C71-A66C-AA35FBAE2FBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{493D89F4-93A2-4B6C-9DF7-3D13BD606457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{493D89F4-93A2-4B6C-9DF7-3D13BD606457}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{493D89F4-93A2-4B6C-9DF7-3D13BD606457}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{493D89F4-93A2-4B6C-9DF7-3D13BD606457}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU

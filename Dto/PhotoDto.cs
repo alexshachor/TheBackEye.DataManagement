@@ -10,8 +10,8 @@ namespace Dtos
     public class PhotoDto
     {
         public int Id { get; set; }
-        public StudentDto Student { get; set; }
-        public int StudentId { get; set; }
+        public PersonDto Person { get; set; }
+        public int PersonId { get; set; }
         public byte[] Data { get; set; }
     }
     public static class PhotoDtoExtension
@@ -21,8 +21,8 @@ namespace Dtos
             return new Photo
             {
                 Id = dto.Id,
-                StudentId = dto.StudentId,
-                Student = dto.Student.ToModel(),
+                PersonId = dto.PersonId,
+                Person = dto.Person.ToModel(),
                 Data = dto.Data
             };
         }
@@ -36,8 +36,8 @@ namespace Dtos
             {
                 Id = model.Id,
                 Data = model.Data,
-                StudentId = model.StudentId,
-                Student = model.Student.ToDto(),
+                PersonId = model.PersonId,
+                Person = model.Person.ToDto(),
             };
         }
     }

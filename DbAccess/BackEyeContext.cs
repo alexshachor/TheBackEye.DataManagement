@@ -19,7 +19,7 @@ namespace DbAccess
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<School> Schools { get; set; }
-        public DbSet<StudentClass> StudentClasses { get; set; }
+        public DbSet<StudentLesson> StudentClasses { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

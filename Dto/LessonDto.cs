@@ -10,6 +10,8 @@ namespace Dtos
     public class LessonDto
     {
         public int Id { get; set; }
+        public PersonDto Person { get; set; }
+        public int PersonId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Platform { get; set; }
@@ -21,8 +23,7 @@ namespace Dtos
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int MaxLate { get; set; }
-        public GradeDto Grade { get; set; }
-        public int ClassId { get; set; }
+        public string ClassCode { get; set; }
     }
 
     public static class LessonDtoExtension
@@ -32,15 +33,16 @@ namespace Dtos
             return new Lesson
             {
                 Id = dto.Id,
+                Person = dto.Person.ToModel(),
+                PersonId = dto.PersonId,
                 Name = dto.Name,
-                ClassId = dto.ClassId,
+                ClassCode = dto.ClassCode,
                 BreakStart = dto.BreakStart,
                 BreakEnd = dto.BreakEnd,
                 DayOfWeek = dto.DayOfWeek,
                 Description = dto.Description,
                 StartTime = dto.StartTime,
                 EndTime = dto.EndTime,
-                Grade = dto.Grade.ToModel(),
                 IsActive = dto.IsActive,
                 Link = dto.Link,
                 MaxLate = dto.MaxLate,
@@ -56,15 +58,16 @@ namespace Dtos
             return new LessonDto
             {
                 Id = model.Id,
+                Person = model.Person.ToDto(),
+                PersonId = model.PersonId,
                 Name = model.Name,
-                ClassId = model.ClassId,
+                ClassCode = model.ClassCode,
                 BreakStart = model.BreakStart,
                 BreakEnd = model.BreakEnd,
                 DayOfWeek = model.DayOfWeek,
                 Description = model.Description,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime,
-                Grade = model.Grade.ToDto(),
                 IsActive = model.IsActive,
                 Link = model.Link,
                 MaxLate = model.MaxLate,

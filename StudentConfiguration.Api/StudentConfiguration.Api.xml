@@ -4,6 +4,55 @@
         <name>StudentConfiguration.Api</name>
     </assembly>
     <members>
+        <member name="T:StudentConfiguration.Api.Controllers.LessonController">
+            <summary>
+            StudentController is responsible for all the student's CRUD operations using API calls 
+            </summary>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LessonController.Get(System.String)">
+            <summary>
+            Get LessonDto object by class code string
+            </summary>
+            <param name="classCode">The class code string</param>
+            <response code="200">LessonDto object contains all of the lesson details</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="T:StudentConfiguration.Api.Controllers.LogController">
+            <summary>
+            LogController is responsible for all the log's CRUD operations using API calls 
+            </summary>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Get(System.Int32)">
+            <summary>
+            Get LogDto object by the log id number
+            </summary>
+            <param name="logId">The identity number of the log</param>
+            <response code="200">LogDto object contains all of the log's details</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Post(Dtos.LogDto)">
+            <summary>
+            Add a new log to DB
+            </summary>
+            <param name="logDto">LogDto object contains all of the log's details which will be added to DB</param>
+            <response code="200">LogDto object contains all of the log's details from DB</response>
+            <response code="400">BadRequest - invalid values (Student or Person is null)</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:StudentConfiguration.Api.Controllers.LogController.Delete(System.Int32)">
+            <summary>
+            Delete LogDto object by the log id number
+            </summary>
+            <param name="logId">The identity number of the log</param>
+            <response code="200">bool true</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="T:StudentConfiguration.Api.Controllers.StudentController">
             <summary>
             StudentController is responsible for all the student's CRUD operations using API calls 
@@ -26,25 +75,6 @@
             <param name="studentDto">StudentDto object contains all of the student's personal details which will be added to DB</param>
             <response code="200">StudentDto object contains all of the student's personal details from DB</response>
             <response code="400">BadRequest - invalid values (Student or Person is null)</response>
-            <response code="500">InternalServerError - for any error occurred in server</response>
-        </member>
-        <member name="M:StudentConfiguration.Api.Controllers.StudentController.Put(Dtos.StudentDto)">
-            <summary>
-            Update student details in DB
-            </summary>
-            <param name="studentDto">StudentDto object contains all of the student's personal details which will be updated in DB</param>
-            <response code="200">StudentDto object contains the updated student's personal details from DB</response>
-            <response code="400">BadRequest - invalid values (Student or Person is null)</response>
-            <response code="500">InternalServerError - for any error occurred in server</response>
-        </member>
-        <member name="M:StudentConfiguration.Api.Controllers.StudentController.Delete(System.Int32)">
-            <summary>
-            Delete student from DB by its id
-            </summary>
-            <param name="id">id of the student to delete</param>
-            <response code="200">Ok - student deletion was success</response>
-            <response code="400">BadRequest - invalid values (id is not in valid range)</response>
-            <response code="404">NotFound - cannot find the student in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
     </members>

@@ -1,4 +1,4 @@
-﻿using DbAccess.RepositoryInterfaces;
+using DbAccess.RepositoryInterfaces;
 using Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +67,7 @@ namespace StudentConfiguration.Api.Controllers
                     return Ok(student.ToDto());
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 string msg = $"cannot get student with birth id: {birthId}. due to: {e}";
                 _logger.LogError(msg);
@@ -121,44 +121,7 @@ namespace StudentConfiguration.Api.Controllers
         }
 
 
-        /// <summary>
-        /// Update student details in DB
-        /// </summary>
-        /// <param name="studentDto">StudentDto object contains all of the student's personal details which will be updated in DB</param>
-        /// <response code="200">StudentDto object contains the updated student's personal details from DB</response>
-        /// <response code="400">BadRequest - invalid values (Student or Person is null)</response>
-        /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPut]
-        public async Task<ActionResult<StudentDto>> Put([FromBody] StudentDto studentDto)
-        {
-            if (studentDto == null || studentDto.Person == null)
-            {
-                string msg = $"studentDto or personDto is null";
-                _logger.LogError(msg);
-                return BadRequest(msg);
-            }
-            try
-            {
-                //update student in DB
-                var student = await _studentRepository.UpdateStudent(studentDto.ToModel());
-                if (student == null)
-                {
-                    string msg = $"cannot update student with id: {studentDto.Id} in DB";
-                    _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
-                }
-                else
-                {
-                    return Ok(student.ToDto());
-                }
-            }
-            catch (Exception e)
-            {
-                string msg = $"cannot update student with id: {studentDto.Id} in DB. due to: {e}";
-                _logger.LogError(msg);
-                return StatusCode(StatusCodes.Status500InternalServerError, msg);
-            }
-        }
+    
 
         /// <summary>
         /// Delete student from DB by its id

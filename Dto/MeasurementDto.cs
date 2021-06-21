@@ -20,8 +20,8 @@ namespace Dtos
         public bool SoundCheck { get; set; }
         public LessonDto Lesson { get; set; }
         public int LessonId { get; set; }
-        public StudentDto Student { get; set; }
-        public int StudentId { get; set; }
+        public PersonDto Person { get; set; }
+        public int PersonId { get; set; }
     }
 
     public static class MeasurementDtoExtension
@@ -31,8 +31,8 @@ namespace Dtos
             return new Measurement
             {
                 Id = dto.Id,
-                StudentId = dto.StudentId,
-                Student = dto.Student.ToModel(),
+                PersonId = dto.PersonId,
+                Person = dto.Person.ToModel(),
                 DateTime = dto.DateTime,
                 LessonId = dto.LessonId,
                 Lesson = dto.Lesson.ToModel(),
@@ -54,8 +54,8 @@ namespace Dtos
             return new MeasurementDto
             {
                 Id = model.Id,
-                StudentId = model.StudentId,
-                Student = model.Student.ToDto(),
+                PersonId = model.PersonId,
+                Person = model.Person.ToDto(),
                 DateTime = model.DateTime,
                 LessonId = model.LessonId,
                 Lesson = model.Lesson.ToDto(),
