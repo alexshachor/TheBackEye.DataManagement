@@ -5,6 +5,8 @@ namespace Model
     public class Lesson
     {
         public int Id { get; set; }
+        public Person Person { get; set; }
+        public int PersonId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Platform { get; set; }
@@ -16,8 +18,6 @@ namespace Model
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int MaxLate { get; set; }
-        public Grade Grade { get; set; }
-        public int ClassId { get; set; }
         public string ClassCode { get; set; }
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Model
 {
-    public class Teacher
+    public class StudentLesson
     {
         public int Id { get; set; }
-        public string Password { get; set; }
+        public Lesson Lesson { get; set; }
+        public int LessonId { get; set; }
         public Person Person { get; set; }
         public int PersonId { get; set; }
-        public School School { get; set; }
-        public int SchoolId { get; set; }
     }
 }

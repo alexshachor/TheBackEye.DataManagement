@@ -7,8 +7,8 @@ namespace Model
     public class Photo
     {
         public int Id { get; set; }
-        public Student Student { get; set; }
-        public int StudentId { get; set; }
+        public Person Person { get; set; }
+        public int PersonId { get; set; }
         public byte[] Data { get; set; }
     }
 }

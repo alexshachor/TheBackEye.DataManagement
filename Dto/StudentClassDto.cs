@@ -17,9 +17,9 @@ namespace Dtos
     }
     public static class StudentClassDtoExtension
     {
-        public static StudentClass ToModel(this StudentClassDto dto)
+        public static StudentLesson ToModel(this StudentClassDto dto)
         {
-            return new StudentClass
+            return new StudentLesson
             {
                 Id = dto.Id,
                 ClassId = dto.ClassId,
@@ -32,7 +32,7 @@ namespace Dtos
 
     public static class StudentClassExtension
     {
-        public static StudentClassDto ToDto(this StudentClass model)
+        public static StudentClassDto ToDto(this StudentLesson model)
         {
             return new StudentClassDto
             {
