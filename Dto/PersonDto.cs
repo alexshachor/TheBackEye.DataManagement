@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DataAccess.Model;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace Dtos
     public class PersonDto
     {
         public int Id { get; set; }
+        public string BirthId { get; set; }
+        public string Password { get; set; }
+        public PersonType Type { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -22,6 +26,9 @@ namespace Dtos
             return new Person
             {
                 Id = dto.Id,
+                BirthId = dto.BirthId,
+                Password = dto.Password,
+                Type = dto.Type,
                 Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
@@ -36,9 +43,12 @@ namespace Dtos
             return new PersonDto
             {
                 Id = model.Id,
+                BirthId = model.BirthId,
+                Password = model.Password,
+                Type = model.Type,
+                Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.Email,
                 Token = model.Token
             };
         }
