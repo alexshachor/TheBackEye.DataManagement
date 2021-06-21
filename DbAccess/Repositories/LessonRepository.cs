@@ -64,7 +64,7 @@ namespace DbAccess.Repositories
             try
             {
                 _context.Lessons.Remove(tmpLesson);
-                _context.StudentClasses.RemoveRange(_context.StudentClasses.Where(x => x.LessonId == tmpLesson.Id && x.PersonId == tmpLesson.PersonId));
+                _context.StudentLessons.RemoveRange(_context.StudentLessons.Where(x => x.LessonId == tmpLesson.Id && x.PersonId == tmpLesson.PersonId));
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
