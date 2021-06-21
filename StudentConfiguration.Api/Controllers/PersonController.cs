@@ -77,44 +77,44 @@ namespace StudentConfiguration.Api.Controllers
         }
 
         /// <summary>
-        /// Add a new student to DB
+        /// Add a new person to DB
         /// </summary>
-        /// <param name="studentDto">StudentDto object contains all of the student's personal details which will be added to DB</param>
-        /// <response code="200">StudentDto object contains all of the student's personal details from DB</response>
-        /// <response code="400">BadRequest - invalid values (Student or Person is null)</response>
+        /// <param name="personDto">PersonDto object contains all of the person's personal details which will be added to DB</param>
+        /// <response code="200">PersonDto object contains all of the person's personal details from DB</response>
+        /// <response code="400">BadRequest - invalid values (Person is null)</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpPost]
-        [ProducesResponseType(typeof(StudentDto), 200)]
+        [ProducesResponseType(typeof(PersonDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<StudentDto>> Post([FromBody] StudentDto studentDto)
+        public async Task<ActionResult<PersonDto>> Post([FromBody] PersonDto personDto)
         {
             //TODO: add validation for each filed
             //validate request
-            if (studentDto == null || studentDto.Person == null)
+            if (personDto == null)
             {
-                string msg = $"studentDto or personDto is null";
+                string msg = $"personDto is null";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
-                //add student to DB
-                var student = await _studentRepository.AddStudent(studentDto.ToModel());
-                if (student == null)
+                //add person to DB
+                var person = await _personRepository.AddPerson(personDto.ToModel());
+                if (person == null)
                 {
-                    string msg = $"cannot add student with birth id: {studentDto.BirthId} to DB";
+                    string msg = $"cannot add person to DB";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
                 else
                 {
-                    return Ok(student.ToDto());
+                    return Ok(person.ToDto());
                 }
             }
             catch (Exception e)
             {
-                string msg = $"cannot add student with birth id: {studentDto.BirthId} to DB. due to: {e}";
+                string msg = $"cannot add person to DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

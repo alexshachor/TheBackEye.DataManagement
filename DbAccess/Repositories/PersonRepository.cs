@@ -33,9 +33,38 @@ namespace DbAccess.Repositories
             }
         }
 
-        public Task<Person> AddPerson(Person person)
+        public async Task<Person> AddPerson(Person person)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var personFromDb = await GetPersonByEmailPasswordId(person.Email, person.Password, person.BirthId);
+                if (personFromDb == null)
+                {
+                    _context.Add(person);
+                    await _context.SaveChangesAsync();
+                    return person;
+                }
+                _logger.LogInformation($"Person with birth id: {personFromDb.BirthId} already exist");
+                return personFromDb;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot add preson to DB. due to: {e}");
+                return null;
+            }
+        }
+
+        private async Task<Person> GetPersonByEmailPasswordId(string email, string password, string birthId)
+        {
+            try
+            {
+                return await _context.Persons.Where(x => x.Email == email && x.Password == password && x.BirthId == birthId).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get person from DB. Due to: {e}");
+                return null;
+            }
         }
 
         public Task<Person> UpdatePerson(Person person)
