@@ -53,7 +53,7 @@ namespace StudentConfiguration.Api.Controllers
             }
             try
             {
-                //get student from DB
+                //get log from DB
                 var log = await _logRepository.GetLogById(logId);
                 if (log == null)
                 {
@@ -152,12 +152,12 @@ namespace StudentConfiguration.Api.Controllers
                 }
                 else
                 {
-                    return Ok(res);
+                    return Ok(true);
                 }
             }
             catch (Exception e)
             {
-                string msg = $"cannot remove the log with the Log Id: {logId} from DB";
+                string msg = $"cannot remove the log with the Log Id: {logId} from DB. Due to {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
