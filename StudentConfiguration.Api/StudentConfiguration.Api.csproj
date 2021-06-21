@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>.\TheBackEye.DataManagement\StudentConfiguration.Api\StudentConfiguration.Api.xml</DocumentationFile>
+    <DocumentationFile>.\StudentConfiguration.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
