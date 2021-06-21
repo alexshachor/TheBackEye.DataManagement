@@ -121,7 +121,7 @@ namespace StudentConfiguration.Api.Controllers
         /// <summary>
         /// Delete lessonDto object by the class code
         /// </summary>
-        /// <param name="classCode">The class code of the lesson</param>
+        /// <param name="lesson">The lesson we want to delete </param>
         /// <response code="200">bool true</response>
         /// <response code="400">BadRequest - invalid values (lower than 1)</response>
         /// <response code="404">NotFound - cannot find the lesson in DB</response>
@@ -130,22 +130,22 @@ namespace StudentConfiguration.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpDelete("{classCode}")]
-        public async Task<ActionResult<bool>> Delete(string classCode)
+        [HttpDelete("{lesson}")]
+        public async Task<ActionResult<bool>> Delete(LessonDto lesson)
         {
-            if (String.IsNullOrWhiteSpace(classCode))
+            if (lesson == null)
             {
-                string msg = $"classCode is null or empty";
+                string msg = $"lesson is null or empty";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
                 //remove lesson from DB
-                var lesson = await _lessonRepository.DeleteLessonByClassCode(classCode);
-                if (lesson == null)
+                var tmpLesson = await _lessonRepository.DeleteLesson(lesson.ToModel());
+                if (tmpLesson == null)
                 {
-                    string msg = $"cannot remove the lesson with the class code: {classCode} from DB";
+                    string msg = $"cannot remove the lesson with the class code: {tmpLesson.ClassCode} from DB";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
@@ -156,7 +156,7 @@ namespace StudentConfiguration.Api.Controllers
             }
             catch (Exception e)
             {
-                string msg = $"cannot remove the lesson with the class code: {classCode} from DB";
+                string msg = $"cannot remove the lesson with the class code: {lesson.ClassCode} from DB. Due to {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
