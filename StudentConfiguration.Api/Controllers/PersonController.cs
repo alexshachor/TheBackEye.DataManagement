@@ -120,16 +120,48 @@ namespace StudentConfiguration.Api.Controllers
             }
         }
 
-        // PUT api/<StudentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// Change Person in the DB
+        /// </summary>
+        /// <param name="personDto">PersonDto object contains all of the new person's details</param>
+        /// <response code="200">PersonDto object contains all of the details from DB</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpPut]
+        [ProducesResponseType(typeof(PersonDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<PersonDto>> Put([FromBody] PersonDto personDto)
         {
-        }
-
-        // DELETE api/<StudentController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            //TODO: add validation for each filed
+            //validate request
+            if (personDto == null)
+            {
+                string msg = $"personDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //change person DB
+                var person = await _personRepository.UpdatePerson(personDto.ToModel());
+                if (person == null)
+                {
+                    string msg = $"cannot change the person with person id: {personDto.Id}";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(person.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot change the person with person id: {personDto.Id}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
     }
 }

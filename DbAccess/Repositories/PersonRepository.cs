@@ -67,9 +67,20 @@ namespace DbAccess.Repositories
             }
         }
 
-        public Task<Person> UpdatePerson(Person person)
+        public async Task<Person> UpdatePerson(Person person)
         {
-            throw new NotImplementedException();
+            _context.Entry(person).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return person;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot update person in DB. person id: {person.Id}. due to: {e}");
+                return null;
+            }
         }
     }
 }
