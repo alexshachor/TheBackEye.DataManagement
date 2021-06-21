@@ -161,5 +161,49 @@ namespace StudentConfiguration.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+
+        /// <summary>
+        /// Change lesson in the DB
+        /// </summary>
+        /// <param name="lessonDto">LessonDto object contains all of the new lesson's details</param>
+        /// <response code="200">LessonDto object contains all of the details from DB</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpPut]
+        [ProducesResponseType(typeof(LessonDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<LessonDto>> Put([FromBody] LessonDto lessonDto)
+        {
+            //TODO: add validation for each filed
+            //validate request
+            if (lessonDto == null)
+            {
+                string msg = $"lessonDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //add student to DB
+                var lesson = await _lessonRepository.UpdateLesson(lessonDto.ToModel());
+                if (lesson == null)
+                {
+                    string msg = $"cannot change the lesson with lesson id: {lessonDto.Id}";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(lesson.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot change the lesson with lesson id: {lessonDto.Id}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
     }
 }

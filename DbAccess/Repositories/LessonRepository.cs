@@ -73,5 +73,21 @@ namespace DbAccess.Repositories
             }
             return lesson;
         }
+
+        public async Task<Lesson> UpdateLesson(Lesson lesson)
+        {
+            _context.Entry(lesson).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return lesson;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot update lesson in DB. lesson id: {lesson.Id}. due to: {e}");
+                return null;
+            }
+        }
     }
 }

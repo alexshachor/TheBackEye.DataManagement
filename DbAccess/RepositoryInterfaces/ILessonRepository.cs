@@ -12,5 +12,6 @@ namespace DbAccess.RepositoryInterfaces
         public Task<Lesson> GetLesson(string classCode);
         public Task<Lesson> AddLesson(Lesson lesson);
         public Task<Lesson> DeleteLesson(Lesson lesson);
+        public Task<Lesson> UpdateLesson(Lesson lesson);
     }
 }
