@@ -54,24 +54,23 @@ namespace DbAccess.Repositories
             }
         }
 
-        public async Task<Lesson> DeleteLesson(Lesson lesson)
+        public async Task<StudentLesson> DeleteStudentLesson(StudentLesson studentLesson)
         {
-            var tmpLesson = await GetLesson(lesson.ClassCode);
-            if (tmpLesson == null)
+            var tmpStudentLesson = await GetStudentLesson(studentLesson.LessonId, studentLesson.PersonId);
+            if (tmpStudentLesson == null)
             {
                 return null;
             }
             try
             {
-                _context.Lessons.Remove(tmpLesson);
-                _context.StudentClasses.RemoveRange(_context.StudentClasses.Where(x => x.LessonId == tmpLesson.Id && x.PersonId == tmpLesson.PersonId));
+                _context.StudentLessons.Remove(tmpStudentLesson);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError($"Cannot delete lesson from DB. class code: {tmpLesson.ClassCode}. due to: {e}");
+                _logger.LogError($"Cannot delete student lesson from DB. person id: {tmpStudentLesson.PersonId}. due to: {e}");
             }
-            return lesson;
+            return studentLesson;
         }
     }
 }

@@ -74,88 +74,44 @@ namespace StudentConfiguration.Api.Controllers
         }
 
         /// <summary>
-        /// Delete lessonDto object by the class code
+        /// Delete StudentLessonDto object by StudentLessonDto
         /// </summary>
-        /// <param name="lesson">The lesson we want to delete </param>
+        /// <param name="studentLesson">The student Lesson we want to delete </param>
         /// <response code="200">bool true</response>
         /// <response code="400">BadRequest - invalid values (lower than 1)</response>
-        /// <response code="404">NotFound - cannot find the lesson in DB</response>
+        /// <response code="404">NotFound - cannot find the student Lesson in DB</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpDelete("{lesson}")]
-        public async Task<ActionResult<bool>> Delete(LessonDto lesson)
+        [HttpDelete("{studentLesson}")]
+        public async Task<ActionResult<bool>> Delete(StudentLessonDto studentLesson)
         {
-            if (lesson == null)
+            if (studentLesson == null)
             {
-                string msg = $"lesson is null or empty";
+                string msg = $"student Lesson is null or empty";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
-                //remove lesson from DB
-                var tmpLesson = await _lessonRepository.DeleteLesson(lesson.ToModel());
-                if (tmpLesson == null)
+                //remove student Lesson from DB
+                var tmpStudentLesson = await _studentLessonRepository.DeleteStudentLesson(studentLesson.ToModel());
+                if (tmpStudentLesson == null)
                 {
-                    string msg = $"cannot remove the lesson with the class code: {tmpLesson.ClassCode} from DB";
+                    string msg = $"cannot remove the student lesson with the lesson id: {tmpStudentLesson.LessonId} from DB";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
                 else
                 {
-                    return Ok(lesson);
+                    return Ok(true);
                 }
             }
             catch (Exception e)
             {
-                string msg = $"cannot remove the lesson with the class code: {lesson.ClassCode} from DB. Due to {e}";
-                _logger.LogError(msg);
-                return StatusCode(StatusCodes.Status500InternalServerError, msg);
-            }
-        }
-
-        /// <summary>
-        /// Change lesson in the DB
-        /// </summary>
-        /// <param name="lessonDto">LessonDto object contains all of the new lesson's details</param>
-        /// <response code="200">LessonDto object contains all of the details from DB</response>
-        /// <response code="400">BadRequest - invalid values</response>
-        /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPut]
-        [ProducesResponseType(typeof(LessonDto), 200)]
-        [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult<LessonDto>> Put([FromBody] LessonDto lessonDto)
-        {
-            //TODO: add validation for each filed
-            //validate request
-            if (lessonDto == null)
-            {
-                string msg = $"lessonDto is null";
-                _logger.LogError(msg);
-                return BadRequest(msg);
-            }
-            try
-            {
-                //add student to DB
-                var lesson = await _lessonRepository.UpdateLesson(lessonDto.ToModel());
-                if (lesson == null)
-                {
-                    string msg = $"cannot change the lesson with lesson id: {lessonDto.Id}";
-                    _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
-                }
-                else
-                {
-                    return Ok(lesson.ToDto());
-                }
-            }
-            catch (Exception e)
-            {
-                string msg = $"cannot change the lesson with lesson id: {lessonDto.Id}. due to: {e}";
+                string msg = $"cannot remove the student lesson with the lesson id: {studentLesson.LessonId} from DB. Due to {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

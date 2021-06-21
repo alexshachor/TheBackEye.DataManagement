@@ -151,7 +151,7 @@ namespace StudentConfiguration.Api.Controllers
                 }
                 else
                 {
-                    return Ok(lesson);
+                    return Ok(true);
                 }
             }
             catch (Exception e)
