@@ -15,15 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess", "DbAccess\DbAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess.Tests", "DbAccess.Tests\DbAccess.Tests.csproj", "{03D6009D-496D-44D4-A8DE-D134EE10AD54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api", "StudentConfiguration.Api\StudentConfiguration.Api.csproj", "{97148486-D304-4F95-B7BE-8AB6251ECCE3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentConfiguration.Api.Tests", "StudentConfiguration.Api.Tests\StudentConfiguration.Api.Tests.csproj", "{A992A577-548F-481A-AC7C-96FC694D1442}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseCreator", "DataBaseCreator\DataBaseCreator.csproj", "{5F8A0901-D7F6-481B-B1E0-0633E30CB854}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagement.Api", "DataManagement.Api\DataManagement.Api.csproj", "{A765A458-C9DC-412B-8555-FDD7E0E998A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManagement.Api", "DataManagement.Api\DataManagement.Api.csproj", "{A765A458-C9DC-412B-8555-FDD7E0E998A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagement.Api.Tests", "DataManagement.Api.Tests\DataManagement.Api.Tests.csproj", "{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManagement.Api.Tests", "DataManagement.Api.Tests\DataManagement.Api.Tests.csproj", "{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,14 +51,6 @@ Global
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97148486-D304-4F95-B7BE-8AB6251ECCE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A992A577-548F-481A-AC7C-96FC694D1442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A992A577-548F-481A-AC7C-96FC694D1442}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A992A577-548F-481A-AC7C-96FC694D1442}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A992A577-548F-481A-AC7C-96FC694D1442}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Release|Any CPU.ActiveCfg = Release|Any CPU
