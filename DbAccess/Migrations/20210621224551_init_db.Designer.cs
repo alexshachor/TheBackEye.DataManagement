@@ -3,14 +3,16 @@ using System;
 using DbAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DbAccess.Migrations
 {
     [DbContext(typeof(BackEyeContext))]
-    partial class BackEyeContextModelSnapshot : ModelSnapshot
+    [Migration("20210621224551_init_db")]
+    partial class init_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
