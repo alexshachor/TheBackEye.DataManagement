@@ -72,5 +72,27 @@ namespace DbAccess.Repositories
             }
             return studentLesson;
         }
+
+        public async Task<List<Person>> GetStudentsByLessonId(int lessonId)
+        {
+            List<Person> students = new List<Person>();
+            try
+            {
+                var studentIds = await _context.StudentLessons.Where(x=>x.LessonId == lessonId).Select(x=>x.PersonId).ToListAsync();
+                foreach (var studentId in studentIds)
+                {
+                    var student = await _context.Persons.Where(x=>x.Id == studentId).FirstOrDefaultAsync();
+                    if (student != null)
+                    {
+                        students.Add(student);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get students of lesson from DB. lesson id: {lessonId}. due to: {e}");
+            }
+            return students;
+        }
     }
 }

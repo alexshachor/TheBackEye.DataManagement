@@ -52,5 +52,12 @@ namespace Dtos
                 Token = model.Token
             };
         }
+
+        public static List<PersonDto> ToDto(this List<Person> model)
+        {
+            List<PersonDto> persons = new List<PersonDto>();
+            model.ForEach(x=>persons.Add(x.ToDto()));
+            return persons;
+        }
     }
 }

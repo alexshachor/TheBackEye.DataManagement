@@ -9,6 +9,7 @@ namespace DbAccess.RepositoryInterfaces
 {
     public interface IStudentLessonRepository
     {
+        public Task<List<Person>> GetStudentsByLessonId(int lessonId);
         public Task<StudentLesson> AddStudentLesson(StudentLesson studentLesson);
         public Task<StudentLesson> DeleteStudentLesson(StudentLesson studentLesson);
     }
