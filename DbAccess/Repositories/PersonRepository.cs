@@ -20,15 +20,28 @@ namespace DbAccess.Repositories
             _logger = logger;
         }
 
+        public async Task<Person> GetPersonByEmailPassword(string email, string password)
+        {
+            try
+            {
+                return await _context.Persons.Where(x => x.Email == email && x.Password == password && x.Type == DataAccess.Model.PersonType.Teacher).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get teacher from DB. person email: {email}. person password: {password}. due to: {e}");
+                return null;
+            }
+        }
+
         public async Task<Person> GetPersonByPassword(string password)
         {
             try
             {
-                return await _context.Persons.Where(x => x.Password == password).FirstOrDefaultAsync();
+                return await _context.Persons.Where(x => x.Password == password && x.Type == DataAccess.Model.PersonType.Student).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError($"Cannot get person from DB. person password: {password}. due to: {e}");
+                _logger.LogError($"Cannot get student from DB. person password: {password}. due to: {e}");
                 return null;
             }
         }

@@ -110,6 +110,17 @@
             <response code="404">NotFound - cannot find the person in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:DataManagement.Api.Controllers.PersonController.Get(System.String,System.String)">
+            <summary>
+            Get PersonDto object (represents the teacher) by the person email and password
+            </summary>
+            <param name="email">The email of the person (teacher)</param>
+            <param name="password">The password of the person (teacher)</param>
+            <response code="200">PersonDto object contains all of the person's personal details</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the person in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="M:DataManagement.Api.Controllers.PersonController.Post(Dtos.PersonDto)">
             <summary>
             Add a new person to DB

@@ -77,6 +77,53 @@ namespace DataManagement.Api.Controllers
         }
 
         /// <summary>
+        /// Get PersonDto object (represents the teacher) by the person email and password
+        /// </summary>
+        /// <param name="email">The email of the person (teacher)</param>
+        /// <param name="password">The password of the person (teacher)</param>
+        /// <response code="200">PersonDto object contains all of the person's personal details</response>
+        /// <response code="400">BadRequest - invalid values (lower than 1)</response>
+        /// <response code="404">NotFound - cannot find the person in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(PersonDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        [HttpGet("{email}/{password}")]
+        public async Task<ActionResult<PersonDto>> Get(string email, string password)
+        {
+            //validate request
+            if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
+            {
+                string msg = $"email: {email} or password: {password} must not be null or empty";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get person from DB
+                var person = await _personRepository.GetPersonByEmailPassword(email,password);
+                if (person == null)
+                {
+                    string msg = $"person with email: {email} and password: {password} not found in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(person.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get person with email: {email} and password: {password}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+
+        }
+
+        /// <summary>
         /// Add a new person to DB
         /// </summary>
         /// <param name="personDto">PersonDto object contains all of the person's personal details which will be added to DB</param>
