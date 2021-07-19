@@ -106,7 +106,7 @@ namespace DataManagement.Api.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
                 else
-                {
+                {                  
                     return Ok(lesson.ToDto());
                 }
             }

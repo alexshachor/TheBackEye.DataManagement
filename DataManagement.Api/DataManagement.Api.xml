@@ -144,6 +144,15 @@
             StudentLessonController is responsible for all the student leasson's CRUD operations using API calls 
             </summary>
         </member>
+        <member name="M:DataManagement.Api.Controllers.StudentLessonController.Get(System.Int32)">
+            <summary>
+            Get all the students participating in a given lesson id
+            </summary>
+            <param name="lessonId">Id of the lesson</param>
+            <response code="200">List of personDto object (contains all of the details from DB) which are in the lesson</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="M:DataManagement.Api.Controllers.StudentLessonController.Post(Dtos.StudentLessonDto)">
             <summary>
             Add a new lesson to DB

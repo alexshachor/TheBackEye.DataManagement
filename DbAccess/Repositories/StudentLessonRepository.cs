@@ -24,7 +24,7 @@ namespace DbAccess.Repositories
         {
             try
             {
-                return await _context.StudentLessons.Where(x => x.LessonId == lessonId && x.PersonId == personId).FirstOrDefaultAsync();
+                return await _context.StudentLessons.Where(x => x.LessonId == lessonId && x.PersonId == personId).Include(x=>x.Lesson).Include(x=>x.Person).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -40,11 +40,16 @@ namespace DbAccess.Repositories
                 var studentLessonFromDb = await GetStudentLesson(studentLesson.LessonId, studentLesson.PersonId);
                 if (studentLessonFromDb == null)
                 {
+                    studentLesson.Person = null;
+                    studentLesson.Lesson = null;
                     _context.Add(studentLesson);
                     await _context.SaveChangesAsync();
-                    return studentLesson;
+                    return await GetStudentLesson(studentLesson.LessonId,studentLesson.PersonId);
                 }
-                _logger.LogInformation($"Student Lesson with Lesson Id: {studentLessonFromDb.LessonId} already exist");
+                else
+                {
+                    _logger.LogInformation($"Student Lesson with Lesson Id: {studentLessonFromDb.LessonId} already exist");
+                }
                 return studentLessonFromDb;
             }
             catch (Exception e)
