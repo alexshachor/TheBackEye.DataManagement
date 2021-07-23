@@ -37,6 +37,7 @@ namespace DbAccess.Repositories
         {
             try
             {
+                //TODO: we might need to comment it in order to improve performance
                 var measurementFromDb = await GetMeasurement(measurement.LessonId, measurement.PersonId, measurement.DateTime);
                 if (measurementFromDb == null)
                 {
