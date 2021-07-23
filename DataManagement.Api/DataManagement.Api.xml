@@ -159,7 +159,7 @@
             </summary>
             <param name="studentLessonDto">StudentLessonDto object contains all of the student lesson's details which will be added to DB</param>
             <response code="200">StudentLessonDto object contains all of the details from DB</response>
-            <response code="400">BadRequest - invalid values</response>
+            <response code="400">BadRequest - null object or invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="M:DataManagement.Api.Controllers.StudentLessonController.Delete(Dtos.StudentLessonDto)">

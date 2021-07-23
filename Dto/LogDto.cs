@@ -24,7 +24,7 @@ namespace Dtos
                 Id = dto.Id,
                 CreationDate = dto.CreationDate,
                 Data = dto.Data,
-                Person = dto.Person.ToModel(),
+                Person = dto.Person?.ToModel(),
                 PersonId = dto.PersonId
             };
         }
@@ -39,7 +39,7 @@ namespace Dtos
                 Id = model.Id,
                 CreationDate = model.CreationDate,
                 Data = model.Data,
-                Person = model.Person.ToDto(),
+                Person = model.Person?.ToDto(),
                 PersonId = model.PersonId
             };
         }

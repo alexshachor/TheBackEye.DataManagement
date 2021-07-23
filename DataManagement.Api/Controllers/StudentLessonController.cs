@@ -77,7 +77,7 @@ namespace DataManagement.Api.Controllers
         /// </summary>
         /// <param name="studentLessonDto">StudentLessonDto object contains all of the student lesson's details which will be added to DB</param>
         /// <response code="200">StudentLessonDto object contains all of the details from DB</response>
-        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="400">BadRequest - null object or invalid values</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpPost]
         [ProducesResponseType(typeof(StudentLessonDto), 200)]
@@ -85,11 +85,17 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<StudentLessonDto>> Post([FromBody] StudentLessonDto studentLessonDto)
         {
-            //TODO: add validation for each filed
             //validate request
             if (studentLessonDto == null)
             {
                 string msg = $"studentLessonDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            if (studentLessonDto.LessonId < 0 || studentLessonDto.PersonId < 0)
+            {
+                string msg = $"lesson id: {studentLessonDto.LessonId} is invalid or" +
+                    $" student id: {studentLessonDto.LessonId} is invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }

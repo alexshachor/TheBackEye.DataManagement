@@ -23,9 +23,9 @@ namespace Dtos
             return new StudentLesson
             {
                 Id = dto.Id,
-                Lesson = dto.Lesson.ToModel(),
+                Lesson = dto.Lesson?.ToModel(),
                 LessonId = dto.LessonId,
-                Person = dto.Person.ToModel(),
+                Person = dto.Person?.ToModel(),
                 PersonId = dto.PersonId
             };
         }
@@ -38,9 +38,9 @@ namespace Dtos
             return new StudentLessonDto
             {
                 Id = model.Id,
-                Lesson = model.Lesson.ToDto(),
+                Lesson = model.Lesson?.ToDto(),
                 LessonId = model.LessonId,
-                Person = model.Person.ToDto(),
+                Person = model.Person?.ToDto(),
                 PersonId = model.PersonId
             };
         }
