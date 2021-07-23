@@ -34,8 +34,8 @@ namespace DataManagement.Api.Controllers
         /// </summary>
         /// <param name="classCode">The class code string</param>
         /// <response code="200">LessonDto object contains all of the lesson details</response>
-        /// <response code="400">BadRequest - invalid values (lower than 1)</response>
-        /// <response code="404">NotFound - cannot find the student in DB</response>
+        /// <response code="400">BadRequest - invalid values (null or empty class code)</response>
+        /// <response code="404">NotFound - cannot find the lesson in DB</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
         [ProducesResponseType(typeof(LessonDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
@@ -69,6 +69,51 @@ namespace DataManagement.Api.Controllers
             catch (Exception e)
             {
                 string msg = $"cannot get lesson with the class code: {classCode}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        /// <summary>
+        /// Get list of LessonDto object related to teacher by the given teacher id
+        /// </summary>
+        /// <param name="teacherId">The id of the teacher</param>
+        /// <response code="200">List of LessonDto object, each one contains all of the lesson details</response>
+        /// <response code="400">BadRequest - invalid values (lower than 1)</response>
+        /// <response code="404">NotFound - cannot find the related lessons in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(List<LessonDto>), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        [HttpGet("AllLessons/{teacherId}")]
+        public async Task<ActionResult<LessonDto>> Get(int teacherId)
+        {
+            //validate request
+            if (teacherId < 0)
+            {
+                string msg = $"teacher id: {teacherId} is invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get lessons from DB
+                var lessons = await _lessonRepository.GetLessonsByTeacherId(teacherId);
+                if (lessons == null)
+                {
+                    string msg = $"lessons with teacher id: {teacherId} not found in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(lessons.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get lessons related to teacher id: {teacherId}. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

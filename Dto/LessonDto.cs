@@ -74,5 +74,12 @@ namespace Dtos
                 Platform = model.Platform
             };
         }
+
+        public static List<LessonDto> ToDto(this List<Lesson> model)
+        {
+            List<LessonDto> lessons = new List<LessonDto>();
+            model.ForEach(x => lessons.Add(x.ToDto()));
+            return lessons;
+        }
     }
 }

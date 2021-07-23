@@ -15,8 +15,18 @@
             </summary>
             <param name="classCode">The class code string</param>
             <response code="200">LessonDto object contains all of the lesson details</response>
+            <response code="400">BadRequest - invalid values (null or empty class code)</response>
+            <response code="404">NotFound - cannot find the lesson in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.LessonController.Get(System.Int32)">
+            <summary>
+            Get list of LessonDto object related to teacher by the given teacher id
+            </summary>
+            <param name="teacherId">The id of the teacher</param>
+            <response code="200">List of LessonDto object, each one contains all of the lesson details</response>
             <response code="400">BadRequest - invalid values (lower than 1)</response>
-            <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="404">NotFound - cannot find the related lessons in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="M:DataManagement.Api.Controllers.LessonController.Post(Dtos.LessonDto)">

@@ -20,6 +20,7 @@ namespace DbAccess.Repositories
             _logger = logger;
         }
 
+
         public async Task<Lesson> GetLesson(string classCode)
         {
             try
@@ -29,6 +30,24 @@ namespace DbAccess.Repositories
             catch (Exception e)
             {
                 _logger.LogError($"Cannot get lesson from DB. class code: {classCode}. due to: {e}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// get all the lessons related to a given teacher
+        /// </summary>
+        /// <param name="teacherId">person id represents the teacher</param>
+        /// <returns>list of lesson object all related to the teacher</returns>
+        public async Task<List<Lesson>> GetLessonsByTeacherId(int teacherId)
+        {
+            try
+            {
+                return await _context.Lessons.Where(x => x.PersonId == teacherId).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get lessons from DB. teacher id: {teacherId}. due to: {e}");
                 return null;
             }
         }
