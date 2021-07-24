@@ -27,25 +27,12 @@ namespace DbAccess.Repositories
             _personRepository = personRepository;
         }
 
-        public async Task<Measurement> GetMeasurement(int lessonId, int personId, DateTime dateTime)
-        {
-            try
-            {
-                return await _context.Measurements.Where(x => x.LessonId == lessonId && x.PersonId == personId && x.DateTime == dateTime).FirstOrDefaultAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Cannot get measurement from DB due to: {e}");
-                return null;
-            }
-        }
-
         public async Task<Measurement> AddMeasurement(Measurement measurement)
         {
             try
             {
                 //TODO: we might need to comment it in order to improve performance
-                var measurementFromDb = await GetMeasurement(measurement.LessonId, measurement.PersonId, measurement.DateTime);
+                var measurementFromDb = await GetMeasurement(measurement.Id);
                 if (measurementFromDb == null)
                 {
                     _context.Add(measurement);
@@ -93,8 +80,8 @@ namespace DbAccess.Repositories
                     var firstMeasurement = await _context.Measurements.Where(m => m.LessonId == lessonId &&
                     m.PersonId == student.Id &&
                    (m.DateTime >= lessonTime && m.DateTime <= maxLateDateTime)).FirstOrDefaultAsync();
-                    attendanceList.Add((student,firstMeasurement?.DateTime));
-                }           
+                    attendanceList.Add((student, firstMeasurement?.DateTime));
+                }
             }
             catch (Exception e)
             {
@@ -105,7 +92,7 @@ namespace DbAccess.Repositories
         }
 
         /// <summary>
-        /// Get all the measurements collected for a specfic student and lesson
+        /// Get all the measurements collected for a specific student and lesson
         /// </summary>
         /// <param name="lessonId">id of requested lesson</param>
         /// <param name="personId">id of the requested student</param>
@@ -158,7 +145,7 @@ namespace DbAccess.Repositories
                 //for each student get its all measurements of lesson
                 foreach (var student in students)
                 {
-                    var studentMeasurements = await GetStudentMeasurements(lessonId,student.Id,lessonTime);
+                    var studentMeasurements = await GetStudentMeasurements(lessonId, student.Id, lessonTime);
                     if (studentMeasurements != null)
                     {
                         measurements.AddRange(studentMeasurements);
@@ -171,6 +158,79 @@ namespace DbAccess.Repositories
             }
 
             return measurements;
+        }
+
+        public async Task<Measurement> GetMeasurement(int measurementId)
+        {
+            try
+            {
+                return await _context.Measurements.Where(x => x.Id == measurementId).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get measurement from DB due to: {e}");
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteMeasurement(int measurementId)
+        {
+            try
+            {
+                var measurement = await GetMeasurement(measurementId);
+                if (measurement == null)
+                {
+                    throw new Exception($"Measurement with id: {measurementId} not found in DB");
+                }
+                _context.Measurements.Remove(measurement);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete measurement with id: {measurementId} from DB due to: {e}");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAllStudentMeasurement(int personId)
+        {
+            try
+            {
+                var allPersonMeasurement = await _context.Measurements.Where(m => m.PersonId == personId).ToListAsync();
+                if (allPersonMeasurement == null)
+                {
+                    throw new Exception($"Measurement of person with id: {personId} not found in DB");
+                }
+                allPersonMeasurement.ForEach(m => _context.Measurements.Remove(m));
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete measurement of person with id: {personId} from DB due to: {e}");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteStudentLessonMeasurement(int lessonId, int personId)
+        {
+            try
+            {
+                var allPersonLessonMeasurement = await _context.Measurements.Where(m => m.LessonId == lessonId && m.PersonId == personId).ToListAsync();
+                if (allPersonLessonMeasurement == null)
+                {
+                    throw new Exception($"Measurement of lesson id: {lessonId} and person with id: {personId} not found in DB");
+                }
+                allPersonLessonMeasurement.ForEach(m => _context.Measurements.Remove(m));
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete measurement of lesson id: {lessonId} and person with id: {personId} from DB due to: {e}");
+                return false;
+            }
         }
     }
 }

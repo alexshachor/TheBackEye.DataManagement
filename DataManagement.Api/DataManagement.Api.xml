@@ -139,6 +139,16 @@
             <response code="404">NotFound - cannot find the student or any measurements in the lesson</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.Delete(System.Int32)">
+            <summary>
+            Delete measurement from DB
+            </summary>
+            <param name="measurementId">id of the requested measurement</param>
+            <response code="200">true - deletion was success</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the measurement in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="T:DataManagement.Api.Controllers.PersonController">
             <summary>
             PersonController is responsible for all the Person's CRUD operations using API calls 

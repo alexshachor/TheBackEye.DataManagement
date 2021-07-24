@@ -215,5 +215,49 @@ namespace DataManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+
+        /// <summary>
+        /// Delete measurement from DB
+        /// </summary>
+        /// <param name="measurementId">id of the requested measurement</param>
+        /// <response code="200">true - deletion was success</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="404">NotFound - cannot find the measurement in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpDelete("{measurementId}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<bool>> Delete(int measurementId)
+        {
+            //validate request
+            if (measurementId < 0 )
+            {
+                string msg = $"measurement id: {measurementId} is invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //delete measurement from DB
+                var result = await _measurementRepository.DeleteMeasurement(measurementId);
+                if (!result)
+                {
+                    string msg = $"cannot find measurement in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(true);
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot delete measurement  from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
     }
 }
