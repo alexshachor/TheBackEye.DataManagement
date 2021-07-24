@@ -198,7 +198,7 @@ namespace DbAccess.Repositories
             try
             {
                 var allPersonMeasurement = await _context.Measurements.Where(m => m.PersonId == personId).ToListAsync();
-                if (allPersonMeasurement == null)
+                if (allPersonMeasurement == null || allPersonMeasurement.Count == 0)
                 {
                     throw new Exception($"Measurement of person with id: {personId} not found in DB");
                 }
@@ -218,7 +218,7 @@ namespace DbAccess.Repositories
             try
             {
                 var allPersonLessonMeasurement = await _context.Measurements.Where(m => m.LessonId == lessonId && m.PersonId == personId).ToListAsync();
-                if (allPersonLessonMeasurement == null)
+                if (allPersonLessonMeasurement == null || allPersonLessonMeasurement.Count == 0)
                 {
                     throw new Exception($"Measurement of lesson id: {lessonId} and person with id: {personId} not found in DB");
                 }

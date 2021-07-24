@@ -99,5 +99,26 @@ namespace DbAccess.Repositories
             }
             return students;
         }
+
+        public async Task<bool> DeleteAllStudentLessons(int personId)
+        {
+            try
+            {
+                var studentlessons = await _context.StudentLessons.Where(sl => sl.PersonId == personId).ToListAsync();
+
+                if (studentlessons == null || studentlessons.Count == 0)
+                {
+                    throw new Exception($"Measurement of person id: {personId} not found in DB");
+                }
+                studentlessons.ForEach(sl => _context.StudentLessons.Remove(sl));
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete student lessons from DB. person id: {personId}. due to: {e}");
+            }
+            return false;
+        }
     }
 }
