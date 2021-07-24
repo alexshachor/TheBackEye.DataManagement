@@ -72,5 +72,56 @@ namespace DataManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+
+        /// <summary>
+        /// Get list of students attendance in specfic lesson in specific time
+        /// </summary>
+        /// <param name="lessonId">id of the requested lesson</param>
+        /// <param name="lessonTime">time of the requested lesson</param>
+        /// <response code="200">List of StudentAttendanceDto, each contains person details and its time entrance to the lesson</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="404">NotFound - cannot find the lesson or any students in the lesson</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpGet("{lessonId}/{lessonTime}")]
+        [ProducesResponseType(typeof(List<StudentAttendanceDto>), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<List<StudentAttendanceDto>>> Get(int lessonId, DateTime lessonTime)
+        {
+            //validate request
+            if (lessonId < 0 || lessonTime == DateTime.MinValue)
+            {
+                string msg = $"lesson id: {lessonId} or lesson time: {lessonTime} are invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //add measurement to DB
+                var attendanceList = await _measurementRepository.GetAttendance(lessonId,lessonTime);
+                if (attendanceList == null)
+                {
+                    string msg = $"attendane list is null - cannot get attendance list from DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    var studentsAttendance = new List<StudentAttendanceDto>();
+                    attendanceList.ForEach(x => studentsAttendance.Add(new StudentAttendanceDto {
+                    Person = x.Item1.ToDto(),
+                    EntranceTime = x.Item2
+                    }));
+                    return Ok(studentsAttendance);
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get attendance list from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
     }
 }

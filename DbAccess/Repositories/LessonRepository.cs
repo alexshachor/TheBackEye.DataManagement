@@ -112,5 +112,18 @@ namespace DbAccess.Repositories
                 return null;
             }
         }
+
+        public async Task<Lesson> GetLesson(int lessonId)
+        {
+            try
+            {
+                return await _context.Lessons.Where(x => x.Id == lessonId).Include(x => x.Person).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get lesson from DB. lesson id: {lessonId}. due to: {e}");
+                return null;
+            }
+        }
     }
 }

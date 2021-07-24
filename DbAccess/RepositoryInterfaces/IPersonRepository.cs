@@ -9,6 +9,7 @@ namespace DbAccess.RepositoryInterfaces
 {
     public interface IPersonRepository
     {
+        public Task<Person> GetPerson(int personId);
         public Task<Person> GetPersonByPassword(string password);
         public Task<Person> GetPersonByEmailPassword(string email, string password);
         public Task<Person> AddPerson(Person person);

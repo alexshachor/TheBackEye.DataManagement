@@ -10,6 +10,8 @@ namespace DbAccess.RepositoryInterfaces
     public interface ILessonRepository
     {
         public Task<Lesson> GetLesson(string classCode);
+
+        public Task<Lesson> GetLesson(int lessonId);
         public Task<List<Lesson>> GetLessonsByTeacherId(int teacherId);
         public Task<Lesson> AddLesson(Lesson lesson);
         public Task<Lesson> DeleteLesson(Lesson lesson);

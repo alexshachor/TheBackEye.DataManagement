@@ -95,5 +95,18 @@ namespace DbAccess.Repositories
                 return null;
             }
         }
+
+        public async Task<Person> GetPerson(int personId)
+        {
+            try
+            {
+                return await _context.Persons.Where(x => x.Id == personId).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get erson from DB. person id: {personId}. due to: {e}");
+                return null;
+            }
+        }
     }
 }
