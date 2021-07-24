@@ -74,43 +74,47 @@ namespace DataManagement.Api.Controllers
 
 
         /// <summary>
-        /// Add a new Measurement to DB
+        /// Add a list of new Measurements to DB
         /// </summary>
-        /// <param name="measurementDto">MeasurementDto object contains all of the Measurement's details which will be added to DB</param>
-        /// <response code="200">MeasurementDto object contains all of the details from DB</response>
+        /// <param name="measurements">List of MeasurementDto objects, each contains all of the Measurement's details which will be added to DB</param>
+        /// <response code="200">List of added MeasurementDto objects, each contains all of the Measurement's details added to DB</response>
         /// <response code="400">BadRequest - invalid values</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
         [HttpPost]
         [ProducesResponseType(typeof(MeasurementDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<MeasurementDto>> PostMeasurements([FromBody] List<MeasurementDto> measurementDto)
+        public async Task<ActionResult<MeasurementDto>> PostMeasurements([FromBody] List<MeasurementDto> measurements)
         {
             //validate request
-            if (measurementDto == null)
+            if (measurements == null || measurements.Count == 0)
             {
-                string msg = $"measurementDto is null";
+                string msg = $"measurements is null or empty";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
-                //add measurement to DB
-                var measurement = await _measurementRepository.AddMeasurement(measurementDto.ToModel());
-                if (measurement == null)
+                var allAddedMeasurement = new List<MeasurementDto>();
+                //add measurements to DB
+                foreach (var measurement in measurements)
                 {
-                    string msg = $"cannot add measurement to DB";
-                    _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    var addedMeasurement = await _measurementRepository.AddMeasurement(measurement.ToModel());
+                    if (addedMeasurement != null)
+                    {
+                        allAddedMeasurement.Add(addedMeasurement.ToDto());
+                    }
                 }
-                else
+                if (allAddedMeasurement.Count < measurements.Count)
                 {
-                    return Ok(measurement.ToDto());
+                    throw new Exception($"Not all measurements were added. measurements to add: {measurements.Count}. measurements added: {allAddedMeasurement.Count}");
                 }
+
+                return Ok(allAddedMeasurement);
             }
             catch (Exception e)
             {
-                string msg = $"cannot add measurement to DB. due to: {e}";
+                string msg = $"cannot add measurements to DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
@@ -142,7 +146,7 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //add measurement to DB
-                var attendanceList = await _measurementRepository.GetAttendance(lessonId,lessonTime);
+                var attendanceList = await _measurementRepository.GetAttendance(lessonId, lessonTime);
                 if (attendanceList == null)
                 {
                     string msg = $"attendane list is null - cannot get attendance list from DB";
@@ -152,9 +156,10 @@ namespace DataManagement.Api.Controllers
                 else
                 {
                     var studentsAttendance = new List<StudentAttendanceDto>();
-                    attendanceList.ForEach(x => studentsAttendance.Add(new StudentAttendanceDto {
-                    Person = x.Item1.ToDto(),
-                    EntranceTime = x.Item2
+                    attendanceList.ForEach(x => studentsAttendance.Add(new StudentAttendanceDto
+                    {
+                        Person = x.Item1.ToDto(),
+                        EntranceTime = x.Item2
                     }));
                     return Ok(studentsAttendance);
                 }
@@ -194,7 +199,7 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //get student measurement from DB
-                var measurement = await _measurementRepository.GetStudentMeasurements(lessonId,personId,lessonTime);
+                var measurement = await _measurementRepository.GetStudentMeasurements(lessonId, personId, lessonTime);
                 if (measurement == null)
                 {
                     string msg = $"cannot get measurement from DB";
@@ -277,7 +282,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<MeasurementDto>> GetLessonHistory(int lessonId)
         {
             //validate request
-            if (lessonId < 0 )
+            if (lessonId < 0)
             {
                 string msg = $"lesson id: {lessonId} is invalid";
                 _logger.LogError(msg);
@@ -322,7 +327,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<bool>> Delete(int measurementId)
         {
             //validate request
-            if (measurementId < 0 )
+            if (measurementId < 0)
             {
                 string msg = $"measurement id: {measurementId} is invalid";
                 _logger.LogError(msg);
