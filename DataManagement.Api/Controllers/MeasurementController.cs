@@ -72,6 +72,50 @@ namespace DataManagement.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Add a new Measurement to DB
+        /// </summary>
+        /// <param name="measurementDto">MeasurementDto object contains all of the Measurement's details which will be added to DB</param>
+        /// <response code="200">MeasurementDto object contains all of the details from DB</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpPost]
+        [ProducesResponseType(typeof(MeasurementDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<MeasurementDto>> PostMeasurements([FromBody] List<MeasurementDto> measurementDto)
+        {
+            //validate request
+            if (measurementDto == null)
+            {
+                string msg = $"measurementDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //add measurement to DB
+                var measurement = await _measurementRepository.AddMeasurement(measurementDto.ToModel());
+                if (measurement == null)
+                {
+                    string msg = $"cannot add measurement to DB";
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                }
+                else
+                {
+                    return Ok(measurement.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot add measurement to DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
         /// <summary>
         /// Get list of students attendance in specfic lesson in specific time
         /// </summary>
