@@ -105,7 +105,7 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.Controllers.MeasurementController.Get(System.Int32,System.DateTime)">
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.GetStudentsAttendance(System.Int32,System.DateTime)">
             <summary>
             Get list of students attendance in specfic lesson in specific time
             </summary>
@@ -114,6 +114,29 @@
             <response code="200">List of StudentAttendanceDto, each contains person details and its time entrance to the lesson</response>
             <response code="400">BadRequest - invalid values</response>
             <response code="404">NotFound - cannot find the lesson or any students in the lesson</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.GetStudentMeasurements(System.Int32,System.Int32,System.DateTime)">
+            <summary>
+            Get student's measurements in a given lesson and time
+            </summary>
+            <param name="lessonId">id of the requested lesson</param>
+            <param name="personId">id of the requested student</param>
+            <param name="lessonTime">time of the requested lesson</param>
+            <response code="200">List of MeasurementDto, each contains measurements result in specfic time during the lesson</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the student or any measurements in the lesson</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.GetLessonMeasurements(System.Int32,System.DateTime)">
+            <summary>
+            Get lesson measurements of all students in a given lesson and time
+            </summary>
+            <param name="lessonId">id of the requested lesson</param>
+            <param name="lessonTime">time of the requested lesson</param>
+            <response code="200">List of MeasurementDto, each contains measurements result in specfic time during the lesson</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the student or any measurements in the lesson</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="T:DataManagement.Api.Controllers.PersonController">
