@@ -216,6 +216,53 @@ namespace DataManagement.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Get lesson history - all the lesson's dates which took place in some dates
+        /// </summary>
+        /// <param name="lessonId">id of the requested lesson</param>
+        /// <response code="200">List of DateTime, each represents a date of lesson which took place</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="404">NotFound - cannot find the lesson</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpGet("GetLessonHistory/{lessonId}")]
+        [ProducesResponseType(typeof(List<DateTime>), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<MeasurementDto>> GetLessonHistory(int lessonId)
+        {
+            //validate request
+            if (lessonId < 0 )
+            {
+                string msg = $"lesson id: {lessonId} is invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get lesson history from DB
+                var lessonHistory = await _measurementRepository.GetLessonDates(lessonId);
+                if (lessonHistory == null)
+                {
+                    string msg = $"cannot get lesson history from DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(lessonHistory);
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get lesson history from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+
         /// <summary>
         /// Delete measurement from DB
         /// </summary>

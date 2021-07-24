@@ -224,5 +224,36 @@ namespace DbAccess.Repositories
                 return false;
             }
         }
+
+        public async Task<List<DateTime>> GetLessonDates(int lessonId)
+        {
+            List<DateTime> dates = null;
+            const int weeksNumber = 53;
+            try
+            {
+                var lesson = await _lessonRepository.GetLesson(lessonId);
+                if (lesson == null)
+                {
+                    throw new Exception($"Cannot find lesson with id: {lessonId}");
+                }
+                dates = new List<DateTime>();
+                DateTime current = lesson.StartTime;
+                for (int i = 0; i < weeksNumber; i++)
+                {
+                    var measurements = await GetLessonMeasurements(lessonId, current);
+                    //if there is any measurment taken in that time => there has been a lesson
+                    if (measurements != null && measurements.Count > 0)
+                    {
+                        dates.Add(current);
+                    }
+                    current = current.AddDays(7);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get lesson from DB. lesson id: {lessonId}. due to: {e}");
+            }
+            return dates;
+        }
     }
 }

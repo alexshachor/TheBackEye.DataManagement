@@ -139,6 +139,16 @@
             <response code="404">NotFound - cannot find the student or any measurements in the lesson</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.GetLessonHistory(System.Int32)">
+            <summary>
+            Get lesson history - all the lesson's dates which took place in some dates
+            </summary>
+            <param name="lessonId">id of the requested lesson</param>
+            <response code="200">List of DateTime, each represents a date of lesson which took place</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the lesson</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="M:DataManagement.Api.Controllers.MeasurementController.Delete(System.Int32)">
             <summary>
             Delete measurement from DB
