@@ -105,6 +105,17 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.Get(System.Int32,System.DateTime)">
+            <summary>
+            Get list of students attendance in specfic lesson in specific time
+            </summary>
+            <param name="lessonId">id of the requested lesson</param>
+            <param name="lessonTime">time of the requested lesson</param>
+            <response code="200">List of StudentAttendanceDto, each contains person details and its time entrance to the lesson</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the lesson or any students in the lesson</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="T:DataManagement.Api.Controllers.PersonController">
             <summary>
             PersonController is responsible for all the Person's CRUD operations using API calls 

@@ -42,7 +42,6 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<MeasurementDto>> Post([FromBody] MeasurementDto measurementDto)
         {
-            //TODO: add validation for each filed
             //validate request
             if (measurementDto == null)
             {
@@ -82,7 +81,7 @@ namespace DataManagement.Api.Controllers
         /// <response code="400">BadRequest - invalid values</response>
         /// <response code="404">NotFound - cannot find the lesson or any students in the lesson</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpGet("{lessonId}/{lessonTime}")]
+        [HttpGet("StudentsAttendance/{lessonId}/{lessonTime}")]
         [ProducesResponseType(typeof(List<StudentAttendanceDto>), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
@@ -104,7 +103,7 @@ namespace DataManagement.Api.Controllers
                 {
                     string msg = $"attendane list is null - cannot get attendance list from DB";
                     _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    return NotFound(msg);
                 }
                 else
                 {
@@ -119,6 +118,53 @@ namespace DataManagement.Api.Controllers
             catch (Exception e)
             {
                 string msg = $"cannot get attendance list from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        /// <summary>
+        /// Get student's measurements in a given lesson and time
+        /// </summary>
+        /// <param name="lessonId">id of the requested lesson</param>
+        /// <param name="personId"></param>
+        /// <param name="lessonTime">time of the requested lesson</param>
+        /// <response code="200">List of MeasurementDto, each contains measurements result in specfic time during the lesson</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="404">NotFound - cannot find the student or any measurements in the lesson</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpPost]
+        [ProducesResponseType(typeof(List<MeasurementDto>), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<MeasurementDto>> Get(int lessonId, int personId, DateTime lessonTime)
+        {
+            //validate request
+            if (lessonId < 0 || personId < 0 || lessonTime == DateTime.MinValue)
+            {
+                string msg = $"lesson id: {lessonId} or person id: {personId} or lesson time: {lessonTime} are invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get student measurement from DB
+                var measurement = await _measurementRepository.GetStudentMeasurements(lessonId,personId,lessonTime);
+                if (measurement == null)
+                {
+                    string msg = $"cannot get measurement from DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(measurement.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get measurement from DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

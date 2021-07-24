@@ -16,13 +16,15 @@ namespace DbAccess.Repositories
         private readonly ILogger _logger;
         private readonly ILessonRepository _lessonRepository;
         private readonly IStudentLessonRepository _studentLessonRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public MeasurementRepository(BackEyeContext context, ILogger<LogsRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository)
+        public MeasurementRepository(BackEyeContext context, ILogger<LogsRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IPersonRepository personRepository)
         {
             _context = context;
             _logger = logger;
             _lessonRepository = lessonRepository;
             _studentLessonRepository = studentLessonRepository;
+            _personRepository = personRepository;
         }
 
         public async Task<Measurement> GetMeasurement(int lessonId, int personId, DateTime dateTime)
@@ -100,6 +102,75 @@ namespace DbAccess.Repositories
             }
 
             return attendanceList;
+        }
+
+        /// <summary>
+        /// Get all the measurements collected for a specfic student and lesson
+        /// </summary>
+        /// <param name="lessonId">id of requested lesson</param>
+        /// <param name="personId">id of the requested student</param>
+        /// <param name="lessonTime">start time of the lesson</param>
+        /// <returns>list of measurements related to the given lesson and student</returns>
+        public async Task<List<Measurement>> GetStudentMeasurements(int lessonId, int personId, DateTime lessonTime)
+        {
+            List<Measurement> measurements = null;
+            try
+            {
+                var studentlesson = await _studentLessonRepository.GetStudentLesson(lessonId, personId);
+                if (studentlesson == null || studentlesson.Person == null || studentlesson.Lesson == null)
+                {
+                    throw new Exception($"Cannot find student lesson with student id: {personId} and lesson id: {lessonId}");
+                }
+                var lessonLengthSec = (studentlesson.Lesson.EndTime - studentlesson.Lesson.StartTime).TotalSeconds;
+                var lessonEnd = lessonTime.AddSeconds(lessonLengthSec);
+
+                measurements = await _context.Measurements.Where(m => m.LessonId == lessonId &&
+                   m.PersonId == personId &&
+                  (m.DateTime >= lessonTime && m.DateTime <= lessonEnd)).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get measurements from DB. due to: {e}");
+            }
+
+            return measurements;
+        }
+
+        /// <summary>
+        /// Get all the measurements collected for all students in specfic lesson
+        /// </summary>
+        /// <param name="lessonId">id of requested lesson</param>
+        /// <param name="lessonTime">start time of the lesson</param>
+        /// <returns>list of measurements related to the given lesson</returns>
+        public async Task<List<Measurement>> GetLessonMeasurements(int lessonId, DateTime lessonTime)
+        {
+            List<Measurement> measurements = null;
+            try
+            {
+                //get all students subscribed to the lesson
+                var students = await _studentLessonRepository.GetStudentsByLessonId(lessonId);
+                if (students == null || students.Count == 0)
+                {
+                    throw new Exception($"Cannot find students in lesson with id: {lessonId}");
+                }
+                measurements = new List<Measurement>();
+
+                //for each student get its all measurements of lesson
+                foreach (var student in students)
+                {
+                    var studentMeasurements = await GetStudentMeasurements(lessonId,student.Id,lessonTime);
+                    if (studentMeasurements != null)
+                    {
+                        measurements.AddRange(studentMeasurements);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot get measurements from DB. due to: {e}");
+            }
+
+            return measurements;
         }
     }
 }

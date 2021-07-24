@@ -28,7 +28,7 @@ namespace DbAccess.Repositories
             }
             catch (Exception e)
             {
-                _logger.LogError($"Cannot get student lesson from DB. lesson id: {lessonId}. due to: {e}");
+                _logger.LogError($"Cannot get student lesson from DB. lesson id: {lessonId}. person id: {personId} due to: {e}");
                 return null;
             }
         }

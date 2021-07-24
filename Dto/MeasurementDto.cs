@@ -68,5 +68,12 @@ namespace Dtos
                 SoundCheck = model.SoundCheck
             };
         }
+
+        public static List<MeasurementDto> ToDto(this List<Measurement> model)
+        {
+            List<MeasurementDto> measurements = new List<MeasurementDto>();
+            model.ForEach(x => measurements.Add(x.ToDto()));
+            return measurements;
+        }
     }
 }
