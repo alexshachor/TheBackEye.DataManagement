@@ -14,5 +14,7 @@ namespace DbAccess.RepositoryInterfaces
         public Task<Person> GetPersonByEmailPassword(string email, string password);
         public Task<Person> AddPerson(Person person);
         public Task<Person> UpdatePerson(Person person);
+
+        public Task<bool> DeletePerson(int personId);
     }
 }

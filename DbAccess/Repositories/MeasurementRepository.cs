@@ -16,31 +16,23 @@ namespace DbAccess.Repositories
         private readonly ILogger _logger;
         private readonly ILessonRepository _lessonRepository;
         private readonly IStudentLessonRepository _studentLessonRepository;
-        private readonly IPersonRepository _personRepository;
 
-        public MeasurementRepository(BackEyeContext context, ILogger<LogsRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IPersonRepository personRepository)
+        public MeasurementRepository(BackEyeContext context, ILogger<LogsRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository)
         {
             _context = context;
             _logger = logger;
             _lessonRepository = lessonRepository;
             _studentLessonRepository = studentLessonRepository;
-            _personRepository = personRepository;
         }
 
         public async Task<Measurement> AddMeasurement(Measurement measurement)
         {
             try
             {
-                //TODO: we might need to comment it in order to improve performance
-                var measurementFromDb = await GetMeasurement(measurement.Id);
-                if (measurementFromDb == null)
-                {
-                    _context.Add(measurement);
-                    await _context.SaveChangesAsync();
-                    return measurement;
-                }
-                _logger.LogInformation($"Measurement already exist");
-                return measurementFromDb;
+                //in order to improve performance we just add it to DB
+                _context.Add(measurement);
+                await _context.SaveChangesAsync();
+                return measurement;
             }
             catch (Exception e)
             {

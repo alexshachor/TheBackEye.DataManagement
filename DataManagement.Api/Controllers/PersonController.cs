@@ -210,5 +210,50 @@ namespace DataManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+
+
+        /// <summary>
+        /// Delete person from DB
+        /// </summary>
+        /// <param name="personId">id of the requested person</param>
+        /// <response code="200">true - deletion was success</response>
+        /// <response code="400">BadRequest - invalid values</response>
+        /// <response code="404">NotFound - cannot find the person in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [HttpDelete("{personId}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<bool>> Delete(int personId)
+        {
+            //validate request
+            if (personId < 0)
+            {
+                string msg = $"person id: {personId} is invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //delete person from DB
+                var result = await _personRepository.DeletePerson(personId);
+                if (!result)
+                {
+                    string msg = $"cannot find person id: {personId} in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(true);
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot delete person from DB. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
     }
 }

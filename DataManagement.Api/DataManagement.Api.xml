@@ -193,6 +193,16 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:DataManagement.Api.Controllers.PersonController.Delete(System.Int32)">
+            <summary>
+            Delete person from DB
+            </summary>
+            <param name="personId">id of the requested person</param>
+            <response code="200">true - deletion was success</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="404">NotFound - cannot find the person in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
         <member name="T:DataManagement.Api.Controllers.StudentLessonController">
             <summary>
             StudentLessonController is responsible for all the student leasson's CRUD operations using API calls 

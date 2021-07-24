@@ -14,11 +14,19 @@ namespace DbAccess.Repositories
     {
         private readonly BackEyeContext _context;
         private readonly ILogger _logger;
-        public PersonRepository(BackEyeContext context, ILogger<PersonRepository> logger)
+        private readonly ILessonRepository _lessonRepository;
+        private readonly IStudentLessonRepository _studentLessonRepository;
+        private readonly IMeasurementRepository _measurementRepository;
+        public PersonRepository(BackEyeContext context, ILogger<PersonRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IMeasurementRepository measurementRepository)
         {
             _context = context;
             _logger = logger;
+            _lessonRepository = lessonRepository;
+            _studentLessonRepository = studentLessonRepository;
+            _measurementRepository = measurementRepository;
         }
+
+
 
         public async Task<Person> GetPersonByEmailPassword(string email, string password)
         {
@@ -107,6 +115,31 @@ namespace DbAccess.Repositories
                 _logger.LogError($"Cannot get erson from DB. person id: {personId}. due to: {e}");
                 return null;
             }
+        }
+
+        public async Task<bool> DeletePerson(int personId)
+        {
+            try
+            {
+                var student = await GetPerson(personId);
+
+                if (student == null)
+                {
+                    throw new Exception($"Person id: {personId} not found in DB");
+                }
+                //TODO: in case of teacher should we delete lesson too?
+                await _measurementRepository.DeleteAllStudentMeasurement(personId);
+                await _studentLessonRepository.DeleteAllStudentLessons(personId);
+
+                _context.Persons.Remove(student);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete person from DB. person id: {personId}. due to: {e}");
+            }
+            return false;
         }
     }
 }

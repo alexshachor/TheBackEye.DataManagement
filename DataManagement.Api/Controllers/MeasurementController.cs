@@ -243,7 +243,7 @@ namespace DataManagement.Api.Controllers
                 var result = await _measurementRepository.DeleteMeasurement(measurementId);
                 if (!result)
                 {
-                    string msg = $"cannot find measurement in DB";
+                    string msg = $"cannot find measurement id: {measurementId} in DB";
                     _logger.LogError(msg);
                     return NotFound(msg);
                 }

@@ -134,8 +134,8 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpDelete("{studentLesson}")]
-        public async Task<ActionResult<bool>> Delete(StudentLessonDto studentLesson)
+        [HttpDelete]
+        public async Task<ActionResult<bool>> Delete([FromBody] StudentLessonDto studentLesson)
         {
             if (studentLesson == null)
             {
