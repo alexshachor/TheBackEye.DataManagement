@@ -18,12 +18,12 @@ namespace DataManagement.Api.Controllers
         /// <summary>
         /// By calling this method successfuly it can be sured that the server is alive and on  
         /// </summary>
-        /// <response code="200">Current time of the server</response>
+        /// <response code="200">Return nothing</response>
         [HttpHead]
         [ProducesResponseType(typeof(DateTime), 200)]
         public ActionResult<DateTime> Head()
         {
-            return Ok(DateTime.Now);
+            return Ok();
         }
     }
 }

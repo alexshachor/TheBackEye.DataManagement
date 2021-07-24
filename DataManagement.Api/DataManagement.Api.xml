@@ -4,6 +4,17 @@
         <name>DataManagement.Api</name>
     </assembly>
     <members>
+        <member name="T:DataManagement.Api.Controllers.IsAliveController">
+            <summary>
+            IsAliveController is for checking that the server is alive and accessible from client
+            </summary>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.IsAliveController.Head">
+            <summary>
+            By calling this method successfuly it can be sured that the server is alive and on  
+            </summary>
+            <response code="200">Current time of the server</response>
+        </member>
         <member name="T:DataManagement.Api.Controllers.LessonController">
             <summary>
             LessonController is responsible for all the leasson's CRUD operations using API calls 
@@ -102,6 +113,15 @@
             </summary>
             <param name="measurementDto">MeasurementDto object contains all of the Measurement's details which will be added to DB</param>
             <response code="200">MeasurementDto object contains all of the details from DB</response>
+            <response code="400">BadRequest - invalid values</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.PostMeasurements(System.Collections.Generic.List{Dtos.MeasurementDto})">
+            <summary>
+            Add a list of new Measurements to DB
+            </summary>
+            <param name="measurements">List of MeasurementDto objects, each contains all of the Measurement's details which will be added to DB</param>
+            <response code="200">List of added MeasurementDto objects, each contains all of the Measurement's details added to DB</response>
             <response code="400">BadRequest - invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>

@@ -80,7 +80,7 @@ namespace DataManagement.Api.Controllers
         /// <response code="200">List of added MeasurementDto objects, each contains all of the Measurement's details added to DB</response>
         /// <response code="400">BadRequest - invalid values</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPost]
+        [HttpPost("PostMeasurements")]
         [ProducesResponseType(typeof(MeasurementDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(500)]
