@@ -32,7 +32,7 @@ namespace DbAccess
         {
             try
             {
-                return await _context.Logs.Where(x => x.Id == logId).FirstOrDefaultAsync();
+                return await _context.Logs.Where(x => x.Id == logId).Include(l => l.Person).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -109,7 +109,7 @@ namespace DbAccess
         {
             try
             {
-                var logsToRemove = await _context.Logs.Where(l=>l.PersonId == personId).ToListAsync();
+                var logsToRemove = await _context.Logs.Where(l => l.PersonId == personId).ToListAsync();
                 _context.Remove(logsToRemove);
                 await _context.SaveChangesAsync();
                 return true;
