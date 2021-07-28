@@ -20,7 +20,11 @@ namespace DbAccess.Repositories
             _logger = logger;
         }
 
-
+        /// <summary>
+        /// get a lesson from DB by class code identifier
+        /// </summary>
+        /// <param name="classCode">class code</param>
+        /// <returns>the requested lesson</returns>
         public async Task<Lesson> GetLesson(string classCode)
         {
             try
@@ -52,6 +56,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// add a new lesson to DB
+        /// </summary>
+        /// <param name="lesson">lesson to add</param>
+        /// <returns>the newly added lesson</returns>
         public async Task<Lesson> AddLesson(Lesson lesson)
         {
             try
@@ -77,6 +86,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete a given lesson from DB
+        /// </summary>
+        /// <param name="lesson">lesson object to delete</param>
+        /// <returns>null if not found, lesson deleted otherwise</returns>
         public async Task<Lesson> DeleteLesson(Lesson lesson)
         {
             var tmpLesson = await GetLesson(lesson.ClassCode);
@@ -97,6 +111,11 @@ namespace DbAccess.Repositories
             return lesson;
         }
 
+        /// <summary>
+        /// Update lesson in DB
+        /// </summary>
+        /// <param name="lesson">lesson object contains details to update</param>
+        /// <returns>the newly updated lesson</returns>
         public async Task<Lesson> UpdateLesson(Lesson lesson)
         {
             _context.Entry(lesson).State = EntityState.Modified;
@@ -113,6 +132,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// Get a lesson from Db by the given lesson id 
+        /// </summary>
+        /// <param name="lessonId">lesson id</param>
+        /// <returns>lesson object contains all the details of a lesson</returns>
         public async Task<Lesson> GetLesson(int lessonId)
         {
             try
