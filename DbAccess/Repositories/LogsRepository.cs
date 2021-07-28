@@ -83,7 +83,7 @@ namespace DbAccess
         /// remove log by the given id
         /// </summary>
         /// <param name="logId">id pf log to remove</param>
-        /// <returns>true of success and false otherwise</returns>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> RemoveLogById(int logId)
         {
             try
@@ -96,6 +96,26 @@ namespace DbAccess
             catch (Exception e)
             {
                 _logger.LogError($"Cannot remove log from DB. log id: {logId}. due to: {e}");
+                return false;
+            }
+        }
+        /// <summary>
+        /// remove log by the given id
+        /// </summary>
+        /// <param name="logId">id pf log to remove</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
+        public async Task<bool> DeletePersonLogs(int personId)
+        {
+            try
+            {
+                var logsToRemove = await _context.Logs.Where(l=>l.PersonId == personId).ToListAsync();
+                _context.Remove(logsToRemove);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot remove logs of a person from DB. person id: {personId}. due to: {e}");
                 return false;
             }
         }

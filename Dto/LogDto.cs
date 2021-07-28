@@ -43,5 +43,11 @@ namespace Dtos
                 PersonId = model.PersonId
             };
         }
+        public static List<LogDto> ToDto(this List<Log> model)
+        {
+            List<LogDto> logs = new List<LogDto>();
+            model.ForEach(x => logs.Add(x.ToDto()));
+            return logs;
+        }
     }
 }

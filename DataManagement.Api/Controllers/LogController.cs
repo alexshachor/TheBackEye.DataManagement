@@ -45,9 +45,9 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<LogDto>> Get(int logId)
         {
             //validate request
-            if (String.IsNullOrWhiteSpace(logId.ToString()))
+            if (logId < 0)
             {
-                string msg = $"logId: {logId} must not be null or empty";
+                string msg = $"logId: {logId} must be positive";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -74,6 +74,53 @@ namespace DataManagement.Api.Controllers
             }
 
         }
+
+        /// <summary>
+        /// Get list of LogDto object related to the given person id
+        /// </summary>
+        /// <param name="personId">The identity number of the per5son</param>
+        /// <response code="200">list of LogDto object contains all of the log's details</response>
+        /// <response code="400">BadRequest - invalid values (lower than 0)</response>
+        /// <response code="404">NotFound - cannot find logs of the student in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(LogDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        [HttpGet("PersonLogs/{personId}")]
+        public async Task<ActionResult<List<LogDto>>> GetLogs(int personId)
+        {
+            //validate request
+            if (personId < 0)
+            {
+                string msg = $"personId: {personId} must be positive number";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get logs from DB
+                var logs = await _logRepository.GetLosgByPersonId(personId);
+                if (logs == null)
+                {
+                    string msg = $"logs of a person with id: {personId} not found in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(logs.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get logs of a person with id: {personId}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+
+        }
+
 
         /// <summary>
         /// Add a new log to DB
@@ -134,9 +181,9 @@ namespace DataManagement.Api.Controllers
         [HttpDelete("{logId}")]
         public async Task<ActionResult<bool>> Delete(int logId)
         {
-            if (String.IsNullOrWhiteSpace(logId.ToString()))
+            if (logId < 0)
             {
-                string msg = $"logDto is null or empty";
+                string msg = $"logId: {logId} must be positive";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }

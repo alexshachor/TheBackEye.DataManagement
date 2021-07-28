@@ -25,6 +25,11 @@ namespace DbAccess.Repositories
             _studentLessonRepository = studentLessonRepository;
         }
 
+        /// <summary>
+        /// add new measurement to DB
+        /// </summary>
+        /// <param name="measurement">measurement to add</param>
+        /// <returns>the newly added measurement</returns>
         public async Task<Measurement> AddMeasurement(Measurement measurement)
         {
             try
@@ -152,6 +157,11 @@ namespace DbAccess.Repositories
             return measurements;
         }
 
+        /// <summary>
+        /// get measurement from DB by the given measurement id
+        /// </summary>
+        /// <param name="measurementId">measurement id</param>
+        /// <returns>the requested measurement from DB</returns>
         public async Task<Measurement> GetMeasurement(int measurementId)
         {
             try
@@ -165,6 +175,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete measurement from DB by the given measurement id 
+        /// </summary>
+        /// <param name="measurementId">measurement id</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> DeleteMeasurement(int measurementId)
         {
             try
@@ -185,6 +200,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete from DB all the measurement of a given person id 
+        /// </summary>
+        /// <param name="personId">person id</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> DeleteAllStudentMeasurement(int personId)
         {
             try
@@ -205,6 +225,12 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete from DB all the measurement of a person of a specfic lesson
+        /// </summary>
+        /// <param name="lessonId">person id</param>
+        /// <param name="personId">lesson id</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> DeleteStudentLessonMeasurement(int lessonId, int personId)
         {
             try
@@ -225,6 +251,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get the dates of all the lessons which took place 
+        /// </summary>
+        /// <param name="lessonId">lesson id</param>
+        /// <returns>loist of datetime, each represent a lesson start time</returns>
         public async Task<List<DateTime>> GetLessonDates(int lessonId)
         {
             List<DateTime> dates = null;
