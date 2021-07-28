@@ -50,9 +50,10 @@ namespace DbAccess
         {
             try
             {
+                log.Person = null;
                 _context.Add(log);
                 await _context.SaveChangesAsync();
-                return log;
+                return await GetLogById(log.Id);
             }
             catch (Exception e)
             {
