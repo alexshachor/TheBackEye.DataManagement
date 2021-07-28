@@ -12,7 +12,7 @@ namespace DbAccess
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+        //public DbSet<Photo> Photos { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<StudentLesson> StudentLessons { get; set; }

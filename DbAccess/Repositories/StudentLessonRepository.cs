@@ -26,7 +26,7 @@ namespace DbAccess.Repositories
         /// <param name="lessonId">lesson id</param>
         /// <param name="personId">person id</param>
         /// <returns>StudentLessonObject contains relation between a lesson and a person student</returns>
-        public async Task<StudentLesson> GetStudentLesson(int lessonId, int personId)
+        public async Task<StudentLesson> GetStudentLesson(int? lessonId, int? personId)
         {
             try
             {

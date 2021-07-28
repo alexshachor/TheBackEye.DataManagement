@@ -35,7 +35,8 @@ namespace DataManagement.Api
 
             services.AddControllers();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString).EnableSensitiveDataLogging());
+            //services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString).EnableSensitiveDataLogging());
+            services.AddDbContext<BackEyeContext>(opt => opt.UseSqlServer(connectionString));
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<ILogRepository, LogsRepository>();
             services.AddScoped<IMeasurementRepository, MeasurementRepository>();

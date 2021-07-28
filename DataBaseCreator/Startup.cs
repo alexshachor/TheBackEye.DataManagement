@@ -27,7 +27,8 @@ namespace DataBaseCreator
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString)
+            //services.AddDbContext<BackEyeContext>(opt => opt.UseMySQL(connectionString)
+            services.AddDbContext<BackEyeContext>(opt => opt.UseSqlServer(connectionString)
        );
         }
 

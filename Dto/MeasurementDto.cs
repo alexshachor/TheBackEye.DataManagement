@@ -19,9 +19,9 @@ namespace Dtos
         public bool ObjectDetection { get; set; }
         public bool SoundCheck { get; set; }
         public LessonDto Lesson { get; set; }
-        public int LessonId { get; set; }
+        public int? LessonId { get; set; }
         public PersonDto Person { get; set; }
-        public int PersonId { get; set; }
+        public int? PersonId { get; set; }
     }
 
     public static class MeasurementDtoExtension

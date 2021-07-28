@@ -11,7 +11,7 @@ namespace Dtos
     {
         public int Id { get; set; }
         public PersonDto Person { get; set; }
-        public int PersonId { get; set; }
+        public int? PersonId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Platform { get; set; }
