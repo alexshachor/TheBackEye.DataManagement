@@ -57,8 +57,8 @@ namespace DataManagement.Api
         {
             var path = Directory.GetCurrentDirectory();
             loggerFactory.AddFile($"{path}\\Logs\\DataManagement.Api.log.txt");
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
@@ -66,7 +66,7 @@ namespace DataManagement.Api
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "DataManagement.Api v1");
                     c.RoutePrefix = string.Empty;
                     });
-            }
+            //}
 
 
             app.UseHttpsRedirection();
