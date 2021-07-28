@@ -121,11 +121,10 @@ namespace DataManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
-
         /// <summary>
-        /// Delete StudentLessonDto object by StudentLessonDto
+        /// Delete StudentLessonDto object by studentLessonId
         /// </summary>
-        /// <param name="studentLesson">The student Lesson we want to delete </param>
+        /// <param name="studentLessonId">The student Lesson relation we want to delete </param>
         /// <response code="200">bool true</response>
         /// <response code="400">BadRequest - invalid values (lower than 1)</response>
         /// <response code="404">NotFound - cannot find the student Lesson in DB</response>
@@ -134,24 +133,25 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpDelete]
-        public async Task<ActionResult<bool>> Delete([FromBody] StudentLessonDto studentLesson)
+        [HttpDelete("{studentLessonId}")]
+        public async Task<ActionResult<bool>> Delete(int studentLessonId)
         {
-            if (studentLesson == null)
+            //validate request
+            if (studentLessonId < 0)
             {
-                string msg = $"student Lesson is null or empty";
+                string msg = $"student lesson id: {studentLessonId} is invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
                 //remove student Lesson from DB
-                var tmpStudentLesson = await _studentLessonRepository.DeleteStudentLesson(studentLesson.ToModel());
-                if (tmpStudentLesson == null)
+                var result = await _studentLessonRepository.DeleteStudentLesson(studentLessonId);
+                if (!result)
                 {
-                    string msg = $"cannot remove the student lesson with the lesson id: {tmpStudentLesson.LessonId} from DB";
+                    string msg = $"cannot find student lesson with id: {studentLessonId} in DB";
                     _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    return NotFound(msg);
                 }
                 else
                 {
@@ -160,10 +160,11 @@ namespace DataManagement.Api.Controllers
             }
             catch (Exception e)
             {
-                string msg = $"cannot remove the student lesson with the lesson id: {studentLesson.LessonId} from DB. Due to {e}";
+                string msg = $"cannot remove the student lesson with the student lesson id: {studentLessonId} from DB. Due to {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
         }
+       
     }
 }

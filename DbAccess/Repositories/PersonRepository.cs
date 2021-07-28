@@ -19,13 +19,14 @@ namespace DbAccess.Repositories
         private readonly IMeasurementRepository _measurementRepository;
         private readonly ILogRepository _logRepository;
 
-        public PersonRepository(BackEyeContext context, ILogger<PersonRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IMeasurementRepository measurementRepository)
+        public PersonRepository(BackEyeContext context, ILogger<PersonRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IMeasurementRepository measurementRepository, ILogRepository logRepository)
         {
             _context = context;
             _logger = logger;
             _lessonRepository = lessonRepository;
             _studentLessonRepository = studentLessonRepository;
             _measurementRepository = measurementRepository;
+            _logRepository = logRepository;
         }
 
 
