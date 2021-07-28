@@ -17,6 +17,8 @@ namespace DbAccess.Repositories
         private readonly ILessonRepository _lessonRepository;
         private readonly IStudentLessonRepository _studentLessonRepository;
         private readonly IMeasurementRepository _measurementRepository;
+        private readonly ILogRepository _logRepository;
+
         public PersonRepository(BackEyeContext context, ILogger<PersonRepository> logger, ILessonRepository lessonRepository, IStudentLessonRepository studentLessonRepository, IMeasurementRepository measurementRepository)
         {
             _context = context;
@@ -27,7 +29,12 @@ namespace DbAccess.Repositories
         }
 
 
-
+        /// <summary>
+        /// get a person (teacher person) from DB by its given email and password
+        /// </summary>
+        /// <param name="email">email of the person</param>
+        /// <param name="password">hashed password of the person</param>
+        /// <returns>the requested person</returns>
         public async Task<Person> GetPersonByEmailPassword(string email, string password)
         {
             try
@@ -41,6 +48,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get a person (student person) from DB by its given password
+        /// </summary>
+        /// <param name="password">hashed password of the person</param>
+        /// <returns>the requested person</returns>
         public async Task<Person> GetPersonByPassword(string password)
         {
             try
@@ -54,6 +66,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// add a new person to DB
+        /// </summary>
+        /// <param name="person">person to add</param>
+        /// <returns>the newly added person</returns>
         public async Task<Person> AddPerson(Person person)
         {
             try
@@ -75,6 +92,13 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get any type of person frpm Db by its given email, password and birth id
+        /// </summary>
+        /// <param name="email">email of the person</param>
+        /// <param name="password">password of the person</param>
+        /// <param name="birthId">birth id of the person</param>
+        /// <returns>the requested person from DB</returns>
         private async Task<Person> GetPersonByEmailPasswordId(string email, string password, string birthId)
         {
             try
@@ -88,6 +112,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// update the person in DB
+        /// </summary>
+        /// <param name="person">person to update contains the new data</param>
+        /// <returns>the newly updated person</returns>
         public async Task<Person> UpdatePerson(Person person)
         {
             _context.Entry(person).State = EntityState.Modified;
@@ -104,6 +133,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// get a person from DB by its person id
+        /// </summary>
+        /// <param name="personId">person id</param>
+        /// <returns>the requested person from DB</returns>
         public async Task<Person> GetPerson(int personId)
         {
             try
@@ -117,21 +151,27 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete the given person (by its id) from DB
+        /// </summary>
+        /// <param name="personId">person id</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> DeletePerson(int personId)
         {
             try
             {
-                var student = await GetPerson(personId);
+                var person = await GetPerson(personId);
 
-                if (student == null)
+                if (person == null)
                 {
                     throw new Exception($"Person id: {personId} not found in DB");
                 }
                 //TODO: in case of teacher should we delete lesson too?
                 await _measurementRepository.DeleteAllStudentMeasurement(personId);
                 await _studentLessonRepository.DeleteAllStudentLessons(personId);
+                await _logRepository.DeletePersonLogs(personId);
 
-                _context.Persons.Remove(student);
+                _context.Persons.Remove(person);
                 await _context.SaveChangesAsync();
                 return true;
             }

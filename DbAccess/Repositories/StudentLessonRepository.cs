@@ -20,6 +20,12 @@ namespace DbAccess.Repositories
             _logger = logger;
         }
 
+        /// <summary>
+        /// get a student lesson from DB by the given lesson id and person id
+        /// </summary>
+        /// <param name="lessonId">lesson id</param>
+        /// <param name="personId">person id</param>
+        /// <returns>StudentLessonObject contains relation between a lesson and a person student</returns>
         public async Task<StudentLesson> GetStudentLesson(int lessonId, int personId)
         {
             try
@@ -33,6 +39,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// add student lesson to DB - a relation between a student and a lesson
+        /// </summary>
+        /// <param name="studentLesson">student lesson to add</param>
+        /// <returns>the newly added StudentLesson</returns>
         public async Task<StudentLesson> AddStudentLesson(StudentLesson studentLesson)
         {
             try
@@ -59,6 +70,11 @@ namespace DbAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// delete student lesson from DB
+        /// </summary>
+        /// <param name="studentLesson">v to delete</param>
+        /// <returns>null if deletion failed and StudentLesson otherwise</returns>
         public async Task<StudentLesson> DeleteStudentLesson(StudentLesson studentLesson)
         {
             var tmpStudentLesson = await GetStudentLesson(studentLesson.LessonId, studentLesson.PersonId);
@@ -78,6 +94,11 @@ namespace DbAccess.Repositories
             return studentLesson;
         }
 
+        /// <summary>
+        /// get list of persons participating in a given lesson
+        /// </summary>
+        /// <param name="lessonId">lesson id</param>
+        /// <returns>list of person object, each one related to the given lesson</returns>
         public async Task<List<Person>> GetStudentsByLessonId(int lessonId)
         {
             List<Person> students = new List<Person>();
@@ -100,6 +121,11 @@ namespace DbAccess.Repositories
             return students;
         }
 
+        /// <summary>
+        /// delete all relations StudentLesson of a given person
+        /// </summary>
+        /// <param name="personId">person id to delete its relations</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
         public async Task<bool> DeleteAllStudentLessons(int personId)
         {
             try

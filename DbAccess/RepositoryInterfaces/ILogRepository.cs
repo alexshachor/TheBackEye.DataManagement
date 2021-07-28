@@ -14,7 +14,7 @@ namespace DbAccess.RepositoryInterfaces
         public Task<Log> GetLogById(int logId);
         public Task<List<Log>> GetLosgByPersonId(int personId);
 
-        public  Task<bool> DeletePersonLogs(int personId)
+        public Task<bool> DeletePersonLogs(int personId);
 
     }
 }

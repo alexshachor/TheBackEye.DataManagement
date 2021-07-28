@@ -13,7 +13,7 @@
             <summary>
             By calling this method successfuly it can be sured that the server is alive and on  
             </summary>
-            <response code="200">Current time of the server</response>
+            <response code="200">Return nothing</response>
         </member>
         <member name="T:DataManagement.Api.Controllers.LessonController">
             <summary>
@@ -81,6 +81,16 @@
             <response code="200">LogDto object contains all of the log's details</response>
             <response code="400">BadRequest - invalid values (lower than 1)</response>
             <response code="404">NotFound - cannot find the student in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.LogController.GetLogs(System.Int32)">
+            <summary>
+            Get list of LogDto object related to the given person id
+            </summary>
+            <param name="personId">The identity number of the per5son</param>
+            <response code="200">list of LogDto object contains all of the log's details</response>
+            <response code="400">BadRequest - invalid values (lower than 0)</response>
+            <response code="404">NotFound - cannot find logs of the student in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="M:DataManagement.Api.Controllers.LogController.Post(Dtos.LogDto)">
