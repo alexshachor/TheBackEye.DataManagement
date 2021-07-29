@@ -89,7 +89,7 @@ namespace DbAccess
         {
             try
             {
-                var logToRemove = GetLogById(logId);
+                var logToRemove = await GetLogById(logId);
                 _context.Remove(logToRemove);
                 await _context.SaveChangesAsync();
                 return true;
