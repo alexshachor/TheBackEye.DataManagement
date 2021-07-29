@@ -255,7 +255,7 @@ namespace DbAccess.Repositories
         /// get the dates of all the lessons which took place 
         /// </summary>
         /// <param name="lessonId">lesson id</param>
-        /// <returns>loist of datetime, each represent a lesson start time</returns>
+        /// <returns>list of datetime, each represent a lesson start time</returns>
         public async Task<List<DateTime>> GetLessonDates(int lessonId)
         {
             List<DateTime> dates = null;
@@ -285,6 +285,48 @@ namespace DbAccess.Repositories
                 _logger.LogError($"Cannot get lesson from DB. lesson id: {lessonId}. due to: {e}");
             }
             return dates;
+        }
+
+        /// <summary>
+        /// Get the updated dates of the next lesson (start, end, breakStart, breakEnd)
+        /// </summary>
+        /// <param name="lessonId">lesson id</param>
+        /// <returns>DateTime array contains the dates in this order: [start, end, breakStart, breakEnd]</returns>
+        public async Task<DateTime[]> GetNextLessonDates(int lessonId)
+        {
+            var allLessonDates = await GetLessonDates(lessonId);
+            var lesson = await _lessonRepository.GetLesson(lessonId);
+            if (allLessonDates == null || allLessonDates.Count == 0 || lesson == null)
+            {
+                return null;
+            }
+            DateTime nextLessonStart = allLessonDates.First();
+            //run until it find the next lesson
+            foreach (var date in allLessonDates)
+            {
+                if (date.Day >= DateTime.Now.Day)
+                {
+                    nextLessonStart = date;
+                    break;
+                }
+            }
+
+            //calculate the current lesson dates (start, end, breakStart, breakEnd) based on the origin timespan
+            var nextLessonEnd = nextLessonStart.AddSeconds((lesson.EndTime - lesson.StartTime).TotalSeconds);
+            var nextBreakStart = DateTime.MinValue;
+            var nextBreakEnd = DateTime.MinValue;
+            if (lesson.BreakStart != DateTime.MinValue)
+            {
+                nextBreakStart = nextLessonStart.AddSeconds((lesson.BreakStart - lesson.StartTime).TotalSeconds);
+                nextBreakEnd = nextLessonStart.AddSeconds((lesson.BreakEnd - lesson.StartTime).TotalSeconds);
+            }
+            return new DateTime[]
+            {
+                nextLessonStart,
+                nextLessonEnd,
+                nextBreakStart,
+                nextBreakEnd
+            };
         }
     }
 }
