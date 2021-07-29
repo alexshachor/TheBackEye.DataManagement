@@ -87,7 +87,7 @@
             <summary>
             Get list of LogDto object related to the given person id
             </summary>
-            <param name="personId">The identity number of the per5son</param>
+            <param name="personId">The identity number of the person</param>
             <response code="200">list of LogDto object contains all of the log's details</response>
             <response code="400">BadRequest - invalid values (lower than 0)</response>
             <response code="404">NotFound - cannot find logs of the student in DB</response>
