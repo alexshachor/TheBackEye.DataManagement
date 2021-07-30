@@ -22,7 +22,7 @@ namespace DbAccess.RepositoryInterfaces
 
         public Task<Lesson> GetNextLesson(string classCode);
 
-        public Task<Lesson> GetNextLesson(Lesson lesson);
+        public Lesson GetNextLesson(Lesson lesson);
 
         public Task<Measurement> AddMeasurement(Measurement measurement);
 

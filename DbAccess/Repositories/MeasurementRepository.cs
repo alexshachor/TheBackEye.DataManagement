@@ -252,14 +252,13 @@ namespace DbAccess.Repositories
         }
 
         /// <summary>
-        /// get the dates of all the lessons which took place 
+        /// get the dates of all active lessons which took place 
         /// </summary>
         /// <param name="lessonId">lesson id</param>
         /// <returns>list of datetime, each represent a lesson start time</returns>
         public async Task<List<DateTime>> GetLessonDates(int lessonId)
         {
-            List<DateTime> dates = null;
-            const int weeksNumber = 53;
+            List<DateTime> activeDates = null;
             try
             {
                 var lesson = await _lessonRepository.GetLesson(lessonId);
@@ -267,24 +266,24 @@ namespace DbAccess.Repositories
                 {
                     throw new Exception($"Cannot find lesson with id: {lessonId}");
                 }
-                dates = new List<DateTime>();
-                DateTime current = lesson.StartTime;
-                for (int i = 0; i < weeksNumber; i++)
+                List<DateTime> allLessonDates = GetAllLessonsDates(lesson.StartTime);
+                activeDates = new List<DateTime>();
+                foreach (var date in allLessonDates)
                 {
-                    var measurements = await GetLessonMeasurements(lessonId, current);
-                    //if there is any measurment taken in that time => there has been a lesson
+                    var measurements = await GetLessonMeasurements(lessonId, date);
+                    //if there is any measurment taken in that time => there has been an actual lesson
                     if (measurements != null && measurements.Count > 0)
                     {
-                        dates.Add(current);
+                        activeDates.Add(date);
                     }
-                    current = current.AddDays(7);
                 }
+
             }
             catch (Exception e)
             {
                 _logger.LogError($"Cannot get lesson from DB. lesson id: {lessonId}. due to: {e}");
             }
-            return dates;
+            return activeDates;
         }
 
         /// <summary>
@@ -295,7 +294,7 @@ namespace DbAccess.Repositories
         public async Task<Lesson> GetNextLesson(int lessonId)
         {
             var lesson = await _lessonRepository.GetLesson(lessonId);
-            return await GetNextLesson(lesson);
+            return GetNextLesson(lesson);
         }
 
         /// <summary>
@@ -303,14 +302,14 @@ namespace DbAccess.Repositories
         /// </summary>
         /// <param name="lesson">lesson object contains lesson's details</param>
         /// <returns>Lesson object contains the next lesson's dates</returns>
-        public async Task<Lesson> GetNextLesson(Lesson lesson)
+        public Lesson GetNextLesson(Lesson lesson)
         {
             if (lesson == null)
             {
                 return null;
             }
-            var allLessonDates = await GetLessonDates(lesson.Id);
-            
+            var allLessonDates = GetAllLessonsDates(lesson.StartTime);
+
             if (allLessonDates == null || allLessonDates.Count == 0)
             {
                 return null;
@@ -319,7 +318,8 @@ namespace DbAccess.Repositories
             //run until it find the next lesson wihch is the first date greater or equal to today
             foreach (var date in allLessonDates)
             {
-                if (date.Day >= DateTime.Now.Day)
+                //if date is greater or equal to today
+                if ((date - DateTime.Now).TotalDays >= 0)
                 {
                     nextLessonStart = date;
                     break;
@@ -346,7 +346,25 @@ namespace DbAccess.Repositories
         public async Task<Lesson> GetNextLesson(string classCode)
         {
             var lesson = await _lessonRepository.GetLesson(classCode);
-            return await GetNextLesson(lesson);
+            return GetNextLesson(lesson);
+        }
+
+        /// <summary>
+        /// get the dates of all lessons whether they took place or will take place in the future 
+        /// </summary>
+        /// <param name="lessonStart">start time of the lesson</param>
+        /// <returns>list of datetime, each represent a lesson start time</returns>
+        private List<DateTime> GetAllLessonsDates(DateTime lessonStart)
+        {
+            int weeksNumber = 53;
+            List<DateTime> dates = new List<DateTime>();
+            DateTime current = lessonStart;
+            for (int i = 0; i < weeksNumber; i++)
+            {
+                dates.Add(current);
+                current = current.AddDays(7);
+            }
+            return dates;
         }
     }
 }

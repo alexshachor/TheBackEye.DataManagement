@@ -187,7 +187,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<MeasurementDto>> GetStudentMeasurements(int lessonId, int personId, DateTime lessonTime)
+        public async Task<ActionResult<List<MeasurementDto>>> GetStudentMeasurements(int lessonId, int personId, DateTime lessonTime)
         {
             //validate request
             if (lessonId < 0 || personId < 0 || lessonTime == DateTime.MinValue)
@@ -199,8 +199,8 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //get student measurement from DB
-                var measurement = await _measurementRepository.GetStudentMeasurements(lessonId, personId, lessonTime);
-                if (measurement == null)
+                var measurements = await _measurementRepository.GetStudentMeasurements(lessonId, personId, lessonTime);
+                if (measurements == null)
                 {
                     string msg = $"cannot get measurement from DB";
                     _logger.LogError(msg);
@@ -208,7 +208,7 @@ namespace DataManagement.Api.Controllers
                 }
                 else
                 {
-                    return Ok(measurement.ToDto());
+                    return Ok(measurements.ToDto());
                 }
             }
             catch (Exception e)
@@ -233,7 +233,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<MeasurementDto>> GetLessonMeasurements(int lessonId, DateTime lessonTime)
+        public async Task<ActionResult<List<MeasurementDto>>> GetLessonMeasurements(int lessonId, DateTime lessonTime)
         {
             //validate request
             if (lessonId < 0 || lessonTime == DateTime.MinValue)
@@ -245,21 +245,21 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //get lesson measurements (of all students) from DB
-                var measurement = await _measurementRepository.GetLessonMeasurements(lessonId, lessonTime);
-                if (measurement == null)
+                var measurements = await _measurementRepository.GetLessonMeasurements(lessonId, lessonTime);
+                if (measurements == null)
                 {
-                    string msg = $"cannot get measurement from DB";
+                    string msg = $"cannot find measurements of lesson id: {lessonId} in DB";
                     _logger.LogError(msg);
                     return NotFound(msg);
                 }
                 else
                 {
-                    return Ok(measurement.ToDto());
+                    return Ok(measurements.ToDto());
                 }
             }
             catch (Exception e)
             {
-                string msg = $"cannot get measurement from DB. due to: {e}";
+                string msg = $"cannot get measurements of lesson id: {lessonId} from DB. due to: {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
@@ -279,7 +279,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<MeasurementDto>> GetLessonHistory(int lessonId)
+        public async Task<ActionResult<List<DateTime>>> GetLessonHistory(int lessonId)
         {
             //validate request
             if (lessonId < 0)
