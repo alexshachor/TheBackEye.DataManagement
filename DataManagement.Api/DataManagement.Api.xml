@@ -20,9 +20,19 @@
             LessonController is responsible for all the leasson's CRUD operations using API calls 
             </summary>
         </member>
-        <member name="M:DataManagement.Api.Controllers.LessonController.Get(System.String)">
+        <member name="M:DataManagement.Api.Controllers.LessonController.Get(System.Int32)">
             <summary>
-            Get LessonDto object by class code string
+            Get LessonDto object by lesson id
+            </summary>
+            <param name="lessonId">Lesson id</param>
+            <response code="200">LessonDto object contains all of the lesson details</response>
+            <response code="400">BadRequest - invalid values (null or empty class code)</response>
+            <response code="404">NotFound - cannot find the lesson in DB</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.LessonController.GetNextLesson(System.String)">
+            <summary>
+            Get LessonDto object (contains the next lesson's dates) by class code string
             </summary>
             <param name="classCode">The class code string</param>
             <response code="200">LessonDto object contains all of the lesson details</response>
@@ -30,7 +40,7 @@
             <response code="404">NotFound - cannot find the lesson in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.Controllers.LessonController.Get(System.Int32)">
+        <member name="M:DataManagement.Api.Controllers.LessonController.GetLessons(System.Int32)">
             <summary>
             Get list of LessonDto object related to teacher by the given teacher id
             </summary>

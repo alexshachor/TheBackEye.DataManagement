@@ -288,20 +288,35 @@ namespace DbAccess.Repositories
         }
 
         /// <summary>
-        /// Get the updated dates of the next lesson (start, end, breakStart, breakEnd)
+        /// Get the next lesson with updated dates (start, end, breakStart, breakEnd)
         /// </summary>
         /// <param name="lessonId">lesson id</param>
-        /// <returns>DateTime array contains the dates in this order: [start, end, breakStart, breakEnd]</returns>
-        public async Task<DateTime[]> GetNextLessonDates(int lessonId)
+        /// <returns>Lesson object contains the next lesson's dates</returns>
+        public async Task<Lesson> GetNextLesson(int lessonId)
         {
-            var allLessonDates = await GetLessonDates(lessonId);
             var lesson = await _lessonRepository.GetLesson(lessonId);
-            if (allLessonDates == null || allLessonDates.Count == 0 || lesson == null)
+            return await GetNextLesson(lesson);
+        }
+
+        /// <summary>
+        /// Get the next lesson with updated dates (start, end, breakStart, breakEnd)
+        /// </summary>
+        /// <param name="lesson">lesson object contains lesson's details</param>
+        /// <returns>Lesson object contains the next lesson's dates</returns>
+        public async Task<Lesson> GetNextLesson(Lesson lesson)
+        {
+            if (lesson == null)
+            {
+                return null;
+            }
+            var allLessonDates = await GetLessonDates(lesson.Id);
+            
+            if (allLessonDates == null || allLessonDates.Count == 0)
             {
                 return null;
             }
             DateTime nextLessonStart = allLessonDates.First();
-            //run until it find the next lesson
+            //run until it find the next lesson wihch is the first date greater or equal to today
             foreach (var date in allLessonDates)
             {
                 if (date.Day >= DateTime.Now.Day)
@@ -320,13 +335,18 @@ namespace DbAccess.Repositories
                 nextBreakStart = nextLessonStart.AddSeconds((lesson.BreakStart - lesson.StartTime).TotalSeconds);
                 nextBreakEnd = nextLessonStart.AddSeconds((lesson.BreakEnd - lesson.StartTime).TotalSeconds);
             }
-            return new DateTime[]
-            {
-                nextLessonStart,
-                nextLessonEnd,
-                nextBreakStart,
-                nextBreakEnd
-            };
+            lesson.StartTime = nextLessonStart;
+            lesson.EndTime = nextLessonEnd;
+            lesson.BreakStart = nextBreakStart;
+            lesson.BreakEnd = nextBreakEnd;
+
+            return lesson;
+        }
+
+        public async Task<Lesson> GetNextLesson(string classCode)
+        {
+            var lesson = await _lessonRepository.GetLesson(classCode);
+            return await GetNextLesson(lesson);
         }
     }
 }

@@ -22,15 +22,63 @@ namespace DataManagement.Api.Controllers
     {
         private readonly ILogger _logger;
         private readonly ILessonRepository _lessonRepository;
+        private readonly IMeasurementRepository _measurementRepository;
 
-        public LessonController(ILogger<LessonController> logger, ILessonRepository lessonRepository)
+
+        public LessonController(ILogger<LessonController> logger, ILessonRepository lessonRepository, IMeasurementRepository measurementRepository)
         {
             _logger = logger;
             _lessonRepository = lessonRepository;
+            _measurementRepository = measurementRepository;
         }
 
         /// <summary>
-        /// Get LessonDto object by class code string
+        /// Get LessonDto object by lesson id
+        /// </summary>
+        /// <param name="lessonId">Lesson id</param>
+        /// <response code="200">LessonDto object contains all of the lesson details</response>
+        /// <response code="400">BadRequest - invalid values (null or empty class code)</response>
+        /// <response code="404">NotFound - cannot find the lesson in DB</response>
+        /// <response code="500">InternalServerError - for any error occurred in server</response>
+        [ProducesResponseType(typeof(LessonDto), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(500)]
+        [HttpGet("{lessonId}")]
+        public async Task<ActionResult<LessonDto>> Get(int lessonId)
+        {
+            //validate request
+            if (lessonId < 1)
+            {
+                string msg = $"lesson id: {lessonId} must be positive";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            try
+            {
+                //get lesson from DB
+                var lesson = await _lessonRepository.GetLesson(lessonId);
+                if (lesson == null)
+                {
+                    string msg = $"lesson with lesson id: {lessonId} not found in DB";
+                    _logger.LogError(msg);
+                    return NotFound(msg);
+                }
+                else
+                {
+                    return Ok(lesson.ToDto());
+                }
+            }
+            catch (Exception e)
+            {
+                string msg = $"cannot get lesson with lesson id: {lessonId}. due to: {e}";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        /// <summary>
+        /// Get LessonDto object (contains the next lesson's dates) by class code string
         /// </summary>
         /// <param name="classCode">The class code string</param>
         /// <response code="200">LessonDto object contains all of the lesson details</response>
@@ -41,8 +89,8 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpGet("{classCode}")]
-        public async Task<ActionResult<LessonDto>> Get(string classCode)
+        [HttpGet("GetNextLesson/{classCode}")]
+        public async Task<ActionResult<LessonDto>> GetNextLesson(string classCode)
         {
             //validate request
             if (String.IsNullOrWhiteSpace(classCode))
@@ -54,7 +102,7 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //get lesson from DB
-                var lesson = await _lessonRepository.GetLesson(classCode);
+                var lesson = await _measurementRepository.GetNextLesson(classCode);
                 if (lesson == null)
                 {
                     string msg = $"lesson with class code: {classCode} not found in DB";
@@ -87,7 +135,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
         [HttpGet("AllLessons/{teacherId}")]
-        public async Task<ActionResult<LessonDto>> Get(int teacherId)
+        public async Task<ActionResult<List<LessonDto>>> GetLessons(int teacherId)
         {
             //validate request
             if (teacherId < 0)

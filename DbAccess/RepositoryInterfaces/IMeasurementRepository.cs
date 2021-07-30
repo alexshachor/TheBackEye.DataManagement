@@ -18,7 +18,11 @@ namespace DbAccess.RepositoryInterfaces
 
         public Task<List<DateTime>> GetLessonDates(int lessonId);
 
-        public Task<DateTime[]> GetNextLessonDates(int lessonId);
+        public Task<Lesson> GetNextLesson(int lessonId);
+
+        public Task<Lesson> GetNextLesson(string classCode);
+
+        public Task<Lesson> GetNextLesson(Lesson lesson);
 
         public Task<Measurement> AddMeasurement(Measurement measurement);
 
