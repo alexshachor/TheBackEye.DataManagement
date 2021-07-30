@@ -180,11 +180,18 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<LessonDto>> Post([FromBody] LessonDto lessonDto)
         {
-            //TODO: add validation for each filed
             //validate request
             if (lessonDto == null)
             {
                 string msg = $"lessonDto is null";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
+            if (lessonDto.Id < 1 || lessonDto.PersonId < 1 || string.IsNullOrEmpty(lessonDto.ClassCode))
+            {
+                string msg = $"lessonDto.id: {lessonDto.Id} or " +
+                    $"lessonDto.PersonId: {lessonDto.PersonId} or" +
+                    $" lessonDto.ClassCode {lessonDto.ClassCode} are invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -199,7 +206,7 @@ namespace DataManagement.Api.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, msg);
                 }
                 else
-                {                  
+                {
                     return Ok(lesson.ToDto());
                 }
             }
