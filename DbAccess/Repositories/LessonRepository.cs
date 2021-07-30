@@ -29,7 +29,7 @@ namespace DbAccess.Repositories
         {
             try
             {
-                return await _context.Lessons.Where(x => x.ClassCode == classCode).Include(x=>x.Person).FirstOrDefaultAsync();
+                return await _context.Lessons.Where(x => x.ClassCode == classCode).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
