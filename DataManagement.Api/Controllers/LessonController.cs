@@ -197,7 +197,7 @@ namespace DataManagement.Api.Controllers
             }
             try
             {
-                //add student to DB
+                //add a new lesson to DB
                 var lesson = await _lessonRepository.AddLesson(lessonDto.ToModel());
                 if (lesson == null)
                 {
