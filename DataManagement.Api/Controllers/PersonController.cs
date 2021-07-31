@@ -1,4 +1,5 @@
-﻿using DbAccess.RepositoryInterfaces;
+﻿using BusinessLogic;
+using DbAccess.RepositoryInterfaces;
 using Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -136,7 +137,6 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<PersonDto>> Post([FromBody] PersonDto personDto)
         {
-            //TODO: add validation for each filed
             //validate request
             if (personDto == null)
             {
@@ -146,6 +146,10 @@ namespace DataManagement.Api.Controllers
             }
             try
             {
+                if (string.IsNullOrEmpty(personDto.Password))
+                {
+                    personDto.Password = PasswordGenerator.Generate();
+                }
                 //add person to DB
                 var person = await _personRepository.AddPerson(personDto.ToModel());
                 if (person == null)
