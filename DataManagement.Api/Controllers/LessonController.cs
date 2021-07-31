@@ -138,9 +138,9 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<List<LessonDto>>> GetLessons(int teacherId)
         {
             //validate request
-            if (teacherId < 0)
+            if (teacherId < 1)
             {
-                string msg = $"teacher id: {teacherId} is invalid";
+                string msg = $"teacher id: {teacherId} must be positive";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -187,7 +187,7 @@ namespace DataManagement.Api.Controllers
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
-            if (lessonDto.Id < 1 || lessonDto.PersonId < 1 || string.IsNullOrEmpty(lessonDto.ClassCode))
+            if (lessonDto.Id < 0 || lessonDto.PersonId < 1 || string.IsNullOrEmpty(lessonDto.ClassCode))
             {
                 string msg = $"lessonDto.id: {lessonDto.Id} or " +
                     $"lessonDto.PersonId: {lessonDto.PersonId} or" +
@@ -275,7 +275,6 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<LessonDto>> Put([FromBody] LessonDto lessonDto)
         {
-            //TODO: add validation for each filed
             //validate request
             if (lessonDto == null)
             {
@@ -283,9 +282,17 @@ namespace DataManagement.Api.Controllers
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
+            if (lessonDto.Id < 0 || lessonDto.PersonId < 1 || string.IsNullOrEmpty(lessonDto.ClassCode))
+            {
+                string msg = $"lessonDto.id: {lessonDto.Id} or " +
+                    $"lessonDto.PersonId: {lessonDto.PersonId} or" +
+                    $" lessonDto.ClassCode {lessonDto.ClassCode} are invalid";
+                _logger.LogError(msg);
+                return BadRequest(msg);
+            }
             try
             {
-                //add student to DB
+                //update lesson in DB
                 var lesson = await _lessonRepository.UpdateLesson(lessonDto.ToModel());
                 if (lesson == null)
                 {

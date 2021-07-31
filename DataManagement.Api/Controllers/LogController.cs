@@ -135,9 +135,9 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<LogDto>> Post([FromBody] LogDto logDto)
         {
-            if (logDto == null)
+            if (logDto == null || logDto.PersonId < 1)
             {
-                string msg = $"logDto is null";
+                string msg = $"logDto is null or person id is invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }

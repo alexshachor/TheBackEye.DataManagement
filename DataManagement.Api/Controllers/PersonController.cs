@@ -184,11 +184,10 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<PersonDto>> Put([FromBody] PersonDto personDto)
         {
-            //TODO: add validation for each filed
             //validate request
-            if (personDto == null)
+            if (personDto == null || personDto.Id < 1)
             {
-                string msg = $"personDto is null";
+                string msg = $"personDto is null or person id is invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -231,7 +230,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<bool>> Delete(int personId)
         {
             //validate request
-            if (personId < 0)
+            if (personId < 1)
             {
                 string msg = $"person id: {personId} is invalid";
                 _logger.LogError(msg);

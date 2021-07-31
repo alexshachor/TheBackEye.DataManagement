@@ -43,9 +43,9 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<MeasurementDto>> Post([FromBody] MeasurementDto measurementDto)
         {
             //validate request
-            if (measurementDto == null)
+            if (measurementDto == null || measurementDto.PersonId < 1)
             {
-                string msg = $"measurementDto is null";
+                string msg = $"measurementDto is null or person id is invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -89,7 +89,7 @@ namespace DataManagement.Api.Controllers
             //validate request
             if (measurements == null || measurements.Count == 0)
             {
-                string msg = $"measurements is null or empty";
+                string msg = $"measurements are null or empty";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
@@ -137,7 +137,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<List<StudentAttendanceDto>>> GetStudentsAttendance(int lessonId, DateTime lessonTime)
         {
             //validate request
-            if (lessonId < 0 || lessonTime == DateTime.MinValue)
+            if (lessonId < 1 || lessonTime == DateTime.MinValue)
             {
                 string msg = $"lesson id: {lessonId} or lesson time: {lessonTime} are invalid";
                 _logger.LogError(msg);
@@ -190,7 +190,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<List<MeasurementDto>>> GetStudentMeasurements(int lessonId, int personId, DateTime lessonTime)
         {
             //validate request
-            if (lessonId < 0 || personId < 0 || lessonTime == DateTime.MinValue)
+            if (lessonId < 1 || personId < 1 || lessonTime == DateTime.MinValue)
             {
                 string msg = $"lesson id: {lessonId} or person id: {personId} or lesson time: {lessonTime} are invalid";
                 _logger.LogError(msg);
@@ -236,7 +236,7 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<List<MeasurementDto>>> GetLessonMeasurements(int lessonId, DateTime lessonTime)
         {
             //validate request
-            if (lessonId < 0 || lessonTime == DateTime.MinValue)
+            if (lessonId < 1 || lessonTime == DateTime.MinValue)
             {
                 string msg = $"lesson id: {lessonId} or lesson time: {lessonTime} are invalid";
                 _logger.LogError(msg);
@@ -282,9 +282,9 @@ namespace DataManagement.Api.Controllers
         public async Task<ActionResult<List<DateTime>>> GetLessonHistory(int lessonId)
         {
             //validate request
-            if (lessonId < 0)
+            if (lessonId < 1)
             {
-                string msg = $"lesson id: {lessonId} is invalid";
+                string msg = $"lesson id: {lessonId} must be postive";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
