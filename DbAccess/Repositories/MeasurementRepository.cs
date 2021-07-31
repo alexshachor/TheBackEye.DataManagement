@@ -108,9 +108,24 @@ namespace DbAccess.Repositories
                 var lessonLengthSec = (studentlesson.Lesson.EndTime - studentlesson.Lesson.StartTime).TotalSeconds;
                 var lessonEnd = lessonTime.AddSeconds(lessonLengthSec);
 
+                //in order to improve performance and avoid redundancy there is no need for person and lesson object
                 measurements = await _context.Measurements.Where(m => m.LessonId == lessonId &&
                    m.PersonId == personId &&
-                  (m.DateTime >= lessonTime && m.DateTime <= lessonEnd)).ToListAsync();
+                  (m.DateTime >= lessonTime && m.DateTime <= lessonEnd)).Select(m => new Measurement
+                  {
+                      Id = m.Id,
+                      DateTime = m.DateTime,
+                      LessonId = m.LessonId,
+                      PersonId = m.PersonId,
+                      FaceDetector = m.FaceDetector,
+                      FaceRecognition = m.FaceRecognition,
+                      HeadPose = m.HeadPose,
+                      ObjectDetection = m.ObjectDetection,
+                      OnTop = m.OnTop,
+                      SleepDetector = m.SleepDetector,
+                      SoundCheck = m.SoundCheck
+
+                  }).ToListAsync();
             }
             catch (Exception e)
             {
@@ -268,11 +283,20 @@ namespace DbAccess.Repositories
                 }
                 List<DateTime> allLessonDates = GetAllLessonsDates(lesson.StartTime);
                 activeDates = new List<DateTime>();
+                var lessonLengthSec = (lesson.EndTime - lesson.StartTime).TotalSeconds;
                 foreach (var date in allLessonDates)
                 {
-                    var measurements = await GetLessonMeasurements(lessonId, date);
+                    //if date is greater than today => there is no point to check future lesson
+                    if ((date - DateTime.Now).TotalDays > 0)
+                    {
+                        break;
+                    }
+                    var lessonEnd = date.AddSeconds(lessonLengthSec);
                     //if there is any measurment taken in that time => there has been an actual lesson
-                    if (measurements != null && measurements.Count > 0)
+                    bool isActiveLesson = await _context.Measurements.AnyAsync(m => m.LessonId == lessonId &&
+                      (m.DateTime >= date && m.DateTime <= lessonEnd));
+                   
+                    if (isActiveLesson == true)
                     {
                         activeDates.Add(date);
                     }
