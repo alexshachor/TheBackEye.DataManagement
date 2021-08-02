@@ -286,12 +286,12 @@ namespace DbAccess.Repositories
                 var lessonLengthSec = (lesson.EndTime - lesson.StartTime).TotalSeconds;
                 foreach (var date in allLessonDates)
                 {
+                    var lessonEnd = date.AddSeconds(lessonLengthSec);
                     //if date is greater than today => there is no point to check future lesson
-                    if ((date - DateTime.Now).TotalDays > 0)
+                    if ((lessonEnd - DateTime.Now).TotalDays > 0)
                     {
                         break;
                     }
-                    var lessonEnd = date.AddSeconds(lessonLengthSec);
                     //if there is any measurment taken in that time => there has been an actual lesson
                     bool isActiveLesson = await _context.Measurements.AnyAsync(m => m.LessonId == lessonId &&
                       (m.DateTime >= date && m.DateTime <= lessonEnd));
@@ -339,11 +339,14 @@ namespace DbAccess.Repositories
                 return null;
             }
             DateTime nextLessonStart = allLessonDates.First();
+            var lessonLengthSec = (lesson.EndTime - lesson.StartTime).TotalSeconds;
+            DateTime nextLessonEnd = nextLessonStart.AddSeconds(lessonLengthSec);
             //run until it find the next lesson wihch is the first date greater or equal to today
             foreach (var date in allLessonDates)
             {
+                nextLessonEnd = date.AddSeconds(lessonLengthSec);
                 //if date is greater or equal to today
-                if ((date - DateTime.Now).TotalDays >= 0)
+                if ((nextLessonEnd - DateTime.Now).TotalDays >= 0)
                 {
                     nextLessonStart = date;
                     break;
@@ -351,7 +354,6 @@ namespace DbAccess.Repositories
             }
 
             //calculate the current lesson dates (start, end, breakStart, breakEnd) based on the origin timespan
-            var nextLessonEnd = nextLessonStart.AddSeconds((lesson.EndTime - lesson.StartTime).TotalSeconds);
             var nextBreakStart = DateTime.MinValue;
             var nextBreakEnd = DateTime.MinValue;
             if (lesson.BreakStart != DateTime.MinValue)
