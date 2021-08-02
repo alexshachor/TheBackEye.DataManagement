@@ -2,6 +2,7 @@
 using Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,13 @@ namespace DataManagement.Api.Controllers
     {
         private readonly ILogger _logger;
         private readonly IMeasurementRepository _measurementRepository;
+        private readonly IHubContext<StreamHub> _hubContext;
 
-        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository)
+        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository, IHubContext<StreamHub> hub)
         {
             _logger = logger;
             _measurementRepository = measurementRepository;
+            _hubContext = hub;
         }
 
         /// <summary>
@@ -61,7 +64,9 @@ namespace DataManagement.Api.Controllers
                 }
                 else
                 {
-                    return Ok(measurement.ToDto());
+                    var newMeasurementDto = measurement.ToDto();
+                    await _hubContext.Clients.All.SendAsync("TransferMeasurements", new MeasurementDto[] { newMeasurementDto });
+                    return Ok(newMeasurementDto);
                 }
             }
             catch (Exception e)
@@ -110,6 +115,7 @@ namespace DataManagement.Api.Controllers
                     throw new Exception($"Not all measurements were added. measurements to add: {measurements.Count}. measurements added: {allAddedMeasurement.Count}");
                 }
 
+                await _hubContext.Clients.All.SendAsync("TransferMeasurements", allAddedMeasurement);
                 return Ok(allAddedMeasurement);
             }
             catch (Exception e)
