@@ -58,11 +58,16 @@ namespace DataManagement.Api
 
             services.AddCors(options =>
             {
+                //options.AddPolicy("CorsPolicy", builder => builder
+                //.AllowAnyMethod()
+                //.AllowAnyHeader()
+                //.AllowCredentials()
+                //.WithOrigins(Configuration.GetSection("ClientUrl").Value));
+
                 options.AddPolicy("CorsPolicy", builder => builder
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins(Configuration.GetSection("ClientUrl").Value));
+                .AllowAnyHeader());
             });
         }
 
@@ -94,7 +99,8 @@ namespace DataManagement.Api
                 endpoints.MapControllers();
                 endpoints.MapHub<StreamHub>("/streamHub");
             });
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
+            app.UseCors("AllowAllHeaders");
         }
     }
 }
