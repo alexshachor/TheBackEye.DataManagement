@@ -1,4 +1,5 @@
-﻿using DbAccess.RepositoryInterfaces;
+﻿using BusinessLogic;
+using DbAccess.RepositoryInterfaces;
 using Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -197,6 +198,10 @@ namespace DataManagement.Api.Controllers
             }
             try
             {
+                if (string.IsNullOrEmpty(lessonDto.ClassCode))
+                {
+                    lessonDto.ClassCode = PasswordGenerator.Generate();
+                }
                 //add a new lesson to DB
                 var lesson = await _lessonRepository.AddLesson(lessonDto.ToModel());
                 if (lesson == null)

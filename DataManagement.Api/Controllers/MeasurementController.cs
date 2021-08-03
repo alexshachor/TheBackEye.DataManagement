@@ -23,14 +23,15 @@ namespace DataManagement.Api.Controllers
     {
         private readonly ILogger _logger;
         private readonly IMeasurementRepository _measurementRepository;
-        private readonly IHubContext<StreamHub> _hubContext;
+        private readonly IHubContext<MeasurementsHub> _hubContext;
 
-        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository, IHubContext<StreamHub> hub)
+        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository, IHubContext<MeasurementsHub> hub)
         {
             _logger = logger;
             _measurementRepository = measurementRepository;
             _hubContext = hub;
         }
+
 
         /// <summary>
         /// Add a new Measurement to DB

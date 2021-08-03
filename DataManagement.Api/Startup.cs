@@ -97,7 +97,7 @@ namespace DataManagement.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<StreamHub>("/streamHub");
+                endpoints.MapHub<MeasurementsHub>("/measurementsHub");
             });
             //app.UseCors("CorsPolicy");
             app.UseCors("AllowAllHeaders");

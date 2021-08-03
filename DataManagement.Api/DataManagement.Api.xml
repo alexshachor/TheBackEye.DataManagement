@@ -286,24 +286,13 @@
             <response code="404">NotFound - cannot find the student Lesson in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.TimerManager.Execute(System.Object)">
+        <member name="M:BusinessLogic.PasswordGenerator.Generate(System.Int32,System.Int32)">
             <summary>
-            We are using an Action delegate to execute the passed callback function every X seconds.
-            The timer will make a X seconds pause before the first execution.
-            Finally, we just create a sixty seconds time slot for execution, to avoid limitless timer loop.
+            Generates a new password based on the given params
             </summary>
-            <param name="stateInfo"></param>
-        </member>
-        <member name="M:DataManagement.Api.TimerManager.UpdateInterval(System.Int32)">
-            <summary>
-            Update the timer with the given interval
-            </summary>
-            <param name="interval">every X time timer will evoke</param>
-        </member>
-        <member name="M:DataManagement.Api.TimerManager.Stop">
-            <summary>
-            Stops the timer
-            </summary>
+            <param name="length">password's desired length</param>
+            <param name="numberOfNonAlphanumericCharacters">number of special chars (non alphanumeric) in passwords</param>
+            <returns></returns>
         </member>
     </members>
 </doc>
