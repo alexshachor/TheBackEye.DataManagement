@@ -50,6 +50,25 @@ namespace DataManagement.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
+
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
+
+            services.AddCors(options =>
+            {
+                //options.AddPolicy("CorsPolicy", builder => builder
+                //.AllowAnyMethod()
+                //.AllowAnyHeader()
+                //.AllowCredentials()
+                //.WithOrigins(Configuration.GetSection("ClientUrl").Value));
+
+                options.AddPolicy("CorsPolicy", builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +97,10 @@ namespace DataManagement.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MeasurementsHub>("/measurementsHub");
             });
+            //app.UseCors("CorsPolicy");
+            app.UseCors("AllowAllHeaders");
         }
     }
 }

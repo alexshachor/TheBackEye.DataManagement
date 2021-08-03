@@ -125,7 +125,7 @@ namespace DbAccess.Repositories
                       SleepDetector = m.SleepDetector,
                       SoundCheck = m.SoundCheck
 
-                  }).ToListAsync();
+                  }).OrderBy(m => m.DateTime).ToListAsync();
             }
             catch (Exception e)
             {
@@ -295,7 +295,7 @@ namespace DbAccess.Repositories
                     //if there is any measurment taken in that time => there has been an actual lesson
                     bool isActiveLesson = await _context.Measurements.AnyAsync(m => m.LessonId == lessonId &&
                       (m.DateTime >= date && m.DateTime <= lessonEnd));
-                   
+
                     if (isActiveLesson == true)
                     {
                         activeDates.Add(date);

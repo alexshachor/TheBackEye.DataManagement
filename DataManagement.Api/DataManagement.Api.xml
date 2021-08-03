@@ -286,5 +286,13 @@
             <response code="404">NotFound - cannot find the student Lesson in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
+        <member name="M:BusinessLogic.PasswordGenerator.Generate(System.Int32,System.Int32)">
+            <summary>
+            Generates a new password based on the given params
+            </summary>
+            <param name="length">password's desired length</param>
+            <param name="numberOfNonAlphanumericCharacters">number of special chars (non alphanumeric) in passwords</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
