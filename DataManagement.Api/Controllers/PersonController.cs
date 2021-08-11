@@ -43,8 +43,8 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpGet("{password}")]
-        public async Task<ActionResult<PersonDto>> Get(string password)
+        [HttpPost("GetStudent")]
+        public async Task<ActionResult<PersonDto>> Post([FromBody] string password)
         {
             //validate request
             if (String.IsNullOrWhiteSpace(password))
@@ -90,8 +90,8 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpGet("{email}/{password}")]
-        public async Task<ActionResult<PersonDto>> Get(string email, string password)
+        [HttpPost("GetTeacher/{email}")]
+        public async Task<ActionResult<PersonDto>> Post([FromBody] string password, string email)
         {
             //validate request
             if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))

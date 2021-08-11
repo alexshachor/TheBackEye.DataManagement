@@ -167,7 +167,10 @@ namespace DbAccess.Repositories
                 {
                     throw new Exception($"Person id: {personId} not found in DB");
                 }
-                //TODO: in case of teacher should we delete lesson too?
+                if (person.Type == DataAccess.Model.PersonType.Teacher)
+                {
+                    await _lessonRepository.DeleteAllLessonsByTeacherId(personId);
+                }
                 await _measurementRepository.DeleteAllStudentMeasurement(personId);
                 await _studentLessonRepository.DeleteAllStudentLessons(personId);
                 await _logRepository.DeletePersonLogs(personId);
