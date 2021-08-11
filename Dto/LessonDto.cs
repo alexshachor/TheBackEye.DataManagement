@@ -20,8 +20,8 @@ namespace Dtos
         public string DayOfWeek { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public DateTime BreakStart { get; set; }
-        public DateTime BreakEnd { get; set; }
+        public DateTime? BreakStart { get; set; }
+        public DateTime? BreakEnd { get; set; }
         public int MaxLate { get; set; }
         public string ClassCode { get; set; }
     }
@@ -37,8 +37,8 @@ namespace Dtos
                 PersonId = dto.PersonId,
                 Name = dto.Name,
                 ClassCode = dto.ClassCode,
-                BreakStart = dto.BreakStart,
-                BreakEnd = dto.BreakEnd,
+                BreakStart = dto.BreakStart ?? DateTime.MinValue,
+                BreakEnd = dto.BreakEnd ?? DateTime.MinValue,
                 DayOfWeek = dto.DayOfWeek,
                 Description = dto.Description,
                 StartTime = dto.StartTime,
@@ -62,8 +62,8 @@ namespace Dtos
                 PersonId = model.PersonId,
                 Name = model.Name,
                 ClassCode = model.ClassCode,
-                BreakStart = model.BreakStart,
-                BreakEnd = model.BreakEnd,
+                BreakStart = model.BreakStart != DateTime.MinValue ? model.BreakStart: null,
+                BreakEnd = model.BreakEnd != DateTime.MinValue ? model.BreakEnd : null,
                 DayOfWeek = model.DayOfWeek,
                 Description = model.Description,
                 StartTime = model.StartTime,

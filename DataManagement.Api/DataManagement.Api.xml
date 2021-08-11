@@ -59,16 +59,6 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.Controllers.LessonController.Delete(Dtos.LessonDto)">
-            <summary>
-            Delete lessonDto object by the class code
-            </summary>
-            <param name="lesson">The lesson we want to delete </param>
-            <response code="200">bool true</response>
-            <response code="400">BadRequest - invalid values (lower than 1)</response>
-            <response code="404">NotFound - cannot find the lesson in DB</response>
-            <response code="500">InternalServerError - for any error occurred in server</response>
-        </member>
         <member name="M:DataManagement.Api.Controllers.LessonController.Put(Dtos.LessonDto)">
             <summary>
             Change lesson in the DB
@@ -76,6 +66,16 @@
             <param name="lessonDto">LessonDto object contains all of the new lesson's details</param>
             <response code="200">LessonDto object contains all of the details from DB</response>
             <response code="400">BadRequest - invalid values</response>
+            <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.LessonController.Delete(System.Int32)">
+            <summary>
+            Delete lessonDto object by lesson id
+            </summary>
+            <param name="lessonId">The lesson we want to delete </param>
+            <response code="200">bool true</response>
+            <response code="400">BadRequest - invalid values (lower than 1)</response>
+            <response code="404">NotFound - cannot find the lesson in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
         <member name="T:DataManagement.Api.Controllers.LogController">
@@ -204,7 +204,7 @@
             PersonController is responsible for all the Person's CRUD operations using API calls 
             </summary>
         </member>
-        <member name="M:DataManagement.Api.Controllers.PersonController.Get(System.String)">
+        <member name="M:DataManagement.Api.Controllers.PersonController.Post(System.String)">
             <summary>
             Get PersonDto object by the person password
             </summary>
@@ -214,7 +214,7 @@
             <response code="404">NotFound - cannot find the person in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.Controllers.PersonController.Get(System.String,System.String)">
+        <member name="M:DataManagement.Api.Controllers.PersonController.Post(System.String,System.String)">
             <summary>
             Get PersonDto object (represents the teacher) by the person email and password
             </summary>

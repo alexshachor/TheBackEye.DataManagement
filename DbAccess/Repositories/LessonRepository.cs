@@ -89,26 +89,28 @@ namespace DbAccess.Repositories
         /// <summary>
         /// delete a given lesson from DB
         /// </summary>
-        /// <param name="lesson">lesson object to delete</param>
-        /// <returns>null if not found, lesson deleted otherwise</returns>
-        public async Task<Lesson> DeleteLesson(Lesson lesson)
+        /// <param name="lesson">lesson id to delete</param>
+        /// <returns>false if not found or error, true otherwise</returns>
+        public async Task<bool> DeleteLesson(int lessonId)
         {
-            var tmpLesson = await GetLesson(lesson.ClassCode);
+            var tmpLesson = await GetLesson(lessonId);
             if (tmpLesson == null)
             {
-                return null;
+                return false;
             }
             try
             {
+                _context.StudentLessons.RemoveRange(_context.StudentLessons.Where(x => x.LessonId == tmpLesson.Id));
+                _context.Measurements.RemoveRange(_context.Measurements.Where(x=>x.LessonId == tmpLesson.Id));
                 _context.Lessons.Remove(tmpLesson);
-                _context.StudentLessons.RemoveRange(_context.StudentLessons.Where(x => x.LessonId == tmpLesson.Id && x.PersonId == tmpLesson.PersonId));
                 await _context.SaveChangesAsync();
+                return true;
             }
             catch (Exception e)
             {
-                _logger.LogError($"Cannot delete lesson from DB. class code: {tmpLesson.ClassCode}. due to: {e}");
+                _logger.LogError($"Cannot delete lesson from DB. lesson id: {tmpLesson.Id}. due to: {e}");
             }
-            return lesson;
+            return false;
         }
 
         /// <summary>
@@ -148,6 +150,33 @@ namespace DbAccess.Repositories
                 _logger.LogError($"Cannot get lesson from DB. lesson id: {lessonId}. due to: {e}");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Delete all the lessons of a given teacher id
+        /// </summary>
+        /// <param name="teacherId">id of the teacher</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
+        public async Task<bool> DeleteAllLessonsByTeacherId(int teacherId)
+        {
+            var allTeacherLessons = await _context.Lessons.Where(l=> l.PersonId == teacherId).Select(l=>l.Id).ToListAsync();
+            if (allTeacherLessons == null)
+            {
+                return false;
+            }
+            try
+            {
+                foreach (var lessonId in allTeacherLessons)
+                {
+                    await DeleteLesson(lessonId);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Cannot delete lessons of teacher id: {teacherId} from DB. due to: {e}");
+            }
+            return false;
         }
     }
 }

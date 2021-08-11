@@ -64,10 +64,10 @@ namespace DataManagement.Api
                 //.AllowCredentials()
                 //.WithOrigins(Configuration.GetSection("ClientUrl").Value));
 
-                options.AddPolicy("CorsPolicy", builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+                //options.AddPolicy("CorsPolicy", builder => builder
+                //.AllowAnyOrigin()
+                //.AllowAnyMethod()
+                //.AllowAnyHeader()approach settings);
             });
         }
 
@@ -87,6 +87,10 @@ namespace DataManagement.Api
                     });
             //}
 
+            app.UseCors(builder => builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
