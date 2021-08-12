@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DbAccess.RepositoryInterfaces;
 using Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ namespace DataManagement.Api.Controllers
     /// <summary>
     /// LessonController is responsible for all the leasson's CRUD operations using API calls 
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LessonController : ControllerBase
