@@ -12,7 +12,6 @@ namespace Dtos
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public string Data { get; set; }
-        public PersonDto Person { get; set; }
         public int PersonId { get; set; }
     }
     public static class LogDtoExtension
@@ -24,7 +23,6 @@ namespace Dtos
                 Id = dto.Id,
                 CreationDate = dto.CreationDate,
                 Data = dto.Data,
-                Person = dto.Person?.ToModel(),
                 PersonId = dto.PersonId
             };
         }
@@ -39,7 +37,6 @@ namespace Dtos
                 Id = model.Id,
                 CreationDate = model.CreationDate,
                 Data = model.Data,
-                Person = model.Person?.ToDto(),
                 PersonId = model.PersonId
             };
         }

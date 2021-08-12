@@ -10,7 +10,6 @@ namespace Dtos
     public class LessonDto
     {
         public int Id { get; set; }
-        public PersonDto Person { get; set; }
         public int? PersonId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -33,7 +32,6 @@ namespace Dtos
             return new Lesson
             {
                 Id = dto.Id,
-                Person = dto.Person?.ToModel(),
                 PersonId = dto.PersonId,
                 Name = dto.Name,
                 ClassCode = dto.ClassCode,
@@ -58,7 +56,6 @@ namespace Dtos
             return new LessonDto
             {
                 Id = model.Id,
-                Person = model.Person?.ToDto(),
                 PersonId = model.PersonId,
                 Name = model.Name,
                 ClassCode = model.ClassCode,

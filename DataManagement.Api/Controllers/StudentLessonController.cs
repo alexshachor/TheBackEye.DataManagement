@@ -124,10 +124,11 @@ namespace DataManagement.Api.Controllers
             }
         }
         /// <summary>
-        /// Delete StudentLessonDto object by studentLessonId
+        /// Delete StudentLessonDto object by lesson id and person id
         /// </summary>
-        /// <param name="studentLessonId">The student Lesson relation we want to delete </param>
-        /// <response code="200">bool true</response>
+        /// <param name="lessonId">The lesson of student lesson relation we want to delete</param>
+        /// <param name="personId">The student of student lesson relation we want to delete</param>
+        /// <response code="200">True if deletion was a success and false otherwise</response>
         /// <response code="400">BadRequest - invalid values (lower than 1)</response>
         /// <response code="404">NotFound - cannot find the student Lesson in DB</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
@@ -135,23 +136,23 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
-        [HttpDelete("{studentLessonId}")]
-        public async Task<ActionResult<bool>> Delete(int studentLessonId)
+        [HttpDelete("{lessonId}/{personId}")]
+        public async Task<ActionResult<bool>> Delete(int lessonId, int personId)
         {
             //validate request
-            if (studentLessonId < 0)
+            if (lessonId < 0 || personId < 0)
             {
-                string msg = $"student lesson id: {studentLessonId} is invalid";
+                string msg = $"lesson id: {lessonId} or person id: {personId} are invalid";
                 _logger.LogError(msg);
                 return BadRequest(msg);
             }
             try
             {
                 //remove student Lesson from DB
-                var result = await _studentLessonRepository.DeleteStudentLesson(studentLessonId);
+                var result = await _studentLessonRepository.DeleteStudentLesson(lessonId,personId);
                 if (!result)
                 {
-                    string msg = $"cannot find student lesson with id: {studentLessonId} in DB";
+                    string msg = $"cannot delete student lesson with lesson id: {lessonId} and person id: {personId} from DB";
                     _logger.LogError(msg);
                     return NotFound(msg);
                 }
@@ -162,7 +163,7 @@ namespace DataManagement.Api.Controllers
             }
             catch (Exception e)
             {
-                string msg = $"cannot remove the student lesson with the student lesson id: {studentLessonId} from DB. Due to {e}";
+                string msg = $"cannot remove the student lesson with lesson id: {lessonId} and person id: {personId} from DB. Due to {e}";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

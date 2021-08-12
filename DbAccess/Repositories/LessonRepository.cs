@@ -68,7 +68,6 @@ namespace DbAccess.Repositories
                 var lessonFromDb = await GetLesson(lesson.ClassCode);
                 if (lessonFromDb == null)
                 {
-                    lesson.Person = null;
                     _context.Add(lesson);
                     await _context.SaveChangesAsync();
                     lessonFromDb = await GetLesson(lesson.ClassCode);                 
