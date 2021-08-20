@@ -1,5 +1,6 @@
 ﻿using DbAccess.RepositoryInterfaces;
 using Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ namespace DataManagement.Api.Controllers
     /// <summary>
     /// LogController is responsible for all the log's CRUD operations using API calls 
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LogController : ControllerBase

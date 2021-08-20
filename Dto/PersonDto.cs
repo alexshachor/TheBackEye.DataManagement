@@ -32,7 +32,6 @@ namespace Dtos
                 Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                Token = dto.Token
             };
         }
     }
@@ -49,7 +48,6 @@ namespace Dtos
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Token = model.Token
             };
         }
 

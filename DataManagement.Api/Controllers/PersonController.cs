@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DbAccess.RepositoryInterfaces;
 using Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,18 +18,21 @@ namespace DataManagement.Api.Controllers
     /// <summary>
     /// PersonController is responsible for all the Person's CRUD operations using API calls 
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IPersonRepository _personRepository;
+        private readonly IJwtAuth _jwtAuth;
 
 
-        public PersonController(ILogger<PersonController> logger, IPersonRepository personRepository)
+        public PersonController(ILogger<PersonController> logger, IPersonRepository personRepository, IJwtAuth jwtAuth)
         {
             _logger = logger;
             _personRepository = personRepository;
+            _jwtAuth = jwtAuth;
         }
 
         /// <summary>
@@ -43,6 +47,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
+        [AllowAnonymous]
         [HttpPost("GetStudent")]
         public async Task<ActionResult<PersonDto>> Post([FromBody] string password)
         {
@@ -65,7 +70,9 @@ namespace DataManagement.Api.Controllers
                 }
                 else
                 {
-                    return Ok(person.ToDto());
+                    var newPersonDto = person.ToDto();
+                    newPersonDto.Token = _jwtAuth.Authentication(string.Empty, string.Empty);
+                    return Ok(newPersonDto);
                 }
             }
             catch (Exception e)
@@ -90,6 +97,7 @@ namespace DataManagement.Api.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         [ProducesResponseType(500)]
+        [AllowAnonymous]
         [HttpPost("GetTeacher/{email}")]
         public async Task<ActionResult<PersonDto>> Post([FromBody] string password, string email)
         {
@@ -103,7 +111,7 @@ namespace DataManagement.Api.Controllers
             try
             {
                 //get person from DB
-                var person = await _personRepository.GetPersonByEmailPassword(email,password);
+                var person = await _personRepository.GetPersonByEmailPassword(email, password);
                 if (person == null)
                 {
                     string msg = $"person with email: {email} and password: {password} not found in DB";
@@ -112,7 +120,9 @@ namespace DataManagement.Api.Controllers
                 }
                 else
                 {
-                    return Ok(person.ToDto());
+                    var newPersonDto = person.ToDto();
+                    newPersonDto.Token = _jwtAuth.Authentication(string.Empty, string.Empty);
+                    return Ok(newPersonDto);
                 }
             }
             catch (Exception e)
@@ -131,10 +141,11 @@ namespace DataManagement.Api.Controllers
         /// <response code="200">PersonDto object contains all of the person's personal details from DB</response>
         /// <response code="400">BadRequest - invalid values (Person is null)</response>
         /// <response code="500">InternalServerError - for any error occurred in server</response>
-        [HttpPost]
         [ProducesResponseType(typeof(PersonDto), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(500)]
+        [AllowAnonymous]
+        [HttpPost]
         public async Task<ActionResult<PersonDto>> Post([FromBody] PersonDto personDto)
         {
             //validate request
@@ -150,6 +161,7 @@ namespace DataManagement.Api.Controllers
                 {
                     personDto.Password = PasswordGenerator.Generate();
                 }
+                
                 //add person to DB
                 var person = await _personRepository.AddPerson(personDto.ToModel());
                 if (person == null)
@@ -160,7 +172,9 @@ namespace DataManagement.Api.Controllers
                 }
                 else
                 {
-                    return Ok(person.ToDto());
+                    var newPersonDto = person.ToDto();
+                    newPersonDto.Token = _jwtAuth.Authentication(string.Empty, string.Empty);
+                    return Ok(newPersonDto);
                 }
             }
             catch (Exception e)

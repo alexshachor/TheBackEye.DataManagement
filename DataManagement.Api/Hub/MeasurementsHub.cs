@@ -1,7 +1,6 @@
 ﻿using Dtos;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,16 +11,18 @@ namespace DataManagement.Api
 
     public class MeasurementsHub : Hub
     {
-        public MeasurementsHub() {}
+        public MeasurementsHub() { }
 
-
-       
-        public async Task Send(MeasurementDto[] measurements, IClientProxy client, string connection)
+        public override async Task OnConnectedAsync()
         {
-            await client.SendAsync("TransferMeasurements", measurements);
+            Console.WriteLine("Connected");
         }
 
-        
+
+        public Task Send(MeasurementDto[] measurements) =>
+            Clients.All.SendAsync("TransferMeasurements", measurements);
+
+
         public override Task OnDisconnectedAsync(Exception exception)
         {
             return base.OnDisconnectedAsync(exception);

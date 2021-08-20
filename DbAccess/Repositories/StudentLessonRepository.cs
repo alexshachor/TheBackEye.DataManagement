@@ -51,8 +51,6 @@ namespace DbAccess.Repositories
                 var studentLessonFromDb = await GetStudentLesson(studentLesson.LessonId, studentLesson.PersonId);
                 if (studentLessonFromDb == null)
                 {
-                    studentLesson.Person = null;
-                    studentLesson.Lesson = null;
                     _context.Add(studentLesson);
                     await _context.SaveChangesAsync();
                     return await GetStudentLesson(studentLesson.LessonId,studentLesson.PersonId);
@@ -71,27 +69,29 @@ namespace DbAccess.Repositories
         }
 
         /// <summary>
-        /// delete student lesson from DB
+        /// delete student lesson from DB by lesson id and person id
         /// </summary>
-        /// <param name="studentLesson">v to delete</param>
-        /// <returns>null if deletion failed and StudentLesson otherwise</returns>
-        public async Task<StudentLesson> DeleteStudentLesson(StudentLesson studentLesson)
+        /// <param name="lessonId">the lesson id we want to delete</param>
+        /// <param name="lessonId">the person id we want to delete</param>
+        /// <returns>true if deletion was a success and false otherwise</returns>
+        public async Task<bool> DeleteStudentLesson(int lessonId, int personId)
         {
-            var tmpStudentLesson = await GetStudentLesson(studentLesson.LessonId, studentLesson.PersonId);
+            var tmpStudentLesson = await GetStudentLesson(lessonId, personId);
             if (tmpStudentLesson == null)
             {
-                return null;
+                return false;
             }
             try
             {
                 _context.StudentLessons.Remove(tmpStudentLesson);
                 await _context.SaveChangesAsync();
+                return true;
             }
             catch (Exception e)
             {
-                _logger.LogError($"Cannot delete student lesson from DB. person id: {tmpStudentLesson.PersonId}. due to: {e}");
+                _logger.LogError($"Cannot delete student lesson from DB. student lesson id: {tmpStudentLesson.Id}. due to: {e}");
             }
-            return studentLesson;
+            return false;
         }
 
         /// <summary>

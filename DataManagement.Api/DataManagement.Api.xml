@@ -127,6 +127,12 @@
             MeasurementController is responsible for all the Measurement's CRUD operations using API calls 
             </summary>
         </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.TestSignalR">
+            <summary>
+            This API is just for testing - it sends new measurements to connected clients
+            </summary>
+            <returns>Ok if success, expception string otherwise</returns>
+        </member>
         <member name="M:DataManagement.Api.Controllers.MeasurementController.Post(Dtos.MeasurementDto)">
             <summary>
             Add a new Measurement to DB
@@ -198,6 +204,13 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="404">NotFound - cannot find the measurement in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.SendMeasurementsToClients(Dtos.MeasurementDto[])">
+            <summary>
+            Send measurements to connected clients
+            </summary>
+            <param name="measuremenrts">measurements to send</param>
+            <returns>Empty string if success, exception string otherwise</returns>
         </member>
         <member name="T:DataManagement.Api.Controllers.PersonController">
             <summary>
@@ -276,12 +289,13 @@
             <response code="400">BadRequest - null object or invalid values</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
         </member>
-        <member name="M:DataManagement.Api.Controllers.StudentLessonController.Delete(System.Int32)">
+        <member name="M:DataManagement.Api.Controllers.StudentLessonController.Delete(System.Int32,System.Int32)">
             <summary>
-            Delete StudentLessonDto object by studentLessonId
+            Delete StudentLessonDto object by lesson id and person id
             </summary>
-            <param name="studentLessonId">The student Lesson relation we want to delete </param>
-            <response code="200">bool true</response>
+            <param name="lessonId">The lesson of student lesson relation we want to delete</param>
+            <param name="personId">The student of student lesson relation we want to delete</param>
+            <response code="200">True if deletion was a success and false otherwise</response>
             <response code="400">BadRequest - invalid values (lower than 1)</response>
             <response code="404">NotFound - cannot find the student Lesson in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>

@@ -18,9 +18,7 @@ namespace Dtos
         public bool FaceDetector { get; set; }
         public bool ObjectDetection { get; set; }
         public bool SoundCheck { get; set; }
-        public LessonDto Lesson { get; set; }
         public int? LessonId { get; set; }
-        public PersonDto Person { get; set; }
         public int? PersonId { get; set; }
     }
 
@@ -32,10 +30,8 @@ namespace Dtos
             {
                 Id = dto.Id,
                 PersonId = dto.PersonId,
-                Person = dto.Person?.ToModel(),
                 DateTime = dto.DateTime,
                 LessonId = dto.LessonId,
-                Lesson = dto.Lesson?.ToModel(),
                 FaceDetector = dto.FaceDetector,
                 FaceRecognition = dto.FaceRecognition,
                 HeadPose = dto.HeadPose,
@@ -55,10 +51,8 @@ namespace Dtos
             {
                 Id = model.Id,
                 PersonId = model.PersonId,
-                Person = model.Person?.ToDto(),
                 DateTime = model.DateTime,
                 LessonId = model.LessonId,
-                Lesson = model.Lesson?.ToDto(),
                 FaceDetector = model.FaceDetector,
                 FaceRecognition = model.FaceRecognition,
                 HeadPose = model.HeadPose,
