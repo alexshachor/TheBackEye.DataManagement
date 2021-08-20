@@ -3,23 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{D5301E6E-70FA-495E-84C2-BE99855A3384}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Model", "Model\DataAccess.Model.csproj", "{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos", "Dto\Dtos.csproj", "{41C641F3-B7F2-49D7-83F1-45A5115BF329}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess", "DbAccess\DbAccess.csproj", "{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess.Tests", "DbAccess.Tests\DbAccess.Tests.csproj", "{03D6009D-496D-44D4-A8DE-D134EE10AD54}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseCreator", "DataBaseCreator\DataBaseCreator.csproj", "{5F8A0901-D7F6-481B-B1E0-0633E30CB854}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManagement.Api", "DataManagement.Api\DataManagement.Api.csproj", "{A765A458-C9DC-412B-8555-FDD7E0E998A1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManagement.Api.Tests", "DataManagement.Api.Tests\DataManagement.Api.Tests.csproj", "{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5301E6E-70FA-495E-84C2-BE99855A3384}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D755D55A-DC2E-4642-89D8-227EE3FB8C5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C17A815-EC86-4CB8-BC2C-2AF7E9608A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +31,6 @@ Global
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9A96574-6BD0-4877-92F1-4D7D326AE0CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03D6009D-496D-44D4-A8DE-D134EE10AD54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F8A0901-D7F6-481B-B1E0-0633E30CB854}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,10 +39,6 @@ Global
 		{A765A458-C9DC-412B-8555-FDD7E0E998A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A765A458-C9DC-412B-8555-FDD7E0E998A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A765A458-C9DC-412B-8555-FDD7E0E998A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CE38549-1F92-4896-8FA3-B29CEF49BDFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
