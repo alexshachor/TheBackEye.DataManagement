@@ -169,7 +169,7 @@ namespace DbAccess.Repositories
                 _logger.LogError($"Cannot get measurements from DB. due to: {e}");
             }
 
-            return measurements;
+            return measurements.OrderBy(m=>m.DateTime).ToList();
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace DbAccess.Repositories
             {
                 nextLessonEnd = date.AddSeconds(lessonLengthSec);
                 //if date is greater or equal to today
-                if ((nextLessonEnd - DateTime.Now).TotalDays >= 0)
+                if ((nextLessonEnd - DateTime.Now.ToLocalTime()).TotalDays >= 0)
                 {
                     nextLessonStart = date;
                     break;

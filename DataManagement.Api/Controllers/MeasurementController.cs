@@ -25,13 +25,50 @@ namespace DataManagement.Api.Controllers
     {
         private readonly ILogger _logger;
         private readonly IMeasurementRepository _measurementRepository;
-        private readonly IHubContext<MeasurementsHub> _hubContext;
+        private readonly MeasurementsHub _measurementsHub;
 
-        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository, IHubContext<MeasurementsHub> hub)
+        public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository, IHubContext<MeasurementsHub> hub, MeasurementsHub measurementsHub)
         {
             _logger = logger;
             _measurementRepository = measurementRepository;
-            _hubContext = hub;
+            _measurementsHub = measurementsHub;
+        }
+
+        /// <summary>
+        /// This API is just for testing - it sends new measurements to connected clients
+        /// </summary>
+        /// <returns>Ok if success, expception string otherwise</returns>
+        [HttpGet("TestSignalR")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MeasurementDto[]>> TestSignalR()
+        {
+            var m1 = new MeasurementDto()
+            {
+                DateTime = DateTime.Now,
+                LessonId = 1,
+                PersonId = 17,
+                Id = 1,
+                FaceRecognition = true,
+                SleepDetector = true,
+                OnTop = true
+            };
+            var m2 = new MeasurementDto()
+            {
+                DateTime = DateTime.Now,
+                LessonId = 1,
+                PersonId = 16,
+                Id = 2,
+                SoundCheck = true,
+                HeadPose = true,
+                OnTop = true
+            };
+            var measurements = new MeasurementDto[] { m1, m2 };
+            string result = await SendMeasurementsToClients (measurements);
+            if (result != string.Empty)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+            return Ok();
         }
 
 
@@ -68,7 +105,7 @@ namespace DataManagement.Api.Controllers
                 else
                 {
                     var newMeasurementDto = measurement.ToDto();
-                    await _hubContext.Clients.All.SendAsync("TransferMeasurements", new MeasurementDto[] { newMeasurementDto });
+                    await SendMeasurementsToClients(new MeasurementDto[] { newMeasurementDto });
                     return Ok(newMeasurementDto);
                 }
             }
@@ -118,7 +155,9 @@ namespace DataManagement.Api.Controllers
                     throw new Exception($"Not all measurements were added. measurements to add: {measurements.Count}. measurements added: {allAddedMeasurement.Count}");
                 }
 
-                await _hubContext.Clients.All.SendAsync("TransferMeasurements", allAddedMeasurement);
+                await SendMeasurementsToClients(allAddedMeasurement.ToArray());
+
+
                 return Ok(allAddedMeasurement);
             }
             catch (Exception e)
@@ -363,6 +402,30 @@ namespace DataManagement.Api.Controllers
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
+        }
+
+        /// <summary>
+        /// Send measurements to connected clients
+        /// </summary>
+        /// <param name="measuremenrts">measurements to send</param>
+        /// <returns>Empty string if success, exception string otherwise</returns>
+        private async Task<string> SendMeasurementsToClients(MeasurementDto[] measuremenrts)
+        {
+            string result = string.Empty;
+            if (_measurementsHub != null)
+            {
+                try
+                {
+                    await _measurementsHub.Send(measuremenrts);
+                }
+                catch (Exception e)
+                {
+                    result = $"cannot send measurements to clients. due to: {e}";
+                    _logger.LogError(result);
+                }
+            }
+
+            return result;
         }
     }
 }

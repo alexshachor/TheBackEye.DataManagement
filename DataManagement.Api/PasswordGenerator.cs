@@ -14,7 +14,7 @@ namespace BusinessLogic
         /// <param name="length">password's desired length</param>
         /// <param name="numberOfNonAlphanumericCharacters">number of special chars (non alphanumeric) in passwords</param>
         /// <returns></returns>
-        public static string Generate(int length = 10, int numberOfNonAlphanumericCharacters = 1)
+        public static string Generate(int length = 10, int numberOfNonAlphanumericCharacters = 0)
         {
             if (length < 1 || length > 128)
             {

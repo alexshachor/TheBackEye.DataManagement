@@ -46,6 +46,7 @@ namespace DataManagement.Api
             services.AddScoped<IStudentLessonRepository, StudentLessonRepository>();
             services.AddScoped<ILessonRepository, LessonRepository>();
 
+            services.AddSingleton<MeasurementsHub, MeasurementsHub>();
             var key = "some_big_key_value_here_secret";
             services.AddAuthentication(x =>
             {
@@ -99,24 +100,25 @@ namespace DataManagement.Api
 
             });
 
-            services.AddSignalR(options =>
-            {
-                options.EnableDetailedErrors = true;
-            });
 
             services.AddCors(options =>
             {
-                //options.AddPolicy("CorsPolicy", builder => builder
-                //.AllowAnyMethod()
-                //.AllowAnyHeader()
-                //.AllowCredentials()
-                //.WithOrigins(Configuration.GetSection("ClientUrl").Value));
-
-                //options.AddPolicy("CorsPolicy", builder => builder
-                //.AllowAnyOrigin()
-                //.AllowAnyMethod()
-                //.AllowAnyHeader()approach settings);
+                options.AddPolicy("AllowAllOrigins",
+                          builder =>
+                          {
+                              builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .AllowAnyMethod()
+                    .WithOrigins(Configuration.GetSection("ClientUrl").Value);
+                          });
             });
+
+            // Add Azure SignalR
+            var signalrConnectionString = Configuration.GetSection("SignalRConnectionString").Value;
+            services.AddSignalR().AddAzureSignalR(options => options.ConnectionString = signalrConnectionString);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,21 +126,25 @@ namespace DataManagement.Api
         {
             var path = Directory.GetCurrentDirectory();
             loggerFactory.AddFile($"{path}\\Logs\\DataManagement.Api.log.txt");
-            //if (env.IsDevelopment())
-            //{
-            app.UseDeveloperExceptionPage();
+
+
+            app.UseCors("AllowAllOrigins");
+
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<MeasurementsHub>("/measurementsHub");
+            });
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DataManagement.Api v1");
                 c.RoutePrefix = string.Empty;
             });
-            //}
-
-            app.UseCors(builder => builder
-              .AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
@@ -149,10 +155,7 @@ namespace DataManagement.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<MeasurementsHub>("/measurementsHub");
             });
-            //app.UseCors("CorsPolicy");
-            app.UseCors("AllowAllHeaders");
         }
     }
 }

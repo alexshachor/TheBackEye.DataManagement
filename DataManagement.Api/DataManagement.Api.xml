@@ -127,6 +127,12 @@
             MeasurementController is responsible for all the Measurement's CRUD operations using API calls 
             </summary>
         </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.TestSignalR">
+            <summary>
+            This API is just for testing - it sends new measurements to connected clients
+            </summary>
+            <returns>Ok if success, expception string otherwise</returns>
+        </member>
         <member name="M:DataManagement.Api.Controllers.MeasurementController.Post(Dtos.MeasurementDto)">
             <summary>
             Add a new Measurement to DB
@@ -198,6 +204,13 @@
             <response code="400">BadRequest - invalid values</response>
             <response code="404">NotFound - cannot find the measurement in DB</response>
             <response code="500">InternalServerError - for any error occurred in server</response>
+        </member>
+        <member name="M:DataManagement.Api.Controllers.MeasurementController.SendMeasurementsToClients(Dtos.MeasurementDto[])">
+            <summary>
+            Send measurements to connected clients
+            </summary>
+            <param name="measuremenrts">measurements to send</param>
+            <returns>Empty string if success, exception string otherwise</returns>
         </member>
         <member name="T:DataManagement.Api.Controllers.PersonController">
             <summary>
