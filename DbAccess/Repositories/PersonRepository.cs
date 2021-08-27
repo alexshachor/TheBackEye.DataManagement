@@ -76,7 +76,15 @@ namespace DbAccess.Repositories
         {
             try
             {
-                var personFromDb = await GetPersonByEmailPasswordId(person.Email, person.Password, person.BirthId);
+                Person personFromDb = null;
+                if (person.Type == DataAccess.Model.PersonType.Teacher)
+                {
+                    personFromDb = await GetPersonByEmailPasswordId(person.Email, person.Password, person.BirthId);
+                }
+                else
+                {
+                    personFromDb = await _context.Persons.Where(x => x.BirthId == person.BirthId).FirstOrDefaultAsync();
+                }
                 if (personFromDb == null)
                 {
                     _context.Add(person);
